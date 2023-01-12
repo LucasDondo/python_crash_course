@@ -1,0 +1,3 @@
+1. In Python you can save data in files.
+2. In Python you can analize different situations (if, elif, else).
+3. In Python you can create different data types (booleans, strings, integers, etc.).
