@@ -38,17 +38,6 @@ class ASkyFullOfStars():
         available_space_y = self.screen_rect.height - (2 * star_height)
         available_rows = available_space_y // (2 * star_height)
 
-        # Debugging.
-        print(f'Star size: {star.rect.size}\n')
-    	#
-        print(f'Screen width: {self.screen_rect.width}')
-        print(f'Available space x: {available_space_x}')
-        print(f'Available columns: {available_columns}\n')
-    	#
-        print(f'Screen height: {self.screen_rect.height}')
-        print(f'Available space y: {available_space_y}')
-        print(f'Available rows: {available_rows}\n')
-
         # Create "matrix".
         for row_number in range(available_rows):
             for column_number in range(available_columns):
