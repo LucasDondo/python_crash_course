@@ -3,6 +3,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 class SidewaysShooter():
     ''' Overall class to manage assets and behavior. '''
@@ -18,6 +19,7 @@ class SidewaysShooter():
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
     
     def _fire_bullet(self):
         ''' Creates a new bullet. '''
@@ -31,6 +33,36 @@ class SidewaysShooter():
         for bullet in self.bullets.copy():
             if bullet.rect.left >= self.screen_rect.right:
                 self.bullets.remove(bullet)
+
+    def _create_fleet(self):
+        ''' Creates an alien fleet. '''
+    
+        alien = Alien(self)
+        # Calculate available spaces.
+        screen_width, screen_height = self.screen_rect.size
+        alien_width, alien_height = alien.rect.size
+        ship_width = self.ship.rect.width
+        #
+        available_space_x = screen_width - ship_width - 3 * alien_width
+        available_space_y = screen_height - 2 * alien_height
+        #
+        available_columns = available_space_x // (2 * alien_width)
+        available_rows = available_space_y // (2 * alien_height)
+
+        # Create fleet.
+        for column_number in range(available_columns):
+            x = screen_width - 2 * alien_width - 2 * alien_width * column_number
+            for row_number in range(available_rows):
+                y = alien_height + 2 * alien_height * row_number
+                self._create_alien(x, y)
+
+    def _create_alien(self, x, y):
+        ''' Creates an alien in the position (x, y). '''
+    
+        alien = Alien(self)
+        alien.rect.x = x
+        alien.rect.y = y
+        self.aliens.add(alien)
 
     def _check_events(self):
         ''' Looks for and reacts to keyboard and mouse events. '''
@@ -60,11 +92,14 @@ class SidewaysShooter():
         self.ship.update()
         self.bullets.update()
         self._remove_old_bullets()
+        for alien in self.aliens.sprites():
+                alien.blitme()
         pygame.display.flip()
 
     def start(self):
         ''' Runs the game. '''
 
+        self._create_fleet()
         while True:
             self._check_events()
             self.ship.update()
