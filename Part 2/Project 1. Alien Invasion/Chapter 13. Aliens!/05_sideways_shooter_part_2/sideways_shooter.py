@@ -1,5 +1,6 @@
 import sys
 import pygame
+from random import randint
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
@@ -49,11 +50,32 @@ class SidewaysShooter():
         available_columns = available_space_x // (2 * alien_width)
         available_rows = available_space_y // (2 * alien_height)
 
+        # How many rows and columns?
+        q_columns = randint(1, available_columns)
+        q_rows = randint(1, available_rows)
+
+        # Set which rows and columns.
+        column_numbers = []
+        for column_number in range(q_columns):
+            column_number = randint(0, available_columns - 1)
+            column_numbers.append(column_number)
+        #
+        row_numbers = []
+        for row_number in range(q_rows):
+            row_number = randint(0, available_rows - 1)
+            row_numbers.append(row_number)
+
         # Create fleet.
-        for column_number in range(available_columns):
+        for column_number in column_numbers:
             x = screen_width - 2 * alien_width - 2 * alien_width * column_number
             for row_number in range(available_rows):
                 y = alien_height + 2 * alien_height * row_number
+                self._create_alien(x, y)
+        #
+        for row_number in row_numbers:
+            y = alien_height + 2 * alien_height * row_number
+            for column_number in range(available_columns):
+                x = screen_width - 2 * alien_width - 2 * alien_width * column_number    
                 self._create_alien(x, y)
 
     def _create_alien(self, x, y):
