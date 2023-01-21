@@ -51,6 +51,24 @@ class AlienInvasion():
                 self._update_aliens()
             
             self._update_screen()
+    
+    def _start_game(self):
+        ''' Starts a new try. '''
+    
+        # Reset the game statistics.
+        self.stats._reset_stats()
+        self.stats.game_active = True
+
+        # Get rid of any remaining aliens and bullets.
+        self.aliens.empty()
+        self.bullets.empty()
+
+        # Create a new fleet and center the ship.
+        self._create_fleet()
+        self.ship.center_ship()
+
+        # Hide the mouse cursor.
+        pygame.mouse.set_visible(False)
 
     def _check_events(self):
         ''' Respond to keypresses and mouse events. '''
@@ -71,20 +89,7 @@ class AlienInvasion():
     
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.stats.game_active:
-            # Reset the game statistics.
-            self.stats._reset_stats()
-            self.stats.game_active = True
-
-            # Get rid of any remaining aliens and bullets.
-            self.aliens.empty()
-            self.bullets.empty()
-
-            # Create a new fleet and center the ship.
-            self._create_fleet()
-            self.ship.center_ship()
-
-            # Hide the mouse cursor.
-            pygame.mouse.set_visible(False)
+            self._start_game()
 
     def _check_keydown_events(self, event):
         ''' Respond to keypresses. '''
@@ -97,6 +102,14 @@ class AlienInvasion():
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
+        elif event.key == pygame.K_p:
+            self._check_p_key()
+    
+    def _check_p_key(self):
+        ''' Makes the p key work just when no game is playing. '''
+    
+        if not self.stats.game_active:
+            self._start_game()
 
     def _check_keyup_events(self, event):
         ''' Respond to key releases. '''
