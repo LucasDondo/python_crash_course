@@ -20,7 +20,7 @@ class Ship:
         # Store a decimal value for the ship's horizontal position.
         self.x = float(self.rect.x)
 
-        # Movement flag.
+        # Movement flags.
         self.moving_right = False
         self.moving_left = False
 
