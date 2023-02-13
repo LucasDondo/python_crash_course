@@ -25,6 +25,7 @@ class Bow:
         ''' Centers the bow. '''
     
         self.rect.midleft = self.screen_rect.midleft
+        self.y = float(self.rect.y)
 
     def update(self):
         ''' Updates the bow position. '''

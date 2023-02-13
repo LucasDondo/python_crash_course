@@ -28,6 +28,7 @@ class Target:
         ''' Centers in screen. '''
     
         self.rect.midright = self.screen_rect.midright
+        self.y = float(self.rect.y)
 
     def update(self):
         ''' Updates the position. '''
