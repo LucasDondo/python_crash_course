@@ -28,6 +28,7 @@ class TargetPractice:
         self.target = Target(self)
         self.bow = Bow(self)
         self.arrows = pygame.sprite.Group()
+        self.nailed_arrows = pygame.sprite.Group()
 
     def start(self):
         ''' Starts main class actions. '''
@@ -74,6 +75,7 @@ class TargetPractice:
         # Housekeeping.
         pygame.mouse.set_visible(False)
         self.arrows.empty()
+        self.nailed_arrows.empty()
         self.bow._center()
         self.target._center()
         self.stats._reset()
@@ -104,10 +106,15 @@ class TargetPractice:
     
     def _update_arrows(self):
         ''' Updates everything arrow-related. '''
-    
+        
+        # Arrows.
         self.arrows.update()
         self._check_collision()
         self._del_old_arrows()
+
+        # Nailed arrows.
+        for arrow in self.nailed_arrows.sprites():
+            arrow.move_as_target(self.target.movement_direction)
 
     def _check_collision(self):
         ''' Checks and reacts to collisions between arrows and the target. '''
@@ -116,6 +123,7 @@ class TargetPractice:
         if arrow_shot:
             sleep(1.0)
             self.arrows.remove(arrow_shot)
+            self.nailed_arrows.add(arrow_shot)
 
     def _del_old_arrows(self):
         ''' Deletes arrows that are out of the screen. '''
@@ -139,6 +147,8 @@ class TargetPractice:
         self.target.draw()
         self.bow.blit()
         for arrow in self.arrows.sprites():
+            arrow.blit()
+        for arrow in self.nailed_arrows.sprites():
             arrow.blit()
         if not self.game_active:
             self.play_button.show()

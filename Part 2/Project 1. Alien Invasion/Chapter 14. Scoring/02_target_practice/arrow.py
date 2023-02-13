@@ -1,6 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
 
+
 class Arrow(Sprite):
     ''' An attempt to represent an arrow. '''
 
@@ -24,6 +25,13 @@ class Arrow(Sprite):
 
         self.x += self.speed
     
+    def move_as_target(self, movement_direction):
+        ''' Desired movement for nailed arrows. '''
+    
+        y = float(self.rect.y)
+        y += self.settings.target_speed * movement_direction
+        self.rect.y = y
+
     def blit(self):
         ''' Blit me. '''
     
