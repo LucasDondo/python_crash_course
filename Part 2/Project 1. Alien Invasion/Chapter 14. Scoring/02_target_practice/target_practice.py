@@ -75,13 +75,16 @@ class TargetPractice:
         # Housekeeping.
         pygame.mouse.set_visible(False)
         self.arrows.empty()
-        self.nailed_arrows.empty()
-        self.bow._center()
-        self.target._center()
         self.stats._reset()
 
         # Let's go!
         self.game_active = True
+        # Animations.
+        for arrow in self.nailed_arrows.sprites():
+            arrow.fall()
+        self.nailed_arrows.empty()
+        self.target.center()
+        self.bow.center()
 
     def _click_play_button(self, mouse_pos):
         ''' Checks if the play button has been clicked. '''

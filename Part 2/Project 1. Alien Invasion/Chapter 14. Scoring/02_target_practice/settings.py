@@ -4,12 +4,12 @@ class Settings:
     def __init__(self):
         ''' Initialize main attributes. '''
 
-        # Target settings.
+        # Target.
         self.target_width, self.target_height = 10, 100
         self.target_color = (0, 0, 0)
         self.target_speed = 1.0
 
-        # Screen settings.
+        # Screen.
         self.bg_color = (255, 255, 255)
 
         # Bow.
@@ -23,3 +23,6 @@ class Settings:
         self.play_button_width, self.play_button_height = 200, 50
         self.play_button_text_color = (255, 255, 255)
         self.play_button_color = (0, 0, 0)
+
+        # General.
+        self.center_speed = 2.0
