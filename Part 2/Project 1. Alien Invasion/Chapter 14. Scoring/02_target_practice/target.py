@@ -16,7 +16,7 @@ class Target:
         self.height = self.settings.target_height
         self.color = self.settings.target_color
         self.speed = self.settings.target_speed
-        self.center_speed = self.settings.center_speed
+        self.animation_speed = self.settings.animation_speed
 
         # Create and position target.
         self.rect = pygame.Rect(0, 0, self.width, self.height)
@@ -31,12 +31,12 @@ class Target:
         if self.rect.centery < self.screen_rect.centery:
             self.movement_direction = 1
             while self.rect.centery < self.screen_rect.centery:
-                self.y += self.center_speed * self.movement_direction
+                self.y += self.animation_speed * self.movement_direction
                 self.tp._update_screen()
         elif self.rect.centery > self.screen_rect.centery:
             self.movement_direction = -1
             while self.rect.centery > self.screen_rect.centery:
-                self.y += self.center_speed * self.movement_direction
+                self.y += self.animation_speed * self.movement_direction
                 self.tp._update_screen()
 
     def update(self):

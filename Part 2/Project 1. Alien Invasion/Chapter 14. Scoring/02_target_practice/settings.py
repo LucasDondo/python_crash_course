@@ -25,4 +25,4 @@ class Settings:
         self.play_button_color = (0, 0, 0)
 
         # General.
-        self.center_speed = 2.0
+        self.animation_speed = 4.0

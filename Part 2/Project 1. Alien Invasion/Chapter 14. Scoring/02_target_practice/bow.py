@@ -11,7 +11,7 @@ class Bow:
         self.screen_rect = tp.screen_rect
         self.settings = tp.settings
         self.speed = self.settings.bow_speed
-        self.center_speed = self.settings.center_speed
+        self.animation_speed = self.settings.animation_speed
 
         self.img = pygame.image.load('images/bow1.png')
         self.rect = self.img.get_rect()
@@ -29,13 +29,13 @@ class Bow:
         if self.rect.centery < self.screen_rect.centery:
             self.moving_down = True
             while self.rect.centery < self.screen_rect.centery:
-                self.y += self.center_speed
+                self.y += self.animation_speed
                 self.tp._update_screen()
             self.moving_down = False
         elif self.rect.centery > self.screen_rect.centery:
             self.moving_down = True
             while self.rect.centery > self.screen_rect.centery:
-                self.y -= self.center_speed
+                self.y -= self.animation_speed
                 self.tp._update_screen()
             self.moving_down = False
         elif self.rect.centery == self.screen_rect.centery:
