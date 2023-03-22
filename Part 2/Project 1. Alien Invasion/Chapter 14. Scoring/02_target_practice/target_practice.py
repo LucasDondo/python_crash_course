@@ -51,7 +51,7 @@ class TargetPractice:
             if event.type == pygame.QUIT:
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q:
+                if event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
                     sys.exit()
                 elif event.key == pygame.K_UP:
                     self.bow.moving_up = True
