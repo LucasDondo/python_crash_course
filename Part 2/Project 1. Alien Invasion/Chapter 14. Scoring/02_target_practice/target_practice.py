@@ -20,9 +20,12 @@ class TargetPractice:
         self.stats = Stats()
         self.game_active = self.stats.game_active
 
+        # Audiovisual elements.
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.screen_rect = self.screen.get_rect()
         pygame.display.set_caption('Target Practice')
+        #
+        pygame.mixer.music.load('sounds/arrow_by_jim_yosef.mp3')
 
         self.play_button = PlayButton(self)
         self.target = Target(self)
@@ -88,6 +91,7 @@ class TargetPractice:
         self.stats._reset()
 
         # Let's go!
+        pygame.mixer.music.play(fade_ms=1000)
         self.game_active = True
         # Animations.
         for arrow in self.nailed_arrows.sprites():
@@ -155,6 +159,7 @@ class TargetPractice:
 
                 # Check if the game goes on.
                 if self.stats.arrows_left <= 0:
+                    pygame.mixer.music.fadeout(500)
                     pygame.mouse.set_visible(True)
                     self.game_active = False
 
