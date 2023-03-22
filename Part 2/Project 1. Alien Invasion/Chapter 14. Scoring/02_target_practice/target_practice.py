@@ -92,6 +92,10 @@ class TargetPractice:
         # Animations.
         for arrow in self.nailed_arrows.sprites():
             arrow.fall()
+            self._check_events() # To make sure the game doesn't freeze.
+                                 # And yes, it's true that this is not as
+                                 # instant as it could be, but it creates a
+                                 # nice effect.
         self.nailed_arrows.empty()
         self.target.center()
         self.bow.center()
@@ -112,8 +116,8 @@ class TargetPractice:
     def _create_arrow(self):
         ''' Creates an arrow. '''
     
-        # To avoid creating arrows when no game is being played.
-        if self.game_active:
+        # Game must be active and target not stopped.
+        if self.game_active and not self.target.stopped:
             new_arrow = Arrow(self)
             self.arrows.add(new_arrow)
     
