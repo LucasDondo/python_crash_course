@@ -45,8 +45,10 @@ class TargetPractice:
 
         while True:
             self._check_events()
+            self._update_screen()
 
             if self.game_active:
+                pygame.mixer.music.set_volume(1)
                 pygame.mouse.set_visible(False)
                 if time.time() - self.stopped_time > 1:
                     self.target.stopped = False
@@ -54,8 +56,21 @@ class TargetPractice:
                 self.target.update()
                 self.bow.update()
                 self._update_arrows()
-
-            self._update_screen()
+            
+            elif not self.game_active:
+                pygame.mixer.music.set_volume(.5)
+                pygame.mixer.music.play(fade_ms=2000, start=2.1)
+                started_time = time.time()
+                self._check_events()
+                while time.time() - started_time < 2:
+                    self._check_events()
+                    continue
+                if time.time() - started_time > 2:
+                    pygame.mixer.music.fadeout(2000)
+                    finished_time = time.time()
+                while time.time() - finished_time < 1.7:
+                    self._check_events()
+                    continue
 
     def _check_events(self):
         ''' Checks and reacts to kb and mouse events. '''
@@ -103,6 +118,13 @@ class TargetPractice:
         self.nailed_arrows.empty()
         self.target.center()
         self.bow.center()
+
+        # I must use this because when this method is called from the
+        # _check_events method and that one has been called by the loop from
+        # the part of the start method where game_active is False and the music
+        # gets repeated again and again, I need to get out of that loop to let
+        # the gameplay loop start.
+        self.start()
 
     def _click_play_button(self, mouse_pos):
         ''' Checks if the play button has been clicked. '''
