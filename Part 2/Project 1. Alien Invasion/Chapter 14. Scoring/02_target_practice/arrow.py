@@ -11,6 +11,7 @@ class Arrow(Sprite):
         super().__init__()
         self.bow = tp.bow
         self.settings = tp.settings
+        self.target = tp.target
         self.speed = self.settings.arrow_speed
         self.animation_speed = self.settings.arrow_animation_speed
         self.tp = tp
@@ -34,7 +35,7 @@ class Arrow(Sprite):
         ''' Desired movement for nailed arrows. '''
     
         if not self.tp.target.stopped:
-            self.y += self.settings.target_speed * movement_direction
+            self.y += self.target.speed * movement_direction
         self.rect.y = self.y
     
     def fall(self):

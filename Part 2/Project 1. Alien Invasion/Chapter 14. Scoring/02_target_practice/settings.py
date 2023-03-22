@@ -8,6 +8,7 @@ class Settings:
         self.target_width, self.target_height = 10, 100
         self.target_color = (0, 0, 0)
         self.target_speed = 1.0
+        self.speedup_scale = 1.05
 
         # Screen.
         self.bg_color = (255, 255, 255)

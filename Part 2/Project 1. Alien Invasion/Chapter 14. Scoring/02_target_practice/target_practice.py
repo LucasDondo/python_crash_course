@@ -29,6 +29,7 @@ class TargetPractice:
 
         self.play_button = PlayButton(self)
         self.target = Target(self)
+        self.speedup_scale = self.settings.speedup_scale
         self.bow = Bow(self)
         self.arrows = pygame.sprite.Group()
         self.nailed_arrows = pygame.sprite.Group()
@@ -104,6 +105,7 @@ class TargetPractice:
         pygame.mouse.set_visible(False)
         self.arrows.empty()
         self.stats._reset()
+        self.target.speed = self.settings.target_speed
 
         # Let's go!
         pygame.mixer.music.play(fade_ms=1000)
@@ -168,6 +170,7 @@ class TargetPractice:
             self.stopped_time = time.time()
             self.arrows.remove(arrow_shot)
             self.nailed_arrows.add(arrow_shot)
+            self.target.speed *= self.speedup_scale
 
     def _del_old_arrows(self):
         ''' Deletes arrows that are out of the screen. '''
