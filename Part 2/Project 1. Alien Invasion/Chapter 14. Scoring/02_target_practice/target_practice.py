@@ -1,5 +1,5 @@
 import sys
-from time import sleep
+import time
 import pygame
 from settings import Settings
 from target import Target
@@ -30,6 +30,13 @@ class TargetPractice:
         self.arrows = pygame.sprite.Group()
         self.nailed_arrows = pygame.sprite.Group()
 
+        self.reset_stopped_time()
+
+    def reset_stopped_time(self):
+        ''' Sets stopped_time to 0. '''
+        
+        self.stopped_time = 0 # Used to stop the target for a second.
+
     def start(self):
         ''' Starts main class actions. '''
 
@@ -38,6 +45,9 @@ class TargetPractice:
 
             if self.game_active:
                 pygame.mouse.set_visible(False)
+                if time.time() - self.stopped_time > 1:
+                    self.target.stopped = False
+                    self.reset_stopped_time()
                 self.target.update()
                 self.bow.update()
                 self._update_arrows()
@@ -124,7 +134,8 @@ class TargetPractice:
     
         arrow_shot = pygame.sprite.spritecollideany(self.target, self.arrows)
         if arrow_shot:
-            sleep(1.0)
+            self.target.stopped = True
+            self.stopped_time = time.time()
             self.arrows.remove(arrow_shot)
             self.nailed_arrows.add(arrow_shot)
 

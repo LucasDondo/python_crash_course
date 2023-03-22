@@ -25,6 +25,9 @@ class Target:
         # 1 = move down; -1 = move up.
         self.movement_direction = 1
 
+        # To move, or not to move, that is the question.
+        self.stopped = False
+
     def center(self):
         ''' Centers in screen. '''
     
@@ -43,7 +46,8 @@ class Target:
         ''' Updates the position. '''
     
         self._check_edges()
-        self.y += self.movement_direction * self.speed
+        if not self.stopped:
+            self.y += self.movement_direction * self.speed
 
     def _check_edges(self):
         ''' Checks if an edge has been reached. '''

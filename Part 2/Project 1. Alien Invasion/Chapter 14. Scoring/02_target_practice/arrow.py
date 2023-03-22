@@ -16,6 +16,7 @@ class Arrow(Sprite):
         self.tp = tp
         self.screen = self.tp.screen
         self.screen_rect = self.tp.screen_rect
+        self.stopped = tp.target.stopped
 
         self.img = pygame.image.load('images/arrow1.png')
         self.rect = self.img.get_rect()
@@ -32,7 +33,8 @@ class Arrow(Sprite):
     def move_as_target(self, movement_direction):
         ''' Desired movement for nailed arrows. '''
     
-        self.y += self.settings.target_speed * movement_direction
+        if not self.tp.target.stopped:
+            self.y += self.settings.target_speed * movement_direction
         self.rect.y = self.y
     
     def fall(self):
