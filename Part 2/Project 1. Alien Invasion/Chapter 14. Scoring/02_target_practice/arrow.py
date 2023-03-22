@@ -12,7 +12,7 @@ class Arrow(Sprite):
         self.bow = tp.bow
         self.settings = tp.settings
         self.speed = self.settings.arrow_speed
-        self.animation_speed = self.settings.animation_speed
+        self.animation_speed = self.settings.arrow_animation_speed
         self.tp = tp
         self.screen = self.tp.screen
         self.screen_rect = self.tp.screen_rect
