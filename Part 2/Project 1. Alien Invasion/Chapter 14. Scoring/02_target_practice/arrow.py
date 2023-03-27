@@ -19,7 +19,7 @@ class Arrow(Sprite):
         self.screen_rect = self.tp.screen_rect
         self.stopped = tp.target.stopped
 
-        self.img = pygame.image.load('images/arrow.png')
+        self.img = pygame.image.load('images/arrow_horizontal.png')
         self.rect = self.img.get_rect()
 
         self.rect.midright = self.bow.rect.midright

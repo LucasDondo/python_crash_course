@@ -1,6 +1,8 @@
 import sys
 import time
 import pygame
+import json
+
 from settings import Settings
 from target import Target
 from bow import Bow
@@ -17,8 +19,6 @@ class TargetPractice:
         pygame.init()
         self.settings = Settings()
         self.bg_color = self.settings.bg_color
-        self.stats = Stats()
-        self.game_active = self.stats.game_active
 
         # Audiovisual elements.
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -27,6 +27,8 @@ class TargetPractice:
         #
         pygame.mixer.music.load('sounds/arrow_by_jim_yosef.mp3')
 
+        self.stats = Stats(self)
+        self.game_active = self.stats.game_active
         self.play_button = PlayButton(self)
         self.target = Target(self)
         self.speedup_scale = self.settings.speedup_scale
@@ -78,10 +80,10 @@ class TargetPractice:
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                sys.exit()
+                self._exit_game()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
-                    sys.exit()
+                    self._exit_game()
                 elif event.key == pygame.K_UP:
                     self.bow.moving_up = True
                 elif event.key == pygame.K_DOWN:
@@ -171,6 +173,11 @@ class TargetPractice:
             self.arrows.remove(arrow_shot)
             self.nailed_arrows.add(arrow_shot)
             self.target.speed *= self.speedup_scale
+            self.stats.score += len(self.nailed_arrows) # Nailed arrows = level.
+            self.stats._update_score()
+            if self.stats.score > self.stats.hs:
+                self.stats.hs = self.stats.score
+                self.stats._update_hs()
 
     def _del_old_arrows(self):
         ''' Deletes arrows that are out of the screen. '''
@@ -200,7 +207,15 @@ class TargetPractice:
             arrow.blit()
         if not self.game_active:
             self.play_button.show()
+        self.stats.show_sb()
         pygame.display.flip()
+
+    def _exit_game(self):
+        ''' Housekeeping and exiting. '''
+
+        with open(self.settings.hs_file, 'w') as f:
+            json.dump(self.stats.hs, f)
+        sys.exit()
 
 if __name__ == '__main__':
     # Creates an instance and runs it.

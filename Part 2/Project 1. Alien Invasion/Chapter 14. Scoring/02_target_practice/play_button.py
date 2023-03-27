@@ -9,6 +9,7 @@ class PlayButton:
         self.settings = tp.settings
         self.screen_rect = tp.screen_rect
         self.screen = tp.screen
+        self.font = tp.settings.font
 
         # Button (rect).
         self.width = self.settings.play_button_width
@@ -20,10 +21,9 @@ class PlayButton:
         
         # Msg (img).
         self.msg = self.settings.play_button_msg
-        self.msg_font = pygame.font.SysFont(None, 50)
         self.text_color = self.settings.play_button_text_color
         #
-        self.msg_img = self.msg_font.render(self.msg, True, self.text_color,
+        self.msg_img = self.font.render(self.msg, True, self.text_color,
                                             self.color)
         self.msg_img_rect = self.msg_img.get_rect()
         self.msg_img_rect.center = self.screen_rect.center

@@ -1,8 +1,15 @@
+import pygame
+
 class Settings:
     ''' All game settings can be found here. '''
 
     def __init__(self):
         ''' Initialize main attributes. '''
+
+        # General.
+        self.animation_speed = 1.0
+        self.arrow_animation_speed = 5.0
+        self.font = pygame.font.SysFont(None, 50)
 
         # Target.
         self.target_width, self.target_height = 10, 100
@@ -25,6 +32,6 @@ class Settings:
         self.play_button_text_color = (255, 255, 255)
         self.play_button_color = (0, 0, 0)
 
-        # General.
-        self.animation_speed = 1.0
-        self.arrow_animation_speed = 5.0
+        # Stats.
+        self.stats_txt_color = (0, 0, 0)
+        self.hs_file = 'highest_score.json'
