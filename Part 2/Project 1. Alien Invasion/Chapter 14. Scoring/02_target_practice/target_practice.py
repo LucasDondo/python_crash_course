@@ -167,7 +167,8 @@ class TargetPractice:
         ''' Checks and reacts to collisions between arrows and the target. '''
     
         arrow_shot = pygame.sprite.spritecollideany(self.target, self.arrows)
-        if arrow_shot and arrow_shot.rect.right < self.screen_rect.right:
+        if arrow_shot and arrow_shot.rect.right < self.screen_rect.right and \
+        self.target.rect.top < arrow_shot.rect.centery < self.target.rect.bottom:
             self.target.stopped = True
             self.stopped_time = time.time()
             self.arrows.remove(arrow_shot)

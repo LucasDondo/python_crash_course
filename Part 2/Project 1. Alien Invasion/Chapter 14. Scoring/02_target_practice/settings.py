@@ -16,6 +16,7 @@ class Settings:
         self.target_color = (0, 0, 0)
         self.target_speed = 1.0
         self.speedup_scale = 1.05
+        self.target_border_radius = 4
 
         # Screen.
         self.bg_color = (255, 255, 255)

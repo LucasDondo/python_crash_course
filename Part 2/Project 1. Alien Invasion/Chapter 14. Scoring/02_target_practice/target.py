@@ -16,6 +16,7 @@ class Target:
         #
         self.width = self.settings.target_width
         self.height = self.settings.target_height
+        self.border_radius = self.settings.target_border_radius
         self.color = self.settings.target_color
         self.speed = self.settings.target_speed
         self.animation_speed = self.settings.animation_speed
@@ -55,11 +56,13 @@ class Target:
     def _check_edges(self):
         ''' Checks if an edge has been reached. '''
     
-        if self.rect.top <= self.sb_line_y or self.rect.bottom >= self.screen_rect.bottom:
+        if self.rect.top <= self.sb_line_y or \
+        self.rect.bottom >= self.screen_rect.bottom:
             self.movement_direction *= -1
 
     def draw(self):
         ''' Please draw me. '''
 
         self.rect.y = self.y
-        pygame.draw.rect(self.screen, self.color, self.rect)
+        pygame.draw.rect(self.screen, self.color, self.rect,
+                         border_radius=self.border_radius)
