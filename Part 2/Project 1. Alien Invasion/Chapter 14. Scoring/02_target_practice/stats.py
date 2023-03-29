@@ -19,6 +19,13 @@ class Stats:
         self.font = tp.settings.font
         self.txt_color = tp.settings.stats_txt_color
         self.bg_color = tp.settings.bg_color
+        self.spacing = tp.settings.sb_spacing
+        self.sb_line_y = tp.settings.sb_line_y
+        self.sb_line_color = tp.settings.sb_line_color
+
+        # Scoreboard line.
+        self.sb_line = pygame.Rect(0, 0, self.screen_rect.width, 1)
+        self.sb_line.centery = self.sb_line_y
 
         # Initialize stats.
         self._reset()
@@ -32,8 +39,8 @@ class Stats:
                                           self.bg_color)
 
         self.score_rect = self.score_img.get_rect()
-        self.score_rect.left = 20
-        self.score_rect.top = 20
+        self.score_rect.centery = self.sb_line_y / 2
+        self.score_rect.left = self.score_rect.top
     
     def _update_hs(self):
         ''' Updates main highest score components and data. '''
@@ -42,8 +49,8 @@ class Stats:
         self.hs_img = self.font.render(txt, True, self.txt_color, self.bg_color)
 
         self.hs_rect = self.hs_img.get_rect()
-        self.hs_rect.right = self.screen_rect.right - 20
-        self.hs_rect.top = 20
+        self.hs_rect.centery = self.sb_line_y / 2
+        self.hs_rect.right = self.screen_rect.right - self.hs_rect.top
 
     def _update_arrows(self):
         ''' Updates the arrows left. '''
@@ -59,7 +66,7 @@ class Stats:
         self.arrows_rect = self.arrows_img.get_rect()
 
         self.arrows_rect.centerx = self.screen_rect.centerx
-        self.arrows_rect.top = 20
+        self.arrows_rect.top = self.spacing
 
     def one_arrow_less(self):
         ''' The user lost one arrow. '''
@@ -69,8 +76,12 @@ class Stats:
             self._update_arrows()
 
     def show_sb(self):
-        ''' Shows the score onscreen. '''
+        ''' Shows the scoreboard onscreen. '''
     
+        # Scoreboard background.
+        pygame.draw.rect(self.screen, self.sb_line_color, self.sb_line)
+
+        # Stats.
         self.screen.blit(self.score_img, self.score_rect)
         self.screen.blit(self.hs_img, self.hs_rect)
         if self.arrows_left > 0:

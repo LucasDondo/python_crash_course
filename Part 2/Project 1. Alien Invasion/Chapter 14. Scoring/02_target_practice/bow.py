@@ -7,16 +7,19 @@ class Bow:
         ''' Initialize main attributes. '''
 
         self.tp = tp
+        self.settings = tp.settings
         self.screen = tp.screen
         self.screen_rect = tp.screen_rect
-        self.settings = tp.settings
+        self.sb_line_y = self.settings.sb_line_y
+        self.center_under_sb = self.sb_line_y + (self.screen_rect.height - self.sb_line_y) / 2
         self.speed = self.settings.bow_speed
         self.animation_speed = self.settings.animation_speed
 
         self.img = pygame.image.load('images/bow1.png')
         self.rect = self.img.get_rect()
 
-        self.rect.midleft = self.screen_rect.midleft
+        self.rect.left = self.screen_rect.left
+        self.rect.centery = self.center_under_sb
         self.y = float(self.rect.y)
 
         # Movement flags.
@@ -25,26 +28,26 @@ class Bow:
     
     def center(self):
         ''' Centers the bow. '''
-    
-        if self.rect.centery < self.screen_rect.centery:
+
+        if self.rect.centery < self.center_under_sb:
             self.moving_down = True
-            while self.rect.centery < self.screen_rect.centery:
+            while self.rect.centery < self.center_under_sb:
                 self.y += self.animation_speed
                 self.tp._update_screen()
             self.moving_down = False
-        elif self.rect.centery > self.screen_rect.centery:
+        elif self.rect.centery > self.center_under_sb:
             self.moving_down = True
-            while self.rect.centery > self.screen_rect.centery:
+            while self.rect.centery > self.center_under_sb:
                 self.y -= self.animation_speed
                 self.tp._update_screen()
             self.moving_down = False
-        elif self.rect.centery == self.screen_rect.centery:
+        elif self.rect.centery == self.center_under_sb:
             pass
 
     def update(self):
         ''' Updates the bow position. '''
     
-        if self.moving_up and self.rect.top > 0:
+        if self.moving_up and self.rect.top > self.sb_line_y + self.speed:
             self.y -= self.speed
         if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
             self.y += self.speed

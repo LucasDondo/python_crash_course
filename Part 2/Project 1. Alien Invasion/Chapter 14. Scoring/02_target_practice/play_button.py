@@ -9,6 +9,8 @@ class PlayButton:
         self.settings = tp.settings
         self.screen_rect = tp.screen_rect
         self.screen = tp.screen
+        self.sb_line_y = self.settings.sb_line_y
+        self.center_under_sb = self.sb_line_y + (self.screen_rect.height - self.sb_line_y) / 2
         self.font = tp.settings.font
 
         # Button (rect).
@@ -17,7 +19,8 @@ class PlayButton:
         self.color = self.settings.play_button_color
         #
         self.rect = pygame.Rect(0, 0, self.width, self.height)
-        self.rect.center = self.screen_rect.center
+        self.rect.centerx = self.screen_rect.centerx
+        self.rect.centery = self.center_under_sb
         
         # Msg (img).
         self.msg = self.settings.play_button_msg
@@ -26,7 +29,8 @@ class PlayButton:
         self.msg_img = self.font.render(self.msg, True, self.text_color,
                                             self.color)
         self.msg_img_rect = self.msg_img.get_rect()
-        self.msg_img_rect.center = self.screen_rect.center
+        self.msg_img_rect.centerx = self.screen_rect.centerx
+        self.msg_img_rect.centery = self.center_under_sb
     
     def show(self):
         ''' Shows the rect and the img. '''

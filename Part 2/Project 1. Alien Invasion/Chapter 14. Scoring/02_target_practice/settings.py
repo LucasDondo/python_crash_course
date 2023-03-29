@@ -35,3 +35,13 @@ class Settings:
         # Stats.
         self.stats_txt_color = (0, 0, 0)
         self.hs_file = 'highest_score.json'
+        self.sb_spacing = 10
+        self.sb_line_color = (0, 0, 0)
+        # How many vertical pixels does the scoreboard use?
+        # First I need an auxiliary vertical arrow to use it's height, since I
+        # cannot use the one from stats.py since that file is run later in
+        # target_practice.py
+        img = pygame.image.load('images/vertical_arrow.png')
+        arrow_rect = img.get_rect()
+        #
+        self.sb_line_y = arrow_rect.height + 2 * self.sb_spacing
