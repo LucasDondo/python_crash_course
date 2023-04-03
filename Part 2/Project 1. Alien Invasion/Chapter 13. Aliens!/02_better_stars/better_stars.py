@@ -25,11 +25,17 @@ class BetterStars():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     sys.exit()
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_SPACE:
+                    self._new_sky()
 
-    def _create_stars(self):
-        ''' Creates the stars. '''
+    def _new_sky(self):
+        ''' Creates the stars of the sky. '''
+
+        # Clear up the sky.
+        self.stars.empty()
     
-        # Define variables.
+        # Define variables w/ a demo star.
         star = Star(self)
         star_width, star_height = star.rect.size
         screen_lim_top = star_height
@@ -47,7 +53,6 @@ class BetterStars():
 
         # Set stars positions.
         q_stars = randint(1, available_stars)
-        print(q_stars)
         for i in range(q_stars):
             star = Star(self)
             star.rect.centerx = randint(screen_lim_left, screen_lim_right)
@@ -57,8 +62,10 @@ class BetterStars():
     def start(self):
         ''' Starts main class actions. '''
 
-        self._create_stars()
+        pygame.mouse.set_visible(False)
+        self._new_sky()
         while True:
+            self.screen.fill((0, 0, 0))
             self._check_events()
             for star in self.stars.sprites():
                 star.blitme()
