@@ -16,25 +16,41 @@ class Rain():
 
         self.settings = Settings()
 
-        self._create_row()
+        self.rds = pygame.sprite.Group()
     
     def _create_row(self):
         ''' Creates a row of raindrops. '''
     
-        raindrop = Raindrop(self)
-        # Defines area and limits.
-        available_space_x = self.screen_rect.width
-        raindrop_width = raindrop.rect.width
-        q_raindrops = available_space_x // (2 * raindrop_width)
+        rd = Raindrop(self)
+        rd_width = rd.rect.width
+        spacing = rd_width // 2
+        available_space_side = self.screen_rect.width // 2 - rd_width // 2 - \
+                               spacing
+        available_rds_side = available_space_side // (spacing + rd_width)
+        mid_screen = self.screen_rect.width // 2
 
-        # Creates row (group) w/ q_raindrops raindrops.
-        self.raindrops = pygame.sprite.Group()
-        for raindrop in range(q_raindrops):
-            # Create a raindrop with certain x value.
-            x = 2 * raindrop_width * raindrop
-            raindrop = Raindrop(self)
-            raindrop.rect.x = x
-            self.raindrops.add(raindrop)
+        # Middle rd.
+        rd.rect.centerx = self.screen_rect.centerx
+        self.rds.add(rd)
+
+        # Right rds.
+        for rd in range(available_rds_side):
+            count = rd
+            rd = Raindrop(self)
+            rd.rect.left = (mid_screen + rd_width // 2 + spacing) + count * (rd_width + spacing)
+            self.rds.add(rd)
+
+        # Left rds.
+        for rd in range(available_rds_side):
+            count = rd
+            print(count)
+            rd = Raindrop(self)
+            rd.rect.right = (mid_screen - rd_width // 2 - spacing) - count * (rd_width + spacing)
+            self.rds.add(rd)
+
+        # Position on the top of the screen.
+        for rd in self.rds:
+            rd.rect.bottom = 0
 
     def _check_events(self):
         ''' Checks for and reacts to keyboard and mouse inputs. '''
@@ -46,29 +62,30 @@ class Rain():
                 if event.key == pygame.K_q:
                     sys.exit()
 
-    def _renew_raindrops(self):
+    def _renew_rds(self):
         ''' Deletes raindrops that got to the floor and creates new row. '''
     
-        for raindrop in self.raindrops.sprites():
-            if raindrop.fell():
-                self.raindrops.remove(raindrop)
+        for rd in self.rds.sprites():
+            if rd.fell():
+                self.rds.remove(rd)
                 self._create_row()
 
     def _update_screen(self):
         ''' Updates the main screen components. '''
     
         self.screen.fill((26, 82, 117))
-        for raindrop in self.raindrops.sprites():
-            raindrop.blitme()
+        for rd in self.rds.sprites():
+            rd.blitme()
         pygame.display.flip()
 
     def start(self):
         ''' Starts the main loop. '''
     
+        self._create_row()
         while True:
             self._check_events()
-            self._renew_raindrops()
-            self.raindrops.update()
+            self._renew_rds()
+            self.rds.update()
             self._update_screen()
 
 if __name__ == '__main__':

@@ -6,6 +6,7 @@ class Raindrop(Sprite):
 
     def __init__(self, r):
         ''' Initialize main attributes. '''
+        # r = Rain()
 
         super().__init__()
 
