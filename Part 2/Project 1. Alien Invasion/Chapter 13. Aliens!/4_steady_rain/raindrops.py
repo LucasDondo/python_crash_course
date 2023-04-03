@@ -37,15 +37,16 @@ class Rain():
         for rd in range(available_rds_side):
             count = rd
             rd = Raindrop(self)
-            rd.rect.left = (mid_screen + rd_width // 2 + spacing) + count * (rd_width + spacing)
+            rd.rect.left = (mid_screen + rd_width // 2 + spacing) + \
+                           count * (rd_width + spacing)
             self.rds.add(rd)
 
         # Left rds.
         for rd in range(available_rds_side):
             count = rd
-            print(count)
             rd = Raindrop(self)
-            rd.rect.right = (mid_screen - rd_width // 2 - spacing) - count * (rd_width + spacing)
+            rd.rect.right = (mid_screen - rd_width // 2 - spacing) - \
+                            count * (rd_width + spacing)
             self.rds.add(rd)
 
         # Position on the top of the screen.

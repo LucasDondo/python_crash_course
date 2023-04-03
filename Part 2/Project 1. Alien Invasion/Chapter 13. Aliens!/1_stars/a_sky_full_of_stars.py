@@ -25,33 +25,66 @@ class ASkyFullOfStars():
                 if event.key == pygame.K_q:
                     sys.exit()
 
-    def _create_row(self):
+    def _new_sky(self):
+        ''' Creates a sky full of stars. '''
+    
+        self._create_rows()
+
+    def _create_rows(self):
+        ''' Creates all the rows of stars. '''
+    
+        star = Star(self)
+        star_height = star.rect.height
+        screen_height = self.screen_rect.height
+        spacing = star_height # For a better understanding of how this works.
+        available_space = screen_height - 2 * spacing
+        available_rows = available_space // (spacing + star_height)
+
+        for row_num in range(available_rows):
+            y = spacing + row_num * (star_height + spacing)
+            self._create_row(y)
+
+    def _create_row(self, y):
         ''' Creates a row of stars. '''
     
-        # Define variables.
         star = Star(self)
-        star_width, star_height = star.rect.size
-        #
-        available_space_x = self.screen_rect.width - (2 * star_width)
-        available_columns = available_space_x // (2 * star_width)
-        #
-        available_space_y = self.screen_rect.height - (2 * star_height)
-        available_rows = available_space_y // (2 * star_height)
+        star_width = star.rect.width
+        screen_width = self.screen_rect.width
+        midscreen = screen_width // 2
+        spacing = star_width # For a better understanding of how this works.
+        available_space_side = midscreen - star_width // 2 - \
+                               spacing
+        available_stars_side = available_space_side // (star_width + spacing)
 
-        # Create "matrix".
-        for row_number in range(available_rows):
-            for column_number in range(available_columns):
-                star = Star(self)
-                star.rect.x = star_width + (2 * star_width * column_number)
-                star.rect.y = star_height + (2 * star_height * row_number)
-                self.stars.add(star)
+        # Middle star.
+        star.rect.centerx = midscreen
+        star.rect.y = y
+        self.stars.add(star)
+
+        # Right stars.
+        for star in range(available_stars_side):
+            count = star
+            star = Star(self)
+            star.rect.left = (midscreen + star_width // 2 + spacing) + \
+                             count * (star_width + spacing)
+            star.rect.y = y
+            self.stars.add(star)
+
+        # Left stars.
+        for star in range(available_stars_side):
+            count = star
+            star = Star(self)
+            star.rect.right = (midscreen - star_width // 2 - spacing) - \
+                              count * (star_width + spacing)
+            star.rect.y = y
+            self.stars.add(star)
 
     def start(self):
         ''' Starts main class actions. '''
 
         while True:
             self._check_events()
-            self._create_row()
+            self._new_sky()
             for star in self.stars.sprites():
                 star.blitme()
             pygame.display.flip()
