@@ -25,11 +25,6 @@ class ASkyFullOfStars():
                 if event.key == pygame.K_q:
                     sys.exit()
 
-    def _new_sky(self):
-        ''' Creates a sky full of stars. '''
-    
-        self._create_rows()
-
     def _create_rows(self):
         ''' Creates all the rows of stars. '''
     
@@ -95,7 +90,7 @@ class ASkyFullOfStars():
 
         while True:
             self._check_events()
-            self._new_sky()
+            self._create_rows()
             for star in self.stars.sprites():
                 star.blitme()
             pygame.display.flip()
