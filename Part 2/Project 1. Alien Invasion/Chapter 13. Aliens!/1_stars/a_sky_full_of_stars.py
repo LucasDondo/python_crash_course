@@ -36,12 +36,24 @@ class ASkyFullOfStars():
         star = Star(self)
         star_height = star.rect.height
         screen_height = self.screen_rect.height
+        midscreen = screen_height // 2
         spacing = star_height # For a better understanding of how this works.
-        available_space = screen_height - 2 * spacing
-        available_rows = available_space // (spacing + star_height)
+        available_space_side = midscreen - star_height // 2 - spacing
+        available_rows_side = available_space_side // (star_height + spacing)
 
-        for row_num in range(available_rows):
-            y = spacing + row_num * (star_height + spacing)
+        # Middle row.
+        self._create_row(midscreen)
+
+        # Down rows.
+        for row_num in range(available_rows_side):
+            y = midscreen + star_height + spacing + \
+                row_num * (star_height + spacing)
+            self._create_row(y)
+
+        # Up rows.
+        for row_num in range(available_rows_side):
+            y = midscreen - star_height - spacing - \
+                row_num * (star_height + spacing)
             self._create_row(y)
 
     def _create_row(self, y):
@@ -52,13 +64,12 @@ class ASkyFullOfStars():
         screen_width = self.screen_rect.width
         midscreen = screen_width // 2
         spacing = star_width # For a better understanding of how this works.
-        available_space_side = midscreen - star_width // 2 - \
-                               spacing
+        available_space_side = midscreen - star_width // 2 - spacing
         available_stars_side = available_space_side // (star_width + spacing)
 
         # Middle star.
         star.rect.centerx = midscreen
-        star.rect.y = y
+        star.rect.centery = y
         self.stars.add(star)
 
         # Right stars.
@@ -67,7 +78,7 @@ class ASkyFullOfStars():
             star = Star(self)
             star.rect.left = (midscreen + star_width // 2 + spacing) + \
                              count * (star_width + spacing)
-            star.rect.y = y
+            star.rect.centery = y
             self.stars.add(star)
 
         # Left stars.
@@ -76,7 +87,7 @@ class ASkyFullOfStars():
             star = Star(self)
             star.rect.right = (midscreen - star_width // 2 - spacing) - \
                               count * (star_width + spacing)
-            star.rect.y = y
+            star.rect.centery = y
             self.stars.add(star)
 
     def start(self):
