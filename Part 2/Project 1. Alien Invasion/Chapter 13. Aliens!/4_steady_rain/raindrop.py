@@ -4,15 +4,14 @@ from pygame.sprite import Sprite
 class Raindrop(Sprite):
     ''' An attempt to represent a raindrop. '''
 
-    def __init__(self, r):
+    def __init__(self, sr):
         ''' Initialize main attributes. '''
-        # r = Rain()
 
         super().__init__()
 
-        self.screen = r.screen
-        self.screen_rect = r.screen_rect
-        self.settings = r.settings
+        self.screen = sr.screen
+        self.screen_rect = sr.screen_rect
+        self.settings = sr.settings
 
         self.image = pygame.image.load('images/raindrop.png')
         self.rect = self.image.get_rect()

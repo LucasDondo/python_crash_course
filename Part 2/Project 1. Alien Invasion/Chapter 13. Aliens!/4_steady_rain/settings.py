@@ -1,3 +1,5 @@
+from raindrop import Raindrop
+
 class Settings():
     ''' Main program settings. '''
 
