@@ -32,6 +32,7 @@ class Settings:
         self.play_button_width, self.play_button_height = 200, 50
         self.play_button_text_color = (255, 255, 255)
         self.play_button_color = (0, 0, 0)
+        self.play_button_border_radius = 25
 
         # Stats.
         self.stats_txt_color = (0, 0, 0)

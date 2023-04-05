@@ -17,6 +17,7 @@ class PlayButton:
         self.width = self.settings.play_button_width
         self.height = self.settings.play_button_height
         self.color = self.settings.play_button_color
+        self.border_radius = self.settings.play_button_border_radius
         #
         self.rect = pygame.Rect(0, 0, self.width, self.height)
         self.rect.centerx = self.screen_rect.centerx
@@ -34,6 +35,8 @@ class PlayButton:
     
     def show(self):
         ''' Shows the rect and the img. '''
-    
-        self.screen.fill(self.color, self.rect)
+
+        pygame.draw.rect(self.screen, self.color, self.rect,
+                         border_radius=self.border_radius)
         self.screen.blit(self.msg_img, self.msg_img_rect)
+        
