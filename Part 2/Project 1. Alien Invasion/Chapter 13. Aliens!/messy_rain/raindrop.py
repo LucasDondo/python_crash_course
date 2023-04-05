@@ -29,7 +29,7 @@ class Raindrop(Sprite):
         ''' Updates the raindrop position. '''
         
         self.y = float(self.rect.y)    
-        self.y += self.settings.raindrop_speed
+        self.y += self.settings.rd_speed
         self.rect.y = self.y
 
     def blitme(self):

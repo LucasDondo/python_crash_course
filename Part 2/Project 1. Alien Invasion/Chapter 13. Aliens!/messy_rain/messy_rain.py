@@ -114,13 +114,15 @@ class MessyRain():
                 self.deleted_rows += 1
                 del self.rows[self.deleted_rows]
             
-            # Create new row.
+            # Create new row if needed.
             newest_row = list(self.rows.values())[-1]
             new_rd = newest_row[-1]
             spacing = new_rd.rect.height * 1.5
             #
             if new_rd.rect.top >= spacing:
                 self._create_row()
+                if self.settings.rd_speed < 50:
+                    self.settings.rd_speed *= 1.05
         except IndexError:
             pass
 
