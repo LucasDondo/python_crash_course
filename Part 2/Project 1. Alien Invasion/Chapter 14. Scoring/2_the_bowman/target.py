@@ -3,14 +3,14 @@ import pygame
 class Target:
     ''' An attempt to represent the target. '''
 
-    def __init__(self, tp):
+    def __init__(self, tbm):
         ''' Initialize main attributes. '''
 
         # Made things more accesible.
-        self.tp = tp
-        self.settings = tp.settings
-        self.screen = tp.screen
-        self.screen_rect = tp.screen_rect
+        self.tbm = tbm
+        self.settings = tbm.settings
+        self.screen = tbm.screen
+        self.screen_rect = tbm.screen_rect
         self.sb_line_y = self.settings.sb_line_y
         self.center_under_sb = self.sb_line_y + (self.screen_rect.height - self.sb_line_y) / 2
         #
@@ -39,12 +39,12 @@ class Target:
             self.movement_direction = 1
             while self.rect.centery < self.center_under_sb:
                 self.y += self.animation_speed * self.movement_direction
-                self.tp._update_screen()
+                self.tbm._update_screen()
         elif self.rect.centery > self.center_under_sb:
             self.movement_direction = -1
             while self.rect.centery > self.center_under_sb:
                 self.y += self.animation_speed * self.movement_direction
-                self.tp._update_screen()
+                self.tbm._update_screen()
 
     def update(self):
         ''' Updates the position. '''

@@ -3,13 +3,13 @@ import pygame
 class Bow:
     ''' An attempt to represent a bow. '''
 
-    def __init__(self, tp):
+    def __init__(self, tbm):
         ''' Initialize main attributes. '''
 
-        self.tp = tp
-        self.settings = tp.settings
-        self.screen = tp.screen
-        self.screen_rect = tp.screen_rect
+        self.tbm = tbm
+        self.settings = tbm.settings
+        self.screen = tbm.screen
+        self.screen_rect = tbm.screen_rect
         self.sb_line_y = self.settings.sb_line_y
         self.center_under_sb = self.sb_line_y + (self.screen_rect.height - self.sb_line_y) / 2
         self.speed = self.settings.bow_speed
@@ -33,13 +33,13 @@ class Bow:
             self.moving_down = True
             while self.rect.centery < self.center_under_sb:
                 self.y += self.animation_speed
-                self.tp._update_screen()
+                self.tbm._update_screen()
             self.moving_down = False
         elif self.rect.centery > self.center_under_sb:
             self.moving_down = True
             while self.rect.centery > self.center_under_sb:
                 self.y -= self.animation_speed
-                self.tp._update_screen()
+                self.tbm._update_screen()
             self.moving_down = False
         elif self.rect.centery == self.center_under_sb:
             pass

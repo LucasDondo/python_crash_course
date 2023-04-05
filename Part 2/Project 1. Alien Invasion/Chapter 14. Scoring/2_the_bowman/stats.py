@@ -3,25 +3,25 @@ import json
 class Stats:
     ''' All game stats can be found here. '''
 
-    def __init__(self, tp):
+    def __init__(self, tbm):
         ''' Initialize main attributes. '''
 
         # Recover highest score.
         try:
-            with open(tp.settings.hs_file) as f:
+            with open(tbm.settings.hs_file) as f:
                 self.hs = json.load(f)
         except FileNotFoundError:
             self.hs = 0
 
         # Scoreboard.
-        self.screen = tp.screen
-        self.screen_rect = tp.screen_rect
-        self.font = tp.settings.font
-        self.txt_color = tp.settings.stats_txt_color
-        self.bg_color = tp.settings.bg_color
-        self.spacing = tp.settings.sb_spacing
-        self.sb_line_y = tp.settings.sb_line_y
-        self.sb_line_color = tp.settings.sb_line_color
+        self.screen = tbm.screen
+        self.screen_rect = tbm.screen_rect
+        self.font = tbm.settings.font
+        self.txt_color = tbm.settings.stats_txt_color
+        self.bg_color = tbm.settings.bg_color
+        self.spacing = tbm.settings.sb_spacing
+        self.sb_line_y = tbm.settings.sb_line_y
+        self.sb_line_color = tbm.settings.sb_line_color
 
         # Scoreboard line.
         self.sb_line = pygame.Rect(0, 0, self.screen_rect.width, 1)

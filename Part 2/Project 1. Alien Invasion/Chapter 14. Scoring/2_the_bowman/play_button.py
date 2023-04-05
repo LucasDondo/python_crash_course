@@ -3,15 +3,15 @@ import pygame
 class PlayButton:
     ''' The magic button to start playing. '''
 
-    def __init__(self, tp):
+    def __init__(self, tbm):
         ''' Initialize main attributes. '''
 
-        self.settings = tp.settings
-        self.screen_rect = tp.screen_rect
-        self.screen = tp.screen
+        self.settings = tbm.settings
+        self.screen_rect = tbm.screen_rect
+        self.screen = tbm.screen
         self.sb_line_y = self.settings.sb_line_y
         self.center_under_sb = self.sb_line_y + (self.screen_rect.height - self.sb_line_y) / 2
-        self.font = tp.settings.font
+        self.font = tbm.settings.font
 
         # Button (rect).
         self.width = self.settings.play_button_width

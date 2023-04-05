@@ -5,19 +5,19 @@ from pygame.sprite import Sprite
 class Arrow(Sprite):
     ''' An attempt to represent an arrow. '''
 
-    def __init__(self, tp):
+    def __init__(self, tbm):
         ''' Initialize main attributes. '''
 
         super().__init__()
-        self.bow = tp.bow
-        self.settings = tp.settings
-        self.target = tp.target
+        self.bow = tbm.bow
+        self.settings = tbm.settings
+        self.target = tbm.target
         self.speed = self.settings.arrow_speed
         self.animation_speed = self.settings.arrow_animation_speed
-        self.tp = tp
-        self.screen = self.tp.screen
-        self.screen_rect = self.tp.screen_rect
-        self.stopped = tp.target.stopped
+        self.tbm = tbm
+        self.screen = self.tbm.screen
+        self.screen_rect = self.tbm.screen_rect
+        self.stopped = tbm.target.stopped
 
         self.img = pygame.image.load('images/arrow_horizontal.png')
         self.rect = self.img.get_rect()
@@ -34,7 +34,7 @@ class Arrow(Sprite):
     def move_as_target(self, movement_direction):
         ''' Desired movement for nailed arrows. '''
     
-        if not self.tp.target.stopped:
+        if not self.tbm.target.stopped:
             self.y += self.target.speed * movement_direction
         self.rect.y = self.y
     
@@ -43,7 +43,7 @@ class Arrow(Sprite):
     
         while self.rect.top < self.screen_rect.bottom:
             self.y += self.animation_speed
-            self.tp._update_screen()
+            self.tbm._update_screen()
 
     def blit(self):
         ''' Blit me. '''

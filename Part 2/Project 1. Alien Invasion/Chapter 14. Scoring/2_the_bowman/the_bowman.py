@@ -10,8 +10,8 @@ from arrow import Arrow
 from stats import Stats
 from play_button import PlayButton
 
-class TargetPractice:
-    ''' Main class for the Target Practice game. '''
+class TheBowman:
+    ''' Main class for the The Bowman game. '''
 
     def __init__(self):
         ''' Initialize main attributes. '''
@@ -23,7 +23,7 @@ class TargetPractice:
         # Audiovisual elements.
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.screen_rect = self.screen.get_rect()
-        pygame.display.set_caption('Target Practice')
+        pygame.display.set_caption('🏹 The Bowman 🏹')
         #
         pygame.mixer.music.load('sounds/arrow_by_jim_yosef.mp3')
 
@@ -220,5 +220,5 @@ class TargetPractice:
 
 if __name__ == '__main__':
     # Creates an instance and runs it.
-    tp = TargetPractice()
-    tp.start()
+    tbm = TheBowman()
+    tbm.start()
