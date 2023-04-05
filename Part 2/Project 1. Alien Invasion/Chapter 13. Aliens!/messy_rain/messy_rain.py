@@ -127,7 +127,7 @@ class MessyRain():
     def _update_screen(self):
         ''' Updates the main screen components. '''
     
-        self.screen.fill((26, 82, 117))
+        self.screen.fill((19, 63, 91))
         for rd in self.rds.sprites():
             rd.blitme()
         pygame.display.flip()
