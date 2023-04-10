@@ -48,6 +48,7 @@ class Arrow(Sprite):
     def blit(self):
         ''' Blit me. '''
     
-        self.rect.x = self.x
-        self.rect.y = self.y
+        if self not in self.stats.sb_arrows:
+            self.rect.x = self.x
+            self.rect.y = self.y
         self.screen.blit(self.img, self.rect)

@@ -27,12 +27,12 @@ class TheBowman:
         #
         pygame.mixer.music.load('sounds/arrow_by_jim_yosef.mp3')
 
+        self.target = Target(self)
+        self.bow = Bow(self)
         self.stats = Stats(self)
         self.game_active = self.stats.game_active
         self.play_button = PlayButton(self)
-        self.target = Target(self)
         self.speedup_scale = self.settings.speedup_scale
-        self.bow = Bow(self)
         self.arrows = pygame.sprite.Group()
         self.nailed_arrows = pygame.sprite.Group()
 

@@ -38,5 +38,4 @@ class PlayButton:
 
         pygame.draw.rect(self.screen, self.color, self.rect,
                          border_radius=self.border_radius)
-        self.screen.blit(self.msg_img, self.msg_img_rect)
-        
+        self.screen.blit(self.msg_img, self.msg_img_rect)        
