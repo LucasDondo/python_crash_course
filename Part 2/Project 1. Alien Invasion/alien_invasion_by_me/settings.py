@@ -9,8 +9,8 @@ class Settings:
         self.screen_height = 500
         self.bg_color = (230, 230, 230)
 
-        # Ship settings.
-        self.ship_limit = 3
+        # Rocket settings.
+        self.rocket_limit = 3
 
         # Bullet settings.
         self.bullet_width = 3
@@ -34,7 +34,7 @@ class Settings:
     def initialize_dynamic_settings(self):
         ''' Initialize the settings that change throughout the game. '''
     
-        self.ship_speed = 1.5
+        self.rocket_speed = 1.5
         self.bullet_speed = 1.5
         self.alien_speed = 1.0
 
@@ -47,7 +47,7 @@ class Settings:
     def increase_speed(self):
         ''' Increase speed settings and alien point values. '''
     
-        self.ship_speed *= self.speedup_scale
+        self.rocket_speed *= self.speedup_scale
         self.bullet_speed *= self.speedup_scale
         self.alien_speed *= self.speedup_scale
 

@@ -22,6 +22,6 @@ class GameStats():
     def _reset_stats(self):
         ''' Initialize statistics that can change during the game. '''
 
-        self.ships_left = self.settings.ship_limit
+        self.rockets_left = self.settings.rocket_limit
         self.score = 0
         self.level = 1

@@ -1,7 +1,7 @@
 import pygame.font
 from pygame.sprite import Group
 
-from ship import Ship
+from rocket import Rocket
 
 class Scoreboard:
     ''' A class to report scoring information. '''
@@ -27,7 +27,7 @@ class Scoreboard:
         self.prep_score()
         self.prep_high_score()
         self.prep_level()
-        self.prep_ships()
+        self.prep_rockets()
 
     def prep_score(self):
         ''' Turn the score into a rendered image. '''
@@ -75,20 +75,20 @@ class Scoreboard:
         self.level_rect.right = self.score_rect.right
         self.level_rect.top = self.score_rect.bottom + 10
 
-    def prep_ships(self):
-        ''' Show how many ships are left. '''
+    def prep_rockets(self):
+        ''' Show how many rockets are left. '''
 
-        self.ships = Group()
-        for ship_number in range(self.stats.ships_left):
-            ship = Ship(self.ai_game)
-            ship.rect.x = 10 + ship_number * ship.rect.width * 1.25
-            ship.rect.y = 10
-            self.ships.add(ship)
+        self.rockets = Group()
+        for rocket_number in range(self.stats.rockets_left):
+            rocket = Rocket(self.ai_game)
+            rocket.rect.x = 10 + rocket_number * rocket.rect.width * 1.25
+            rocket.rect.y = 10
+            self.rockets.add(rocket)
 
     def show_score(self):
-        ''' Draw scores, level and ships to the screen. '''
+        ''' Draw scores, level and rockets to the screen. '''
 
         self.screen.blit(self.score_image, self.score_rect)
         self.screen.blit(self.high_score_image, self.high_score_rect)
         self.screen.blit(self.level_image, self.level_rect)
-        self.ships.draw(self.screen)
+        self.rockets.draw(self.screen)
