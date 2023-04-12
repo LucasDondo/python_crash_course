@@ -11,7 +11,7 @@ class Scoreboard:
 
         self.ai = ai
         self.screen = ai.screen
-        self.screen_rect = self.screen_rect
+        self.screen_rect = ai.screen_rect
         self.settings = ai.settings
         self.stats = ai.stats
 

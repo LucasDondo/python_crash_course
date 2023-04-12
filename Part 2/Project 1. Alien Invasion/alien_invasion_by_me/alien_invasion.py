@@ -260,11 +260,9 @@ class AlienInvasion():
     def _rocket_hit(self):
         ''' Respond to the rocket being hit by an alien. '''
 
+        self.stats.rockets_left -= 1
+        self.sb.prep_rockets()
         if self.stats.rockets_left > 0:
-            # Decrement rockets_left and update scoreboard.
-            self.stats.rockets_left -= 1
-            self.sb.prep_rockets()
-
             # Get rid of any remaining aliens and bullets.
             self.aliens.empty()
             self.bullets.empty()
