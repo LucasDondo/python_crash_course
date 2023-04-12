@@ -292,9 +292,9 @@ class AlienInvasion():
         ''' Update images on the screen, and flip to the new screen. '''
 
         self.screen.fill(self.bg_color)
-        self.rocket.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+        self.rocket.blitme()
         self.aliens.draw(self.screen)
 
         # Draw the score information.
