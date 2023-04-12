@@ -22,6 +22,7 @@ class AlienInvasion():
         self.settings = Settings()
 
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.screen_rect = self.screen.get_rect()
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption('Alien Invasion')
@@ -282,9 +283,8 @@ class AlienInvasion():
     def _check_aliens_bottom(self):
         ''' Check if any aliens have reached the bottom of the screen. '''
     
-        screen_rect = self.screen.get_rect()
         for alien in self.aliens.sprites():
-            if alien.rect.bottom >= screen_rect.bottom:
+            if alien.rect.bottom >= self.screen_rect.bottom:
                 # Treat this the same as if the rocket got hit.
                 self._rocket_hit()
                 break

@@ -9,6 +9,7 @@ class Alien(Sprite):
 
         super().__init__()
         self.screen = ai.screen
+        self.screen_rect = ai.screen_rect
         self.settings = ai.settings
 
         # Load the alien image and set its rect attribute.
@@ -25,8 +26,7 @@ class Alien(Sprite):
     def check_edges(self):
         ''' Return True if alien is at edge of screen. '''
     
-        screen_rect = self.screen.get_rect()
-        if self.rect.right >= screen_rect.right or self.rect.left <= 0:
+        if self.rect.right >= self.screen_rect.right or self.rect.left <= 0:
             return True
 
     def update(self):

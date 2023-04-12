@@ -7,7 +7,7 @@ class PlayButton:
         ''' Initialize play button attributes. '''
 
         self.screen = ai.screen
-        self.screen_rect = self.screen.get_rect()
+        self.screen_rect = ai.screen_rect
 
         self.img = pygame.image.load('images/play_button_50%.bmp')
         self.rect = self.img.get_rect()

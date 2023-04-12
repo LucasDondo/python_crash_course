@@ -9,8 +9,8 @@ class Rocket(Sprite):
 
         super().__init__()
         self.screen = ai.screen
+        self.screen_rect = ai.screen_rect
         self.settings = ai.settings
-        self.screen_rect = ai.screen.get_rect()
 
         # Load the rocket image and get its rect.
         self.image = pygame.image.load('images/rocket.bmp')
