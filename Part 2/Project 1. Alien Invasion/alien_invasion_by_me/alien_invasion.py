@@ -42,17 +42,25 @@ class AlienInvasion():
         # Set the background color.
         self.bg_color = self.settings.bg_color
 
+    def _rocket_under_play_button(self):
+        ''' Is the rocket under the play button? '''
+    
+        rocket = self.rocket.rect.centerx
+        play_button = self.play_button.rect
+        if play_button.left <= rocket <= play_button.right:
+            return True
+
     def run_game(self):
         ''' Start the main loop for the game. '''
 
         while True:
             self._check_events()
+            self.rocket.update()
+            self._update_bullets()
 
             if self.stats.game_active:
-                self.rocket.update()
-                self._update_bullets()
                 self._update_aliens()
-            
+
             self._update_screen()
     
     def _start_game(self):
@@ -107,7 +115,7 @@ class AlienInvasion():
         elif event.key == pygame.K_q:
             self._exit_game()
         elif event.key == pygame.K_SPACE:
-            self._fire_bullet()
+            self._check_shoot_bullet()
         elif event.key == pygame.K_p:
             self._check_p_key()
     
@@ -125,12 +133,20 @@ class AlienInvasion():
         elif event.key == pygame.K_LEFT:
             self.rocket.moving_left = False
 
-    def _fire_bullet(self):
-        ''' Create a new bullet and add it to the bullets group. '''
+    def _check_shoot_bullet(self):
+        ''' Checks if the conditions are appropiate for shooting. '''
 
-        if len(self.bullets) < self.settings.bullets_allowed:
-            new_bullet = Bullet(self)
-            self.bullets.add(new_bullet)
+        if self.stats.game_active and \
+           len(self.bullets) < self.settings.bullets_allowed:
+            self._shoot_bullet()
+        elif not self.stats.game_active and self._rocket_under_play_button():
+            self._shoot_bullet()
+
+    def _shoot_bullet(self):
+        ''' Create a new bullet and add it to the bullets group. '''
+    
+        new_bullet = Bullet(self)
+        self.bullets.add(new_bullet)
 
     def _update_bullets(self):
         ''' Update position of bullets and get rid of old bullets. '''
@@ -144,7 +160,15 @@ class AlienInvasion():
                 self.bullets.remove(bullet)
 
         self._check_bullet_alien_collisions()
+        self._check_bullet_play_button_collisions()
+
+    def _check_bullet_play_button_collisions(self):
+        ''' Checks for collisions between bullets and the play button. '''
     
+        if pygame.sprite.spritecollideany(self.play_button, self.bullets) \
+           and not self.stats.game_active:
+            self._start_game()
+
     def _check_bullet_alien_collisions(self):
         ''' Respond to bullet-alien collisions. '''
     
@@ -152,7 +176,7 @@ class AlienInvasion():
         collisions = pygame.sprite.groupcollide(
                 self.bullets, self.aliens, True, True)
         
-        if collisions:
+        if collisions and self.stats.game_active:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
