@@ -4,18 +4,18 @@ from pygame.sprite import Sprite
 class Bullet(Sprite):
     ''' A class to manage bullets fired from the rocket. '''
 
-    def __init__(self, ai_game):
+    def __init__(self, ai):
         ''' Create a bullet object at the rocket's current position. '''
 
         super().__init__()
-        self.screen = ai_game.screen
-        self.settings = ai_game.settings
+        self.screen = ai.screen
+        self.settings = ai.settings
         self.color = self.settings.bullet_color
 
         # Create a bullet rect at (0, 0) and then set the correct position.
         self.rect = pygame.Rect(0, 0, self.settings.bullet_width,
                                 self.settings.bullet_height)
-        self.rect.midtop = ai_game.rocket.rect.midtop
+        self.rect.midtop = ai.rocket.rect.midtop
 
         # Store the bullet's position as a decimal value.
         self.y = float(self.rect.y)

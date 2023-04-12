@@ -4,13 +4,13 @@ from pygame.sprite import Sprite
 class Rocket(Sprite):
     ''' A class to manage the rocket. '''
 
-    def __init__(self, ai_game):
+    def __init__(self, ai):
         ''' Initialize the rocket and set its starting position. '''
 
         super().__init__()
-        self.screen = ai_game.screen
-        self.settings = ai_game.settings
-        self.screen_rect = ai_game.screen.get_rect()
+        self.screen = ai.screen
+        self.settings = ai.settings
+        self.screen_rect = ai.screen.get_rect()
 
         # Load the rocket image and get its rect.
         self.image = pygame.image.load('images/rocket.bmp')

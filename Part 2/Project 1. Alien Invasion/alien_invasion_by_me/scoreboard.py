@@ -6,14 +6,14 @@ from rocket import Rocket
 class Scoreboard:
     ''' A class to report scoring information. '''
 
-    def __init__(self, ai_game):
+    def __init__(self, ai):
         ''' Initialize scorekeeping attributes. '''
 
-        self.ai_game = ai_game
-        self.screen = ai_game.screen
+        self.ai = ai
+        self.screen = ai.screen
         self.screen_rect = self.screen.get_rect()
-        self.settings = ai_game.settings
-        self.stats = ai_game.stats
+        self.settings = ai.settings
+        self.stats = ai.stats
 
         # Font settings for scoring information.
         self.text_color = (30, 30, 30)
@@ -80,7 +80,7 @@ class Scoreboard:
 
         self.rockets = Group()
         for rocket_number in range(self.stats.rockets_left):
-            rocket = Rocket(self.ai_game)
+            rocket = Rocket(self.ai)
             rocket.rect.x = 10 + rocket_number * rocket.rect.width * 1.25
             rocket.rect.y = 10
             self.rockets.add(rocket)

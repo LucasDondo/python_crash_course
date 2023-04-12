@@ -3,10 +3,10 @@ import json
 class GameStats():
     ''' Track statistics for Alien Invasion. '''
 
-    def __init__(self, ai_game):
+    def __init__(self, ai):
         ''' Initialize statistics. '''
 
-        self.settings = ai_game.settings
+        self.settings = ai.settings
         self._reset_stats()
 
         # Start Alien Invasion in an active state.
