@@ -37,7 +37,7 @@ class AlienInvasion():
         self._create_fleet()
 
         # Create the play button.
-        self.play_button = PlayButton(self, 'Play')
+        self.play_button = PlayButton(self)
 
         # Set the background color.
         self.bg_color = self.settings.bg_color
@@ -276,6 +276,7 @@ class AlienInvasion():
             sleep(0.5)
         else:
             self.stats.game_active = False
+            self.play_button.transform()
             pygame.mouse.set_visible(True)
 
     def _check_aliens_bottom(self):
@@ -302,7 +303,7 @@ class AlienInvasion():
 
         # Draw the play button if the game is inactive.
         if not self.stats.game_active:
-            self.play_button.draw_play_button()
+            self.play_button.blit()
 
         pygame.display.flip()
 
