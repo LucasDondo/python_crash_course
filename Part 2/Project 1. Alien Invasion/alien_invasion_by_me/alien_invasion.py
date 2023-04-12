@@ -7,7 +7,7 @@ import json
 from settings import Settings
 from game_stats import GameStats
 from scoreboard import Scoreboard
-from button import Button
+from play_button import PlayButton
 from rocket import Rocket
 from bullet import Bullet
 from alien import Alien
@@ -36,8 +36,8 @@ class AlienInvasion():
 
         self._create_fleet()
 
-        # Make the Play button.
-        self.play_button = Button(self, 'Play')
+        # Create the play button.
+        self.play_button = PlayButton(self, 'Play')
 
         # Set the background color.
         self.bg_color = self.settings.bg_color
@@ -94,8 +94,8 @@ class AlienInvasion():
     def _check_play_button_clicked(self, mouse_pos):
         ''' Start new game when the player clicks Play. '''
     
-        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
-        if button_clicked and not self.stats.game_active:
+        play_button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        if play_button_clicked and not self.stats.game_active:
             self._start_game()
     
     def _check_play_button_keys(self):
@@ -302,7 +302,7 @@ class AlienInvasion():
 
         # Draw the play button if the game is inactive.
         if not self.stats.game_active:
-            self.play_button.draw_button()
+            self.play_button.draw_play_button()
 
         pygame.display.flip()
 
