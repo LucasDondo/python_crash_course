@@ -39,7 +39,7 @@ class Scoreboard:
         
         # Display the score at the top right of the screen.
         self.score_rect = self.score_image.get_rect()
-        self.score_rect.right = self.screen_rect.right - 20
+        self.score_rect.left = 20
         self.score_rect.top = 20
     
     def prep_high_score(self):
@@ -53,8 +53,8 @@ class Scoreboard:
         
         # Center the high score at the top of the screen.
         self.high_score_rect = self.high_score_image.get_rect()
-        self.high_score_rect.centerx = self.screen_rect.centerx
-        self.high_score_rect.top = self.score_rect.top
+        self.high_score_rect.right = self.screen_rect.right - 20
+        self.high_score_rect.top = 20
 
     def check_high_score(self):
         ''' Check to see if there's a new high score. '''
@@ -69,12 +69,29 @@ class Scoreboard:
     def prep_astronauts(self):
         ''' Show how many astronauts are left. '''
 
+        midscreen = self.screen_rect.width // 2
+
         self.astronauts = Group()
-        for astronaut_number in range(self.stats.astronauts_left):
+        for astronaut_num in range(self.stats.astronauts_left):
             astronaut = Astronaut()
-            astronaut.rect.x = 10 + astronaut_number * astronaut.rect.width * 1.25
-            astronaut.rect.y = 10
+            width = astronaut.rect.width
+            astronaut.rect.y = 20
             self.astronauts.add(astronaut)
+
+            if self.stats.astronauts_left == 3:
+                if astronaut_num == 0:
+                    astronaut.rect.centerx = midscreen
+                elif astronaut_num == 1:
+                    astronaut.rect.right = midscreen - width // 2 - 20
+                elif astronaut_num == 2:
+                    astronaut.rect.left = midscreen + width // 2 + 20
+            elif self.stats.astronauts_left == 2:
+                if astronaut_num == 0:
+                    astronaut.rect.left = midscreen + 10
+                elif astronaut_num == 1:
+                    astronaut.rect.right = midscreen - 10
+            else:
+                astronaut.rect.centerx = midscreen
 
     def show_score(self):
         ''' Draw scores and astronauts to the screen. '''
