@@ -9,8 +9,7 @@ class Settings:
         self.screen_height = 500
         self.bg_color = (230, 230, 230)
 
-        # Rocket settings.
-        self.rocket_limit = 3
+        self.init_astronauts = 3
 
         # Bullet settings.
         self.bullet_width = 3
