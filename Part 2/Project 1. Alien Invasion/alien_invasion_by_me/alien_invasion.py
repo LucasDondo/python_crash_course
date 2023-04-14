@@ -2,7 +2,6 @@ import sys
 from time import sleep
 
 import pygame
-import json
 
 from settings import Settings
 from game_stats import GameStats
@@ -25,7 +24,7 @@ class AlienInvasion():
         self.screen_rect = self.screen.get_rect()
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
-        pygame.display.set_caption('Alien Invasion')
+        pygame.display.set_caption('🚀 Alien Invasion! 👾')
 
         # Create an instance to store game statistics and create a scoreboard.
         self.stats = GameStats(self)

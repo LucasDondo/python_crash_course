@@ -13,7 +13,7 @@ class Rocket(Sprite):
         self.settings = ai.settings
 
         # Load the rocket image and get its rect.
-        self.image = pygame.image.load('images/rocket.bmp')
+        self.image = pygame.image.load('images/rocket_25%.bmp')
         self.rect = self.image.get_rect()
 
         # Start each new rocket at the bottom center of the screen.
