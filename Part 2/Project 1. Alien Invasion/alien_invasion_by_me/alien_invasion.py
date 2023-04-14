@@ -61,7 +61,7 @@ class AlienInvasion():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self._exit_game()
+                sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
@@ -78,7 +78,7 @@ class AlienInvasion():
         elif event.key == pygame.K_LEFT:
             self.rocket.moving_left = True
         elif event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
-            self._exit_game()
+            sys.exit()
         elif event.key == pygame.K_SPACE:
             self._check_shoot_bullet()
         elif event.key == pygame.K_p:
@@ -303,14 +303,7 @@ class AlienInvasion():
         if not self.stats.game_active:
             self.play_button.blit()
 
-        pygame.display.flip()
-
-    def _exit_game(self):
-        ''' Last steps before quitting and quitting. '''
-    
-        with open(self.settings.hs_file, 'w') as f:
-            json.dump(self.stats.high_score, f)
-        sys.exit()
+        pygame.display.flip()        
 
 if __name__ == '__main__':
     # Make a game instance, and run the game.

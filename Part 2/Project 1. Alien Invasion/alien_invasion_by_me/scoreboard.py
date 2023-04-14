@@ -1,5 +1,6 @@
 import pygame.font
 from pygame.sprite import Group
+import json
 
 from rocket import Rocket
 
@@ -62,6 +63,9 @@ class Scoreboard:
         if self.stats.score > self.stats.high_score:
             self.stats.high_score = self.stats.score
             self.prep_high_score()
+            # Save it.
+            with open('high_score.json', 'w') as f:
+                json.dump(self.stats.high_score, f)
 
     def prep_level(self):
         ''' Turn the level into a rendered image. '''
