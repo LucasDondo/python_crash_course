@@ -24,4 +24,3 @@ class GameStats():
 
         self.astronauts_left = self.settings.init_astronauts
         self.score = 0
-        self.level = 1

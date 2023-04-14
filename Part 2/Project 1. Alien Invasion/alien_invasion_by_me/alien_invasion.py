@@ -240,28 +240,17 @@ class AlienInvasion():
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
             self.sb.check_high_score()
-
-        if not self.aliens:
-            self._start_new_level()
-
-    def _start_new_level(self):
-        ''' Starts a new level. '''
-
-        # Destroy existing bullets and create new fleet
-        self.bullets.empty()
-        self._create_fleet()
-        self.settings.increase_speed()
-
-        # Increase level.
-        self.stats.level += 1
-        self.sb.prep_level()
+            if not self.aliens:
+                self.bullets.empty()
+                self._create_fleet()
+                self.settings.increase_speed()
 
     def _rocket_hit(self):
         ''' Respond to the rocket being hit by an alien. '''
 
-        self.stats.rockets_left -= 1
-        self.sb.prep_rockets()
-        if self.stats.rockets_left > 0:
+        self.stats.astronauts_left -= 1
+        self.sb.prep_astronauts()
+        if self.stats.astronauts_left > 0:
             # Get rid of any remaining aliens and bullets.
             self.aliens.empty()
             self.bullets.empty()
