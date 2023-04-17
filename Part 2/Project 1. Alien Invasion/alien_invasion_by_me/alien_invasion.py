@@ -20,10 +20,8 @@ class AlienInvasion():
         pygame.init()
         self.settings = Settings()
 
-        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode(flags=pygame.NOFRAME)
         self.screen_rect = self.screen.get_rect()
-        self.settings.screen_width = self.screen.get_rect().width
-        self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption('🚀 Alien Invasion! 👾')
 
         # Create an instance to store game statistics and create a scoreboard.
@@ -177,12 +175,12 @@ class AlienInvasion():
         alien_width, alien_height = alien.rect.size
         del alien
         spacing = 2 * alien_width
-        available_space_x = self.settings.screen_width - spacing
+        available_space_x = self.screen_rect.width - spacing
         num_aliens_x = available_space_x // spacing
 
         # Determine the num of rows of aliens that fit on the screen.
         rocket_height = self.rocket.rect.height
-        available_space_y = self.settings.screen_height - \
+        available_space_y = self.screen_rect.height - \
                             self.settings.sb_bottom - rocket_height
         num_rows = available_space_y // (2 * alien_height)
 
