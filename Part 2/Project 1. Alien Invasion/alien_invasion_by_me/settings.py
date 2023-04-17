@@ -25,9 +25,6 @@ class Settings:
         del astronaut
 
         # ❗ Bullet.
-        self.bullet_width = 3
-        self.bullet_height = 15
-        self.bullet_color = (60, 60, 60)
         self.bullets_allowed = 3
 
         # 👾 Alien.
@@ -48,7 +45,7 @@ class Settings:
     
         self.rocket_speed = 1.5
         self.bullet_speed = 1.5
-        self.alien_speed = 1.0
+        self.alien_speed  = 1.0
 
         # fleet_direction of 1 represents right; -1 represents left.
         self.fleet_direction = 1

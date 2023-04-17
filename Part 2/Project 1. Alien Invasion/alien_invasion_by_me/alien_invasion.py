@@ -23,25 +23,22 @@ class AlienInvasion():
         self.screen = pygame.display.set_mode(flags=pygame.NOFRAME)
         self.screen_rect = self.screen.get_rect()
         pygame.display.set_caption('🚀 Alien Invasion! 👾')
+        self.bg_color = self.settings.bg_color
 
-        # Create an instance to store game statistics and create a scoreboard.
         self.stats = GameStats(self)
         self.sb = Scoreboard(self)
+        self.play_button = PlayButton(self)
+        pygame.mouse.set_pos(self.play_button.rect.center)
+
 
         self.rocket = Rocket(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
 
-        self._create_fleet()
-
-        # Create the play button.
-        self.play_button = PlayButton(self)
-
-        # Set the background color.
-        self.bg_color = self.settings.bg_color
-
     def run_game(self):
         ''' Start the main loop for the game. '''
+
+        self._create_fleet()
 
         while True:
             self._check_events()
@@ -265,6 +262,7 @@ class AlienInvasion():
         else:
             self.stats.game_active = False
             self.play_button.transform()
+            pygame.mouse.set_pos(self.play_button.rect.center)
             pygame.mouse.set_visible(True)
 
     def _check_aliens_bottom(self):
