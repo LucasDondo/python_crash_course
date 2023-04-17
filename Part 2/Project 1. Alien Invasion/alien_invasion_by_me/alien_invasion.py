@@ -171,32 +171,35 @@ class AlienInvasion():
     def _create_fleet(self):
         ''' Create the fleet of aliens. '''
     
-        # Create an alien and find the number of aliens in a row.
+        # Create an alien and find the num of aliens in a row.
         # Spacing between each alien is equal to one alien width.
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
-        available_space_x = self.settings.screen_width - (2 * alien_width)
-        number_aliens_x = available_space_x // (2 * alien_width)
+        del alien
+        spacing = 2 * alien_width
+        available_space_x = self.settings.screen_width - spacing
+        num_aliens_x = available_space_x // spacing
 
-        # Determine the number of rows of aliens that fit on the screen.
+        # Determine the num of rows of aliens that fit on the screen.
         rocket_height = self.rocket.rect.height
-        available_space_y = (self.settings.screen_height - (3 * alien_height)
-                                                         - rocket_height)
-        number_rows = available_space_y // (2 * alien_height)
+        available_space_y = self.settings.screen_height - \
+                            self.settings.sb_bottom - rocket_height
+        num_rows = available_space_y // (2 * alien_height)
 
         # Create the full fleet of aliens.
-        for row_number in range(number_rows):
-            for alien_number in range(number_aliens_x):
-                self._create_alien(alien_number, row_number)
+        for row_num in range(num_rows):
+            for alien_num in range(num_aliens_x):
+                self._create_alien(alien_num, row_num)
 
-    def _create_alien(self, alien_number, row_number):
+    def _create_alien(self, alien_num, row_num):
         ''' Create an alien and place it in the row. '''
     
         alien = Alien(self)
         alien_width, alien_height = alien.rect.size
-        alien.x = alien_width + 2 * alien_width * alien_number
+        spacing = 2 * alien_width
+        alien.x = alien_width + spacing * alien_num
         alien.rect.x = alien.x
-        alien.rect.y = 1.5 * alien.rect.height + 2 * alien_height * row_number
+        alien.rect.y = 1.5 * alien.rect.height + 2 * alien_height * row_num
         self.aliens.add(alien)
 
     def _update_aliens(self):
@@ -238,8 +241,8 @@ class AlienInvasion():
         if collisions and self.stats.game_active:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
-            self.sb.prep_score()
-            self.sb.check_high_score()
+            self.sb._prep_score()
+            self.sb._check_hs()
             if not self.aliens:
                 self.bullets.empty()
                 self._create_fleet()
@@ -249,7 +252,7 @@ class AlienInvasion():
         ''' Respond to the rocket being hit by an alien. '''
 
         self.stats.astronauts_left -= 1
-        self.sb.prep_astronauts()
+        self.sb._prep_astronauts()
         if self.stats.astronauts_left > 0:
             # Get rid of any remaining aliens and bullets.
             self.aliens.empty()

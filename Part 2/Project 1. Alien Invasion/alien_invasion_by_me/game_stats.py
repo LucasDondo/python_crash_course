@@ -15,9 +15,9 @@ class GameStats():
         # High score should never be reset.
         try:
             with open(self.settings.hs_file) as f:
-                self.high_score = json.load(f)
+                self.hs = json.load(f)
         except FileNotFoundError:
-            self.high_score = 0
+            self.hs = 0
 
     def _reset_stats(self):
         ''' Initialize statistics that can change during the game. '''

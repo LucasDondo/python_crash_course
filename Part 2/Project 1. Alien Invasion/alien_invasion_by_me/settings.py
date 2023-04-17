@@ -1,29 +1,44 @@
+from astronaut import Astronaut
+
 class Settings:
     ''' A class to store all settings for Alien Invasion. '''
 
     def __init__(self):
         ''' Initialize the game's static settings. '''
 
-        # Screen settings.
+        # 🖥️ Screen.
         self.screen_width = 1200
         self.screen_height = 500
         self.bg_color = (230, 230, 230)
 
+        # 👨🏼‍🚀 Astronauts.
         self.init_astronauts = 3
 
-        # Bullet settings.
+        # 💯 Scoreboard.
+        self.sb_y_spacing = 10
+        #
+        astronaut = Astronaut()
+        astronaut.rect.top = self.sb_y_spacing
+        #
+        self.sb_x_spacing = astronaut.rect.centery
+        # Not settings but data needed...
+        self.sb_bottom = astronaut.rect.height + 2 * self.sb_y_spacing
+        # 👋🏼 I need the astronaut no longer.
+        del astronaut
+
+        # ❗ Bullet.
         self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
         self.bullets_allowed = 3
 
-        # Alien settings.
+        # 👾 Alien.
         self.fleet_drop_speed = 10
 
-        # How quickly the game speeds up.
+        # 💨 How quickly the game speeds up.
         self.speedup_scale = 1.1
 
-        # How quickly the alien point values increase.
+        # 📈 How quickly the alien point values increase.
         self.score_scale = 1.5
 
         self.hs_file = 'high_score.json'
@@ -40,7 +55,7 @@ class Settings:
         # fleet_direction of 1 represents right; -1 represents left.
         self.fleet_direction = 1
 
-        # Scoring.
+        # 💯 Scoring.
         self.alien_points = 50
 
     def increase_speed(self):
