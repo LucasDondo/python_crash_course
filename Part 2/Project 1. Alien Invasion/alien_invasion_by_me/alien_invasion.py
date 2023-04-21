@@ -163,40 +163,6 @@ class AlienInvasion():
         # Hide the mouse cursor.
         pygame.mouse.set_visible(False)
 
-    def _create_fleet(self):
-        ''' Create the fleet of aliens. '''
-    
-        # Create an alien and find the num of aliens in a row.
-        # Spacing between each alien is equal to one alien width.
-        alien = Alien(self)
-        alien_width, alien_height = alien.rect.size
-        del alien
-        spacing = 2 * alien_width
-        available_space_x = self.screen_rect.width - spacing
-        num_aliens_x = available_space_x // spacing
-
-        # Determine the num of rows of aliens that fit on the screen.
-        rocket_height = self.rocket.rect.height
-        available_space_y = self.screen_rect.height - \
-                            self.settings.sb_bottom - rocket_height
-        num_rows = available_space_y // (2 * alien_height)
-
-        # Create the full fleet of aliens.
-        for row_num in range(num_rows):
-            for alien_num in range(num_aliens_x):
-                self._create_alien(alien_num, row_num)
-
-    def _create_alien(self, alien_num, row_num):
-        ''' Create an alien and place it in the row. '''
-    
-        alien = Alien(self)
-        alien_width, alien_height = alien.rect.size
-        spacing = 2 * alien_width
-        alien.x = alien_width + spacing * alien_num
-        alien.rect.x = alien.x
-        alien.rect.y = 1.5 * alien.rect.height + 2 * alien_height * row_num
-        self.aliens.add(alien)
-
     def _create_rows(self):
         ''' Creates all the rows of aliens. '''
     
