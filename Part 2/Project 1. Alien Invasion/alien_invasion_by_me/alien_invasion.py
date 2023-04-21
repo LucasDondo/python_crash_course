@@ -38,7 +38,7 @@ class AlienInvasion():
     def run_game(self):
         ''' Start the main loop for the game. '''
 
-        self._create_fleet()
+        self._create_rows()
 
         while True:
             self._check_events()
@@ -157,7 +157,7 @@ class AlienInvasion():
         self.bullets.empty()
 
         # Create a new fleet and center the rocket.
-        self._create_fleet()
+        self._create_rows()
         self.rocket.center_rocket()
 
         # Hide the mouse cursor.
@@ -196,6 +196,59 @@ class AlienInvasion():
         alien.rect.x = alien.x
         alien.rect.y = 1.5 * alien.rect.height + 2 * alien_height * row_num
         self.aliens.add(alien)
+
+    def _create_rows(self):
+        ''' Creates all the rows of aliens. '''
+    
+        alien = Alien(self)
+        alien_height = alien.rect.height
+        screen_height = self.screen_rect.height
+        midscreen = screen_height // 2
+        spacing = alien_height # For a better understanding of how this works.
+        #
+        available_space = screen_height - self.settings.sb_bottom - \
+                          2 * self.rocket.rect.height
+        available_rows  = available_space // (alien_height + spacing)
+        
+        # Create rows
+        for row_num in range(available_rows):
+            y = (self.settings.sb_bottom + alien_height) + \
+                row_num * (alien_height + spacing)
+            self._create_row(y)
+
+    def _create_row(self, y):
+        ''' Creates a row of aliens. '''
+    
+        alien = Alien(self)
+        alien_width = alien.rect.width
+        screen_width = self.screen_rect.width
+        midscreen = screen_width // 2
+        spacing = alien_width # For a better understanding of how this works.
+        available_space_side = midscreen - alien_width // 2 - spacing
+        available_aliens_side = available_space_side // (alien_width + spacing)
+
+        # Middle alien, reusing the alien before created.
+        alien.rect.centerx = midscreen
+        alien.rect.centery = y
+        self.aliens.add(alien)
+
+        # Right aliens.
+        for alien in range(available_aliens_side):
+            count = alien
+            alien = Alien(self)
+            alien.rect.left = (midscreen + alien_width // 2 + spacing) + \
+                             count * (alien_width + spacing)
+            alien.rect.centery = y
+            self.aliens.add(alien)
+
+        # Left aliens.
+        for alien in range(available_aliens_side):
+            count = alien
+            alien = Alien(self)
+            alien.rect.right = (midscreen - alien_width // 2 - spacing) - \
+                              count * (alien_width + spacing)
+            alien.rect.centery = y
+            self.aliens.add(alien)
 
     def _update_aliens(self):
         ''' Check if the fleet is at an edge, then update the positions of all
@@ -240,7 +293,7 @@ class AlienInvasion():
             self.sb._check_hs()
             if not self.aliens:
                 self.bullets.empty()
-                self._create_fleet()
+                self._create_rows()
                 self.settings.increase_speed()
 
     def _rocket_hit(self):
@@ -254,7 +307,7 @@ class AlienInvasion():
             self.bullets.empty()
 
             # Create a new fleet and center the rocket.
-            self._create_fleet()
+            self._create_rows()
             self.rocket.center_rocket()
 
             # Pause.
