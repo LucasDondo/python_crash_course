@@ -4,7 +4,7 @@ from time import sleep
 import pygame
 
 from settings import Settings
-from game_stats import GameStats
+from stats import Stats
 from scoreboard import Scoreboard
 from play_button import PlayButton
 from rocket import Rocket
@@ -25,7 +25,7 @@ class AlienInvasion():
         pygame.display.set_caption('🚀 Alien Invasion! 👾')
         self.bg_color = self.settings.bg_color
 
-        self.stats = GameStats(self)
+        self.stats = Stats(self)
         self.sb = Scoreboard(self)
         self.play_button = PlayButton(self)
         pygame.mouse.set_pos(self.play_button.rect.center)
@@ -301,8 +301,8 @@ class AlienInvasion():
         self.screen.fill(self.bg_color)
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
-        self.rocket.blitme()
         self.aliens.draw(self.screen)
+        self.rocket.blitme()
 
         # Draw the score information.
         self.sb.show_score()

@@ -1,6 +1,6 @@
 import json
 
-class GameStats():
+class Stats():
     ''' Track statistics for Alien Invasion. '''
 
     def __init__(self, ai):

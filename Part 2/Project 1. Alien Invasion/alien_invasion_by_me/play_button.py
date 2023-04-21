@@ -22,9 +22,9 @@ class PlayButton:
         self.rect.center = self.screen_rect.center
 
         # Change x coordinates.
-        limit_left = self.rect.width // 2
-        limit_right = self.screen_rect.right - limit_left
-        self.rect.centerx = randint(limit_left, limit_right)
+        lim_left = self.rect.width // 2
+        lim_right = self.screen_rect.right - lim_left
+        self.rect.centerx = randint(lim_left, lim_right)
 
     def blit(self):
         ''' Blit play button. '''
