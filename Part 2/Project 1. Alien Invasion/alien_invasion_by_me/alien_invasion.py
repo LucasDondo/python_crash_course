@@ -172,14 +172,13 @@ class AlienInvasion():
         midscreen = screen_height // 2
         spacing = alien_height # For a better understanding of how this works.
         #
-        available_space = screen_height - self.settings.sb_bottom - \
+        available_space = screen_height - self.settings.sb_height - \
                           2 * self.rocket.rect.height
         available_rows  = available_space // (alien_height + spacing)
         
         # Create rows
         for row_num in range(available_rows):
-            y = (self.settings.sb_bottom + alien_height) + \
-                row_num * (alien_height + spacing)
+            y = spacing + row_num * (alien_height + spacing)
             self._create_row(y)
 
     def _create_row(self, y):
@@ -287,8 +286,11 @@ class AlienInvasion():
     def _check_aliens_bottom(self):
         ''' Check if any aliens have reached the bottom of the screen. '''
     
+        bottom_lim = self.screen_rect.height - self.settings.sb_height + \
+                     self.settings.sb_y_spacing # Limit at astronaut's top, not 
+                                                # before.
         for alien in self.aliens.sprites():
-            if alien.rect.bottom >= self.screen_rect.bottom:
+            if alien.rect.bottom >= bottom_lim:
                 # Treat this the same as if the rocket got hit.
                 self._rocket_hit()
                 break

@@ -17,7 +17,8 @@ class Rocket(Sprite):
         self.rect = self.image.get_rect()
 
         # Start each new rocket at the bottom center of the screen.
-        self.rect.midbottom = self.screen_rect.midbottom
+        self.rect.centerx = self.screen_rect.centerx
+        self.rect.bottom  = self.screen_rect.height - self.settings.sb_height
 
         # Store a decimal value for the rocket's horizontal position.
         self.x = float(self.rect.x)
@@ -46,5 +47,5 @@ class Rocket(Sprite):
     def center_rocket(self):
         ''' Center the rocket on the screen. '''
     
-        self.rect.midbottom = self.screen_rect.midbottom
+        self.rect.centerx = self.screen_rect.centerx
         self.x = float(self.rect.x)

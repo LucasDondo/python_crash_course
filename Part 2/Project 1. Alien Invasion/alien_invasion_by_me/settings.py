@@ -20,7 +20,7 @@ class Settings:
         #
         self.sb_x_spacing = astronaut.rect.centery
         # Not settings but data needed...
-        self.sb_bottom = astronaut.rect.height + 2 * self.sb_y_spacing
+        self.sb_height = astronaut.rect.height + 2 * self.sb_y_spacing
         self.astronaut_width = astronaut.rect.width
         # 👋🏼 I need the astronaut no longer.
         del astronaut

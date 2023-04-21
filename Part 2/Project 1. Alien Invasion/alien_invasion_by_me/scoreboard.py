@@ -21,7 +21,7 @@ class Scoreboard:
         self.font = pygame.font.Font('fonts/VarelaRound-Regular.ttf', 42)
         self.y_spacing = self.settings.sb_y_spacing
         self.x_spacing = self.settings.sb_x_spacing
-        self.astronaut_centery = self.x_spacing
+        self.astronaut_centery = self.screen_rect.height - self.x_spacing
 
         self._prep_images()
 
