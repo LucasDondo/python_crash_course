@@ -28,38 +28,47 @@ class Scoreboard:
     def _prep_images(self):
         ''' Prepare the initial score images. '''
 
-        self._prep_astronauts()    
+        self._create_astronauts()    
         self._prep_score()
         self._prep_hs()
 
-    def _prep_astronauts(self):
-        ''' Show how many astronauts are left. '''
-
-        midscreen = self.screen_rect.width // 2
+    def _create_astronauts(self):
+        ''' 👨🏻‍🚀 👨🏻‍🚀 👨🏻‍🚀 '''
 
         self.astronauts = Group()
-        for astronaut_num in range(self.stats.astronauts_left):
+        for astronaut in range(self.settings.astronauts):
             astronaut = Astronaut()
-            width = astronaut.rect.width
-            astronaut.rect.top = self.y_spacing
             self.astronauts.add(astronaut)
+        
+        self._update_astronauts()
 
-            if self.stats.astronauts_left == 3:
-                if astronaut_num == 0:
-                    astronaut.rect.centerx = midscreen
-                elif astronaut_num == 1:
-                    astronaut.rect.right = midscreen - width // 2 - \
+    def _update_astronauts(self):
+        ''' How many of them have been transformed!? '''
+
+        astronauts = self.astronauts.sprites()
+
+        # 👨🏻‍🚀 ➡️ 👽    
+        if self.stats.astronauts_left == 2:
+            astronauts[2].transform()
+        elif self.stats.astronauts_left == 1:
+            astronauts[1].transform()
+        elif self.stats.astronauts_left == 0:
+            astronauts[0].transform()
+
+        # Position on screen.
+        for astronaut_n in range(self.settings.astronauts):
+            width = self.settings.astronaut_width
+            midscreen = self.screen_rect.width // 2
+            astronauts[astronaut_n].rect.centery = self.astronaut_centery
+
+            if astronaut_n == 0:
+                astronauts[0].rect.centerx = midscreen
+            elif astronaut_n == 1:
+                astronauts[1].rect.right = midscreen - width // 2 - \
                                            self.x_spacing
-                elif astronaut_num == 2:
-                    astronaut.rect.left = midscreen + width // 2 + \
+            elif astronaut_n == 2:
+                astronauts[2].rect.left = midscreen + width // 2 + \
                                           self.x_spacing
-            elif self.stats.astronauts_left == 2:
-                if astronaut_num == 0:
-                    astronaut.rect.left = midscreen + self.x_spacing // 2
-                elif astronaut_num == 1:
-                    astronaut.rect.right = midscreen - self.x_spacing // 2
-            else:
-                astronaut.rect.centerx = midscreen
 
     def _prep_score(self):
         ''' Turn the score into a rendered image. '''

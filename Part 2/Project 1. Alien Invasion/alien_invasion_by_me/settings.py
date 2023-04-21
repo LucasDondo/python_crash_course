@@ -10,7 +10,7 @@ class Settings:
         self.bg_color = (230, 230, 230)
 
         # 👨🏼‍🚀 Astronauts.
-        self.init_astronauts = 3
+        self.astronauts = 3
 
         # 💯 Scoreboard.
         self.sb_y_spacing = 10
@@ -21,6 +21,7 @@ class Settings:
         self.sb_x_spacing = astronaut.rect.centery
         # Not settings but data needed...
         self.sb_bottom = astronaut.rect.height + 2 * self.sb_y_spacing
+        self.astronaut_width = astronaut.rect.width
         # 👋🏼 I need the astronaut no longer.
         del astronaut
 

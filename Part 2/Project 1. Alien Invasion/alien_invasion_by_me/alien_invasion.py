@@ -266,7 +266,7 @@ class AlienInvasion():
         ''' Respond to the rocket being hit by an alien. '''
 
         self.stats.astronauts_left -= 1
-        self.sb._prep_astronauts()
+        self.sb._update_astronauts()
         if self.stats.astronauts_left > 0:
             # Get rid of any remaining aliens and bullets.
             self.aliens.empty()

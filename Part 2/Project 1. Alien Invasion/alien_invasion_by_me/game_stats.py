@@ -22,5 +22,5 @@ class GameStats():
     def _reset_stats(self):
         ''' Initialize statistics that can change during the game. '''
 
-        self.astronauts_left = self.settings.init_astronauts
+        self.astronauts_left = self.settings.astronauts
         self.score = 0
