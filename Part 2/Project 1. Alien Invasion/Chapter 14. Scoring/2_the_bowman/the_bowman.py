@@ -89,8 +89,10 @@ class TheBowman:
                 elif event.key == pygame.K_DOWN:
                     self.bow.moving_down = True
                 elif event.key == pygame.K_SPACE:
-                    self._create_arrow()
-                    self._k_space_play_button()
+                    if self.game_active and not self.target.stopped:
+                        self._create_arrow()
+                    elif not self.game_active:
+                        self._new_game()
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
                     self.bow.moving_up = False
@@ -137,19 +139,11 @@ class TheBowman:
         if clicked and not self.game_active:
             self._new_game()
 
-    def _k_space_play_button(self):
-        ''' Creates a new game when space is pressed (and if...). '''
-    
-        if not self.game_active:
-            self._new_game()
-
     def _create_arrow(self):
         ''' Creates an arrow. '''
     
-        # Game must be active and target not stopped.
-        if self.game_active and not self.target.stopped:
-            new_arrow = Arrow(self)
-            self.arrows.add(new_arrow)
+        new_arrow = Arrow(self)
+        self.arrows.add(new_arrow)
     
     def _update_arrows(self):
         ''' Updates everything arrow-related. '''

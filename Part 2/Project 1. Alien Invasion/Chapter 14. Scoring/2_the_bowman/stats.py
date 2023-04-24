@@ -28,14 +28,14 @@ class Stats:
         self.sb_line.centery = self.sb_line_y
         self.sb_line_color = tbm.settings.sb_line_color
         # Arrows.
-        self.sb_arrows = pygame.sprite.Group()
-        self.l_arrow = Arrow(tbm)
-        self.m_arrow = Arrow(tbm)
-        self.r_arrow = Arrow(tbm)
-        self.sb_arrows.add(self.l_arrow, self.m_arrow, self.r_arrow)
-        mid_screen = self.screen_rect.width // 2
-        arrow_width = self.l_arrow.rect.width
-        self.l_arrow.rect.centerx = mid_screen - 2 * arrow_width
+        # self.sb_arrows = pygame.sprite.Group()
+        # self.l_arrow = Arrow(tbm)
+        # self.m_arrow = Arrow(tbm)
+        # self.r_arrow = Arrow(tbm)
+        # self.sb_arrows.add(self.l_arrow, self.m_arrow, self.r_arrow)
+        # mid_screen = self.screen_rect.width // 2
+        # arrow_width = self.l_arrow.rect.width
+        # self.l_arrow.rect.centerx = mid_screen - 2 * arrow_width
 
         # Initialize stats.
         self._reset()
@@ -98,8 +98,8 @@ class Stats:
             self.screen.blit(self.arrows_img, self.arrows_rect)
 
         # Arrows
-        for arrow in self.sb_arrows.sprites():
-            arrow.blit()
+        # for arrow in self.sb_arrows.sprites():
+        #     arrow.blit()
 
     def _reset(self):
         ''' Reset all stats. '''

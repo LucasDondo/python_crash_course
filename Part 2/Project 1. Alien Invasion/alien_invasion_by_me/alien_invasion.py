@@ -150,7 +150,7 @@ class AlienInvasion():
         self.stats._reset_stats()
         self.settings.initialize_dynamic_settings()
         self.stats.game_active = True
-        self.sb._prep_images()
+        self.sb._prep_imgs()
 
         # 👾 Aliens.
         if self.play_button.transformed:
@@ -299,7 +299,7 @@ class AlienInvasion():
                 break
 
     def _update_screen(self):
-        ''' Update images on the screen, and flip to the new screen. '''
+        ''' Update imgs on the screen, and flip to the new screen. '''
 
         self.screen.fill(self.bg_color)
         for bullet in self.bullets.sprites():
