@@ -13,6 +13,8 @@ class PlayButton:
         self.rect = self.img.get_rect()
         self.rect.center = self.screen_rect.center
 
+        self.transformed = False
+
     def transform(self):
         ''' Transforms the play button in multiple ways. '''
     
@@ -25,6 +27,8 @@ class PlayButton:
         lim_left = self.rect.width // 2
         lim_right = self.screen_rect.right - lim_left
         self.rect.centerx = randint(lim_left, lim_right)
+
+        self.transformed = True
 
     def blit(self):
         ''' Blit play button. '''

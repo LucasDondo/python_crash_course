@@ -146,21 +146,24 @@ class AlienInvasion():
     def _start_game(self):
         ''' Starts a new try. '''
     
-        # Reset the game statistics.
+        # 📈 Stats.
         self.stats._reset_stats()
         self.settings.initialize_dynamic_settings()
         self.stats.game_active = True
         self.sb._prep_images()
 
-        # Get rid of any remaining aliens and bullets.
-        self.aliens.empty()
+        # 👾 Aliens.
+        if self.play_button.transformed:
+            self.aliens.empty()
+            self._create_rows()
+        
+        # ❗ Bullets.
         self.bullets.empty()
 
-        # Create a new fleet and center the rocket.
-        self._create_rows()
+        # 🚀 Rocket.
         self.rocket.center_rocket()
 
-        # Hide the mouse cursor.
+        # 🖱️ Mouse cursor.
         pygame.mouse.set_visible(False)
 
     def _create_rows(self):
