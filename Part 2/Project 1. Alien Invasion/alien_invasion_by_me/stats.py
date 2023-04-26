@@ -23,4 +23,4 @@ class Stats():
         ''' Initialize statistics that can change during the game. '''
 
         self.astronauts_left = self.settings.astronauts
-        self.score = 0
+        self.score           = 0

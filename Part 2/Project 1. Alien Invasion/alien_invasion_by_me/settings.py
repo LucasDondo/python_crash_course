@@ -15,12 +15,12 @@ class Settings:
         # 💯 Scoreboard.
         self.sb_y_spacing = 10
         #
-        astronaut = Astronaut()
+        astronaut          = Astronaut()
         astronaut.rect.top = self.sb_y_spacing
         #
         self.sb_x_spacing = astronaut.rect.centery
         # Not settings but data needed...
-        self.sb_height = astronaut.rect.height + 2 * self.sb_y_spacing
+        self.sb_height       = astronaut.rect.height + 2 * self.sb_y_spacing
         self.astronaut_width = astronaut.rect.width
         # 👋🏼 I need the astronaut no longer.
         del astronaut
@@ -59,6 +59,6 @@ class Settings:
     
         self.rocket_speed *= self.speedup_scale
         self.bullet_speed *= self.speedup_scale
-        self.alien_speed *= self.speedup_scale
+        self.alien_speed  *= self.speedup_scale
 
         self.alien_points = int(self.alien_points * self.score_scale)

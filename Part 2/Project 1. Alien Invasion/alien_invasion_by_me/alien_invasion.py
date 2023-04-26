@@ -20,20 +20,19 @@ class AlienInvasion():
         pygame.init()
         self.settings = Settings()
 
-        self.screen = pygame.display.set_mode(flags=pygame.NOFRAME)
+        self.screen      = pygame.display.set_mode(flags=pygame.FULLSCREEN)
         self.screen_rect = self.screen.get_rect()
+        self.bg_color    = self.settings.bg_color
         pygame.display.set_caption('🚀 Alien Invasion! 👾')
-        self.bg_color = self.settings.bg_color
 
-        self.stats = Stats(self)
-        self.sb = Scoreboard(self)
+        self.stats       = Stats(self)
+        self.sb          = Scoreboard(self)
         self.play_button = PlayButton(self)
         pygame.mouse.set_pos(self.play_button.rect.center)
 
-
-        self.rocket = Rocket(self)
+        self.rocket  = Rocket(self)
         self.bullets = pygame.sprite.Group()
-        self.aliens = pygame.sprite.Group()
+        self.aliens  = pygame.sprite.Group()
 
     def run_game(self):
         ''' Start the main loop for the game. '''
@@ -111,7 +110,7 @@ class AlienInvasion():
     def _rocket_under_play_button(self):
         ''' Is the rocket under the play button? '''
     
-        rocket = self.rocket.rect.centerx
+        rocket      = self.rocket.rect.centerx
         play_button = self.play_button.rect
         if play_button.left <= rocket <= play_button.right:
             return True
@@ -169,14 +168,13 @@ class AlienInvasion():
     def _create_rows(self):
         ''' Creates all the rows of aliens. '''
     
-        alien = Alien(self)
-        alien_height = alien.rect.height
+        alien         = Alien(self)
+        alien_height  = alien.rect.height
         screen_height = self.screen_rect.height
-        midscreen = screen_height // 2
-        spacing = alien_height # For a better understanding of how this works.
+        spacing       = alien_height
         #
         available_space = screen_height - self.settings.sb_height - \
-                          2 * self.rocket.rect.height
+                                                     2 * self.rocket.rect.height
         available_rows  = available_space // (alien_height + spacing)
         
         # Create rows
@@ -187,12 +185,12 @@ class AlienInvasion():
     def _create_row(self, y):
         ''' Creates a row of aliens. '''
     
-        alien = Alien(self)
-        alien_width = alien.rect.width
-        screen_width = self.screen_rect.width
-        midscreen = screen_width // 2
-        spacing = alien_width # For a better understanding of how this works.
-        available_space_side = midscreen - alien_width // 2 - spacing
+        alien                 = Alien(self)
+        alien_width           = alien.rect.width
+        screen_width          = self.screen_rect.width
+        midscreen             = screen_width // 2
+        spacing               = alien_width
+        available_space_side  = midscreen - alien_width // 2 - spacing
         available_aliens_side = available_space_side // (alien_width + spacing)
 
         # Middle alien, reusing the alien before created.
@@ -202,19 +200,19 @@ class AlienInvasion():
 
         # Right aliens.
         for alien in range(available_aliens_side):
-            count = alien
-            alien = Alien(self)
-            alien.rect.left = (midscreen + alien_width // 2 + spacing) + \
-                             count * (alien_width + spacing)
+            count              = alien
+            alien              = Alien(self)
+            alien.rect.left    = (midscreen + alien_width // 2 + spacing) + \
+                                                 count * (alien_width + spacing)
             alien.rect.centery = y
             self.aliens.add(alien)
 
         # Left aliens.
         for alien in range(available_aliens_side):
-            count = alien
-            alien = Alien(self)
-            alien.rect.right = (midscreen - alien_width // 2 - spacing) - \
-                              count * (alien_width + spacing)
+            count              = alien
+            alien              = Alien(self)
+            alien.rect.right   = (midscreen - alien_width // 2 - spacing) - \
+                                                 count * (alien_width + spacing)
             alien.rect.centery = y
             self.aliens.add(alien)
 
@@ -251,9 +249,8 @@ class AlienInvasion():
         ''' Respond to bullet-alien collisions. '''
     
         # Remove any bullets and aliens that have collided.
-        collisions = pygame.sprite.groupcollide(
-                self.bullets, self.aliens, True, True)
-        
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True
+                                                                         , True)
         if collisions and self.stats.game_active:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)

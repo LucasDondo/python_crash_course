@@ -8,12 +8,12 @@ class Rocket(Sprite):
         ''' Initialize the rocket and set its starting position. '''
 
         super().__init__()
-        self.screen = ai.screen
+        self.screen      = ai.screen
         self.screen_rect = ai.screen_rect
-        self.settings = ai.settings
+        self.settings    = ai.settings
 
         # Load the rocket img and get its rect.
-        self.img = pygame.image.load('images/rocket_25%.bmp')
+        self.img  = pygame.image.load('images/rocket_25%.bmp')
         self.rect = self.img.get_rect()
 
         # Start each new rocket at the bottom center of the screen.
@@ -25,7 +25,7 @@ class Rocket(Sprite):
 
         # Movement flags.
         self.moving_right = False
-        self.moving_left = False
+        self.moving_left  = False
 
     def update(self):
         ''' Update the rocket's position based on the movement flag. '''
@@ -48,4 +48,4 @@ class Rocket(Sprite):
         ''' Center the rocket on the screen. '''
     
         self.rect.centerx = self.screen_rect.centerx
-        self.x = float(self.rect.x)
+        self.x            = float(self.rect.x)

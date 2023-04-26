@@ -10,17 +10,17 @@ class Scoreboard:
     def __init__(self, ai):
         ''' Initialize scorekeeping attributes. '''
 
-        self.ai = ai
-        self.screen = ai.screen
+        self.ai          = ai
+        self.screen      = ai.screen
         self.screen_rect = ai.screen_rect
-        self.settings = ai.settings
-        self.stats = ai.stats
+        self.settings    = ai.settings
+        self.stats       = ai.stats
 
         # ⚙️ Settings.
-        self.txt_color = (30, 30, 30)
-        self.font = pygame.font.Font('fonts/VarelaRound-Regular.ttf', 42)
-        self.y_spacing = self.settings.sb_y_spacing
-        self.x_spacing = self.settings.sb_x_spacing
+        self.txt_color         = (30, 30, 30)
+        self.font              = pygame.font.Font('fonts/VarelaRound-Regular.ttf', 42)
+        self.y_spacing         = self.settings.sb_y_spacing
+        self.x_spacing         = self.settings.sb_x_spacing
         self.astronaut_centery = self.screen_rect.height - self.x_spacing
 
         self._prep_imgs()
@@ -65,35 +65,35 @@ class Scoreboard:
                 astronauts[0].rect.centerx = midscreen
             elif astronaut_n == 1:
                 astronauts[1].rect.right = midscreen - width // 2 - \
-                                           self.x_spacing
+                                                                  self.x_spacing
             elif astronaut_n == 2:
                 astronauts[2].rect.left = midscreen + width // 2 + \
-                                          self.x_spacing
+                                                                  self.x_spacing
 
     def _prep_score(self):
         ''' Turn the score into a rendered img. '''
 
-        rounded_score = round(self.stats.score, -1)
-        score_str = "{:,}".format(rounded_score)
-        self.score_img = self.font.render(score_str, True, self.txt_color,
-                                            self.settings.bg_color)
+        rounded_score  = round(self.stats.score, -1)
+        score_str      = "{:,}".format(rounded_score)
+        self.score_img = self.font.render(score_str, True, self.txt_color
+                                                   , self.settings.bg_color)
         
         # Display the score at the top right of the screen.
-        self.score_rect = self.score_img.get_rect()
-        self.score_rect.left = self.x_spacing
+        self.score_rect         = self.score_img.get_rect()
+        self.score_rect.left    = self.x_spacing
         self.score_rect.centery = self.astronaut_centery
     
     def _prep_hs(self):
         ''' Turn the high score into a rendered img. '''
 
-        hs = round(self.stats.hs, -1)
-        hs_str = "{:,}".format(hs)
+        hs          = round(self.stats.hs, -1)
+        hs_str      = "{:,}".format(hs)
         self.hs_img = self.font.render(hs_str, True, self.txt_color
                                                    , self.settings.bg_color)
         
         # Center the high score at the top of the screen.
-        self.hs_rect = self.hs_img.get_rect()
-        self.hs_rect.right = self.screen_rect.right - self.x_spacing
+        self.hs_rect         = self.hs_img.get_rect()
+        self.hs_rect.right   = self.screen_rect.right - self.x_spacing
         self.hs_rect.centery = self.astronaut_centery
 
     def _check_hs(self):

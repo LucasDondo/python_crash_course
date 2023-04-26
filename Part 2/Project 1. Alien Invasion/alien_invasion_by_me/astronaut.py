@@ -9,11 +9,11 @@ class Astronaut(Sprite):
 
         super().__init__()
 
-        self.img = pygame.image.load('images/astronaut_30%.bmp')
+        self.img  = pygame.image.load('images/astronaut_30%.bmp')
         self.rect = self.img.get_rect()
     
     def transform(self):
         ''' OMG! No! The aliens attacked him! '''
     
-        self.img = pygame.image.load('images/astronaut_transformed_54px.bmp')
+        self.img  = pygame.image.load('images/astronaut_transformed_54px.bmp')
         self.rect = self.img.get_rect()
