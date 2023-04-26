@@ -18,30 +18,26 @@ class TheBowman:
 
         pygame.init()
         self.settings = Settings()
-        self.bg_color = self.settings.bg_color
 
-        # Audiovisual elements.
-        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        # 📺 Screen.
+        self.bg_color    = self.settings.bg_color
+        self.screen      = pygame.display.set_mode(flags=pygame.FULLSCREEN)
         self.screen_rect = self.screen.get_rect()
         pygame.display.set_caption('🏹 The Bowman 🏹')
-        #
+
+        # 🎵 Music.
         pygame.mixer.music.load('sounds/arrow_by_jim_yosef.mp3')
 
-        self.target = Target(self)
-        self.bow = Bow(self)
-        self.stats = Stats(self)
-        self.game_active = self.stats.game_active
-        self.play_button = PlayButton(self)
+        self.stats         = Stats(self)
+        self.target        = Target(self)
+        self.bow           = Bow(self)
+        self.game_active   = self.stats.game_active
+        self.play_button   = PlayButton(self)
         self.speedup_scale = self.settings.speedup_scale
-        self.arrows = pygame.sprite.Group()
+        self.arrows        = pygame.sprite.Group()
         self.nailed_arrows = pygame.sprite.Group()
 
-        self.reset_stopped_time()
-
-    def reset_stopped_time(self):
-        ''' Sets stopped_time to 0. '''
-        
-        self.stopped_time = 0 # Used to stop the target for a second.
+        self.stopped_time = 0 # Initialize var.
 
     def start(self):
         ''' Starts main class actions. '''
@@ -51,29 +47,39 @@ class TheBowman:
             self._update_screen()
 
             if self.game_active:
-                pygame.mixer.music.set_volume(1)
-                pygame.mouse.set_visible(False)
+                # 🎯 Target.
                 if time.time() - self.stopped_time > 1:
                     self.target.stopped = False
-                    self.reset_stopped_time()
-                self.target.update()
+                    self.target.update()
+                # 🏹 Bow & arrows.
                 self.bow.update()
                 self._update_arrows()
             
-            elif not self.game_active:
+            else:
+                # 🎵 Lobby music loop.
+                finished_time = 0 # Initialize var.
+
+                # 📈 Incrementing.
                 pygame.mixer.music.set_volume(.5)
                 pygame.mixer.music.play(fade_ms=2000, start=2.1)
                 started_time = time.time()
-                self._check_events()
-                while time.time() - started_time < 2:
+                # ⌚ Wait.
+                while (time.time() - started_time) < 2:
                     self._check_events()
-                    continue
-                if time.time() - started_time > 2:
+                    if self.game_active:
+                        break # ... from while loop.
+
+                # All the breaks and this if are to avoid unnecessary steps when
+                # _check_events() recorded a K_SPACE that starts the game.
+                if not self.game_active:
+                    # 📉 Decrementing.
                     pygame.mixer.music.fadeout(2000)
                     finished_time = time.time()
-                while time.time() - finished_time < 1.7:
-                    self._check_events()
-                    continue
+                    # ⌚ Wait.
+                    while (time.time() - finished_time) < 1.7:
+                        self._check_events()
+                        if self.game_active:
+                            break # ... from while loop.
 
     def _check_events(self):
         ''' Checks and reacts to kb and mouse events. '''
@@ -105,36 +111,28 @@ class TheBowman:
     def _new_game(self):
         ''' Sets everything up to start a new game. '''
     
-        # Housekeeping.
+        # 🏠 Housekeeping.
         pygame.mouse.set_visible(False)
+        pygame.mixer.music.set_volume(1)
         self.arrows.empty()
         self.stats._reset()
         self.target.speed = self.settings.target_speed
 
-        # Let's go!
-        pygame.mixer.music.play(fade_ms=1000)
         self.game_active = True
-        # Animations.
+
+        # 💨 Animations.
         for arrow in self.nailed_arrows.sprites():
             arrow.fall()
-            self._check_events() # To make sure the game doesn't freeze.
-                                 # And yes, it's true that this is not as
-                                 # instant as it could be, but it creates a
-                                 # nice effect.
         self.nailed_arrows.empty()
         self.target.center()
         self.bow.center()
 
-        # I must use this because when this method is called from the
-        # _check_events method and that one has been called by the loop from
-        # the part of the start method where game_active is False and the music
-        # gets repeated again and again, I need to get out of that loop to let
-        # the gameplay loop start.
-        self.start()
+        # 🎵 Music, please!
+        pygame.mixer.music.play(fade_ms=1000)
 
     def _click_play_button(self, mouse_pos):
         ''' Checks if the play button has been clicked. '''
-    
+
         clicked = self.play_button.rect.collidepoint(mouse_pos)
         if clicked and not self.game_active:
             self._new_game()
@@ -186,8 +184,8 @@ class TheBowman:
 
                 # Check if the game goes on.
                 if self.stats.arrows_left <= 0:
-                    pygame.mixer.music.fadeout(500)
                     pygame.mouse.set_visible(True)
+                    pygame.mixer.music.fadeout(500)
                     self.game_active = False
 
     def _update_screen(self):

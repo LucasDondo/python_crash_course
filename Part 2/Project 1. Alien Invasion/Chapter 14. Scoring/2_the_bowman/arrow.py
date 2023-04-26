@@ -9,22 +9,22 @@ class Arrow(Sprite):
         ''' Initialize main attributes. '''
 
         super().__init__()
-        self.bow = tbm.bow
-        self.settings = tbm.settings
-        self.target = tbm.target
-        self.speed = self.settings.arrow_speed
+        self.tbm             = tbm
+        self.screen          = self.tbm.screen
+        self.screen_rect     = self.tbm.screen_rect
+        self.bow             = self.tbm.bow
+        self.target          = self.tbm.target
+        self.stopped         = self.target.stopped
+        self.settings        = self.tbm.settings
+        self.speed           = self.settings.arrow_speed
         self.animation_speed = self.settings.arrow_animation_speed
-        self.tbm = tbm
-        self.screen = self.tbm.screen
-        self.screen_rect = self.tbm.screen_rect
-        self.stopped = tbm.target.stopped
 
-        self.img = pygame.image.load('images/arrow_horizontal.png')
+        self.img  = pygame.image.load('images/arrow_horizontal.png')
         self.rect = self.img.get_rect()
 
         self.rect.midright = self.bow.rect.midright
-        self.x = float(self.rect.x)
-        self.y = float(self.rect.y)
+        self.x             = float(self.rect.x)
+        self.y             = float(self.rect.y)
 
     def update(self):
         ''' Moves the arrow to the right. '''

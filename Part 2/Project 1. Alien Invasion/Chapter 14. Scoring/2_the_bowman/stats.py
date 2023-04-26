@@ -15,52 +15,51 @@ class Stats:
         except FileNotFoundError:
             self.hs = 0
 
-        # Scoreboard.
-        self.screen = tbm.screen
+        # Statsboard.
+        self.screen      = tbm.screen
         self.screen_rect = tbm.screen_rect
-        self.font = tbm.settings.font
-        self.txt_color = tbm.settings.stats_txt_color
-        self.bg_color = tbm.settings.bg_color
-        self.spacing = tbm.settings.sb_spacing
+        self.font        = tbm.settings.font
+        self.txt_color   = tbm.settings.stats_txt_color
+        self.bg_color    = tbm.settings.bg_color
+        self.spacing     = tbm.settings.sb_spacing
         # Line.
-        self.sb_line = pygame.Rect(0, 0, self.screen_rect.width, 1)
-        self.sb_line_y = tbm.settings.sb_line_y
-        self.sb_line.centery = self.sb_line_y
-        self.sb_line_color = tbm.settings.sb_line_color
-        # Arrows.
-        # self.sb_arrows = pygame.sprite.Group()
-        # self.l_arrow = Arrow(tbm)
-        # self.m_arrow = Arrow(tbm)
-        # self.r_arrow = Arrow(tbm)
-        # self.sb_arrows.add(self.l_arrow, self.m_arrow, self.r_arrow)
-        # mid_screen = self.screen_rect.width // 2
-        # arrow_width = self.l_arrow.rect.width
-        # self.l_arrow.rect.centerx = mid_screen - 2 * arrow_width
+        self.sb_line         = pygame.Rect(0, 0, self.screen_rect.width, 1)
+        self.sb_line_y       = tbm.settings.sb_line_y
+        self.sb_line.y = self.sb_line_y
+        self.sb_line_color   = tbm.settings.sb_line_color
 
         # Initialize stats.
-        self._reset()
         self.game_active = False
+        self._reset()
     
     def _update_score(self):
         ''' Updates main score components and data. '''
     
         txt = "{:,}".format(self.score)
-        self.score_img = self.font.render(txt, True, self.txt_color,
-                                          self.bg_color)
+        self.score_img          = self.font.render(txt, True, self.txt_color
+                                                            , self.bg_color)
 
-        self.score_rect = self.score_img.get_rect()
+        self.score_rect         = self.score_img.get_rect()
         self.score_rect.centery = self.sb_line_y / 2
-        self.score_rect.left = self.score_rect.top
+        self.score_rect.left    = self.score_rect.top
     
     def _update_hs(self):
         ''' Updates main highest score components and data. '''
             
         txt = "{:,}".format(self.hs)
-        self.hs_img = self.font.render(txt, True, self.txt_color, self.bg_color)
-
-        self.hs_rect = self.hs_img.get_rect()
+        self.hs_img          = self.font.render(txt, True, self.txt_color
+                                                         , self.bg_color)
+        
+        self.hs_rect         = self.hs_img.get_rect()
         self.hs_rect.centery = self.sb_line_y / 2
-        self.hs_rect.right = self.screen_rect.right - self.hs_rect.top
+        self.hs_rect.right   = self.screen_rect.right - self.hs_rect.top
+
+    def one_arrow_less(self):
+        ''' The user lost one arrow. '''
+    
+        self.arrows_left -= 1
+        if self.arrows_left > 0:
+            self._update_arrows()
 
     def _update_arrows(self):
         ''' Updates the arrows left. '''
@@ -72,23 +71,16 @@ class Stats:
         elif self.arrows_left == 1:
             img = 'images/vertical_arrow.png'
             
-        self.arrows_img = pygame.image.load(img)
+        self.arrows_img  = pygame.image.load(img)
         self.arrows_rect = self.arrows_img.get_rect()
 
         self.arrows_rect.centerx = self.screen_rect.centerx
-        self.arrows_rect.top = self.spacing
-
-    def one_arrow_less(self):
-        ''' The user lost one arrow. '''
-    
-        self.arrows_left -= 1
-        if self.arrows_left > 0:
-            self._update_arrows()
+        self.arrows_rect.top     = self.spacing
 
     def show_sb(self):
-        ''' Shows the scoreboard onscreen. '''
+        ''' Shows the statsboard onscreen. '''
     
-        # Scoreboard background.
+        # Statsboard background.
         pygame.draw.rect(self.screen, self.sb_line_color, self.sb_line)
 
         # Stats.
@@ -97,15 +89,11 @@ class Stats:
         if self.arrows_left > 0:
             self.screen.blit(self.arrows_img, self.arrows_rect)
 
-        # Arrows
-        # for arrow in self.sb_arrows.sprites():
-        #     arrow.blit()
-
     def _reset(self):
         ''' Reset all stats. '''
     
         self.arrows_left = 3
-        self.score = 0
+        self.score       = 0
         self._update_score()
         self._update_hs()
         self._update_arrows()
