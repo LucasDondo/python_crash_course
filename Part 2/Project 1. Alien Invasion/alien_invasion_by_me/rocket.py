@@ -49,3 +49,17 @@ class Rocket(Sprite):
     
         self.rect.centerx = self.screen_rect.centerx
         self.x            = float(self.rect.x)
+
+class ScoreBarRocket(Rocket):
+    ''' An attempt to represent an horizontal rocket for the scorebar. '''
+
+    def __init__(self, ai):
+        ''' Initialize main attributes. '''
+
+        super().__init__(ai)
+
+        self.image = pygame.image.load('images/horizontal_rocket_15%.bmp')
+        self.rect  = self.image.get_rect()
+
+        self.rect.centery = self.screen_rect.height - self.settings.sb_height
+        self.rect.right   = 0

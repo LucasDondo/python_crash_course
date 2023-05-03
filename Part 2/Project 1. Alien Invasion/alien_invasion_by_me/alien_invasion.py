@@ -7,6 +7,7 @@ import pygame
 from settings import Settings
 from stats import Stats
 from scoreboard import Scoreboard
+from scorebar import ScoreBar
 from play_button import PlayButton
 from rocket import Rocket
 from bullet import Bullet
@@ -29,6 +30,8 @@ class AlienInvasion():
 
         self.stats       = Stats(self)
         self.sb          = Scoreboard(self)
+        self.scorebar    = ScoreBar(self)
+        self.sb_centery  = self.screen_rect.height - self.settings.sb_height
         self.play_button = PlayButton(self)
         pygame.mouse.set_pos(self.play_button.rect.center)
 
@@ -45,6 +48,7 @@ class AlienInvasion():
             self._check_events()
             self.rocket.update()
             self._update_bullets()
+            self.scorebar.update()
 
             if self.stats.game_active:
                 self._update_aliens()
@@ -153,6 +157,7 @@ class AlienInvasion():
 
         # 📈 Stats.
         self.stats._reset_stats()
+        self.scorebar.reset()
         self.settings.initialize_dynamic_settings()
         self.stats.game_active = True
         self.sb._prep_imgs()
@@ -176,11 +181,9 @@ class AlienInvasion():
     
         alien         = Alien(self)
         alien_height  = alien.rect.height
-        screen_height = self.screen_rect.height
         spacing       = alien_height
         #
-        available_space = screen_height - self.settings.sb_height - \
-                                                     2 * self.rocket.rect.height
+        available_space = self.sb_centery - 2 * self.rocket.rect.height
         available_rows  = available_space // (alien_height + spacing)
         
         # Create rows
@@ -246,10 +249,22 @@ class AlienInvasion():
 
     def _change_fleet_direction(self):
         ''' Drop the entire fleet and change the fleet's direction. '''
-    
+
+        self._check_fleet_drop_speed()
         for alien in self.aliens.sprites():
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
+
+    def _check_fleet_drop_speed(self):
+        ''' Blocks the fleet from crossing the sb line. '''
+    
+        # Check for the lowest y value of fleet.
+        fleet_bottom = 0
+        for alien in self.aliens.sprites():
+            if alien.rect.bottom > fleet_bottom:
+                fleet_bottom = alien.rect.bottom
+        if self.sb_centery - fleet_bottom < self.settings.fleet_drop_speed:
+            self.settings.fleet_drop_speed = self.sb_centery - fleet_bottom
 
     def _check_bullet_alien_collisions(self):
         ''' Respond to bullet-alien collisions. '''
@@ -296,29 +311,32 @@ class AlienInvasion():
     def _check_aliens_bottom(self):
         ''' Check if any aliens have reached the bottom of the screen. '''
     
-        bottom_lim = self.screen_rect.height - self.settings.sb_height + \
-                     self.settings.sb_y_spacing # Limit at astronaut's top, not 
-                                                # before.
+        # Limit at astronaut's top, not before.
+        bottom_lim = self.sb_centery
         for alien in self.aliens.sprites():
             if alien.rect.bottom >= bottom_lim:
-                # Treat this the same as if the rocket got hit.
+                # Treat this the same way as if the rocket got hit.
                 self._rocket_hit()
                 break
 
     def _update_screen(self):
         ''' Update imgs on the screen, and flip to the new screen. '''
 
+        # 📺 Screen.
         self.screen.fill(self.bg_color)
+        # ❗ Bullets.
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+        # 👾 Aliens.
         for alien in self.aliens.sprites():
             self.screen.blit(alien.image, alien.rect)
-        self.rocket.blitme()
-
-        # Draw the score information.
+        # 💯 Scoreboard & Scorebar.
         self.sb.show_score()
-
-        # Draw the play button if the game is inactive.
+        self.scorebar.draw()
+        # 🚀 Rockets.
+        self.scorebar.rocket.blitme()
+        self.rocket.blitme()
+        # ▶️ Play button.
         if not self.stats.game_active:
             self.play_button.blit()
 

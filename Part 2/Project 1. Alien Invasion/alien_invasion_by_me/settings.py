@@ -24,6 +24,10 @@ class Settings:
         self.astronaut_width = astronaut.rect.width
         # 👋🏼 I need the astronaut no longer.
         del astronaut
+        # Scorebar.
+        self.sb_animation_speed       = 1
+        self.sb_reset_animation_speed = 10
+        self.sb_color                 = (0, 0, 0)
 
         # ❗ Bullet.
         self.bullets_allowed = 3
