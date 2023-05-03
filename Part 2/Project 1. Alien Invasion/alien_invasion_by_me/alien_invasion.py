@@ -1,4 +1,5 @@
 import sys
+import time
 from time import sleep
 
 import pygame
@@ -10,6 +11,7 @@ from play_button import PlayButton
 from rocket import Rocket
 from bullet import Bullet
 from alien import Alien
+import sound_effects as se
 
 class AlienInvasion():
     ''' Overall class to to manage game assets and behavior. '''
@@ -118,6 +120,7 @@ class AlienInvasion():
     def _shoot_bullet(self):
         ''' Create a new bullet and add it to the bullets group. '''
     
+        se.bullet.play()
         new_bullet = Bullet(self)
         self.bullets.add(new_bullet)
 
@@ -145,6 +148,9 @@ class AlienInvasion():
     def _start_game(self):
         ''' Starts a new try. '''
     
+        se.bullet.stop()
+        se.play.play()
+
         # 📈 Stats.
         self.stats._reset_stats()
         self.settings.initialize_dynamic_settings()
@@ -251,19 +257,23 @@ class AlienInvasion():
         # Remove any bullets and aliens that have collided.
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True
                                                                          , True)
-        if collisions and self.stats.game_active:
-            for aliens in collisions.values():
-                self.stats.score += self.settings.alien_points * len(aliens)
-            self.sb._prep_score()
-            self.sb._check_hs()
-            if not self.aliens:
-                self.bullets.empty()
-                self._create_rows()
-                self.settings.increase_speed()
+        if collisions:
+            se.explosion.play()
+            se.bullet.stop()
+            if self.stats.game_active:
+                for aliens in collisions.values():
+                    self.stats.score += self.settings.alien_points * len(aliens)
+                self.sb._prep_score()
+                self.sb._check_hs()
+                if not self.aliens:
+                    self.bullets.empty()
+                    self._create_rows()
+                    self.settings.increase_speed()
 
     def _rocket_hit(self):
         ''' Respond to the rocket being hit by an alien. '''
 
+        se.astronaut_lost.play()
         self.stats.astronauts_left -= 1
         self.sb._update_astronauts()
         if self.stats.astronauts_left > 0:
@@ -301,7 +311,8 @@ class AlienInvasion():
         self.screen.fill(self.bg_color)
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
-        self.aliens.draw(self.screen)
+        for alien in self.aliens.sprites():
+            self.screen.blit(alien.image, alien.rect)
         self.rocket.blitme()
 
         # Draw the score information.

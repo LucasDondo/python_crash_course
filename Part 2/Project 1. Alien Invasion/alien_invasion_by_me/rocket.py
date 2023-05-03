@@ -13,8 +13,8 @@ class Rocket(Sprite):
         self.settings    = ai.settings
 
         # Load the rocket img and get its rect.
-        self.img  = pygame.image.load('images/rocket_25%.bmp')
-        self.rect = self.img.get_rect()
+        self.image  = pygame.image.load('images/rocket_25%.bmp')
+        self.rect = self.image.get_rect()
 
         # Start each new rocket at the bottom center of the screen.
         self.rect.centerx = self.screen_rect.centerx
@@ -42,7 +42,7 @@ class Rocket(Sprite):
     def blitme(self):
         ''' Draw the rocket at its current location. '''
 
-        self.screen.blit(self.img, self.rect)
+        self.screen.blit(self.image, self.rect)
 
     def center_rocket(self):
         ''' Center the rocket on the screen. '''

@@ -13,8 +13,8 @@ class Alien(Sprite):
         self.settings    = ai.settings
 
         # Load the alien img and set its rect attribute.
-        self.img  = pygame.image.load('images/alien_30%.bmp')
-        self.rect = self.img.get_rect()
+        self.image  = pygame.image.load('images/alien_30%.bmp')
+        self.rect = self.image.get_rect()
 
     def check_edges(self):
         ''' Return True if alien is at edge of screen. '''
