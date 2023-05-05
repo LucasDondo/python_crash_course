@@ -22,7 +22,8 @@ class ScoreBar:
         ''' Resets the bar w/ an animation. '''
     
         while self.rect.width > 0:
-            self.rect.width -= self.settings.sb_reset_animation_speed
+            self.rect.width        -= self.settings.sb_reset_animation_speed
+            self.rocket.rect.right -= self.settings.sb_reset_animation_speed
             self.ai._update_screen()
 
     def update(self):
@@ -35,9 +36,8 @@ class ScoreBar:
         pct_screen = pct_score * self.screen_rect.width / 100
 
         if self.rect.width < pct_screen:
-            self.rect.width += self.settings.sb_animation_speed
-        
-        self.rocket.rect.right = self.rect.width
+            self.rect.width        += self.settings.sb_animation_speed
+            self.rocket.rect.right += self.settings.sb_animation_speed
 
     def draw(self):
         ''' Draws the sb to screen. '''
