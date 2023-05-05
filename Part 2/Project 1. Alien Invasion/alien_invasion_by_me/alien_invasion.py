@@ -235,35 +235,38 @@ class AlienInvasion():
         if pygame.sprite.spritecollideany(self.rocket, self.aliens):
             self._rocket_hit()
 
-        # Look for aliens hitting the bottom of the screen.
-        self._check_aliens_bottom()
-
     def _check_fleet_edges(self):
         ''' Respond appropriately if any aliens have reached an edge. '''
     
         for alien in self.aliens.sprites():
             if alien.check_edges():
                 self._change_fleet_direction()
+                # Look for aliens hitting the bottom of the screen.
+                self._check_aliens_bottom()
                 break
 
     def _change_fleet_direction(self):
         ''' Drop the entire fleet and change the fleet's direction. '''
 
-        self._check_fleet_drop_speed()
+        drop_speed = self._check_fleet_drop_speed()
         for alien in self.aliens.sprites():
-            alien.rect.y += self.settings.fleet_drop_speed
+            alien.rect.y += drop_speed
         self.settings.fleet_direction *= -1
 
     def _check_fleet_drop_speed(self):
         ''' Blocks the fleet from crossing the sb line. '''
     
+        drop_speed = self.settings.fleet_drop_speed # To avoid editing the
+                                                    # original.
         # Check for the lowest y value of fleet.
         fleet_bottom = 0
         for alien in self.aliens.sprites():
             if alien.rect.bottom > fleet_bottom:
                 fleet_bottom = alien.rect.bottom
-        if self.bottom_lim - fleet_bottom < self.settings.fleet_drop_speed:
-            self.settings.fleet_drop_speed = self.bottom_lim - fleet_bottom
+        if self.bottom_lim - fleet_bottom < drop_speed:
+            drop_speed = self.bottom_lim - fleet_bottom
+
+        return drop_speed
 
     def _check_bullet_alien_collisions(self):
         ''' Respond to bullet-alien collisions. '''
@@ -290,6 +293,8 @@ class AlienInvasion():
         se.astronaut_lost.play()
         self.stats.astronauts_left -= 1
         self.sb._update_astronauts()
+        self._update_screen() # To see how things are positioned right when the
+                              # disaster happened.
         if self.stats.astronauts_left > 0:
             # Get rid of any remaining aliens and bullets.
             self.aliens.empty()
