@@ -170,7 +170,9 @@ class AlienInvasion():
         self.bullets.empty()
 
         # 🚀 Rocket.
-        self.rocket.center_rocket()
+        pb_rect = self.play_button.rect
+        if not pb_rect.left <= self.screen_rect.centerx <= pb_rect.right:
+            self.rocket.center_rocket()
 
         # 🖱️ Mouse cursor.
         pygame.mouse.set_visible(False)
