@@ -103,7 +103,7 @@ class Scoreboard:
             self.stats.hs = self.stats.score
             self._prep_hs()
             # Save it.
-            with open('high_score.json', 'w') as f:
+            with open(self.settings.hs_file, 'w') as f:
                 json.dump(self.stats.hs, f)
 
     def show_score(self):

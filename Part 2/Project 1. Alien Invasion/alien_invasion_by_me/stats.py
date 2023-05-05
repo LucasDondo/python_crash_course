@@ -16,7 +16,7 @@ class Stats():
         try:
             with open(self.settings.hs_file) as f:
                 self.hs = json.load(f)
-        except FileNotFoundError:
+        except (FileNotFoundError, json.decoder.JSONDecodeError):
             self.hs = 0
 
     def _reset_stats(self):
