@@ -8,17 +8,23 @@ class Rocket(Sprite):
         ''' Initialize the rocket and set its starting position. '''
 
         super().__init__()
-        self.screen      = ai.screen
-        self.screen_rect = ai.screen_rect
-        self.settings    = ai.settings
+        self.ai           = ai
+        self.screen       = self.ai.screen
+        self.screen_rect  = self.ai.screen_rect
+        self.settings     = self.ai.settings
+        self.sb_y_spacing = self.settings.sb_y_spacing
 
         # Load the rocket img and get its rect.
-        self.image  = pygame.image.load('images/rocket_25%.bmp')
-        self.rect = self.image.get_rect()
+        self.image = pygame.image.load('images/rocket_25%.bmp')
+        self.rect  = self.image.get_rect()
 
-        # Start each new rocket at the bottom center of the screen.
+        # Start each new rocket at the top of the sb.
         self.rect.centerx = self.screen_rect.centerx
-        self.rect.bottom  = self.screen_rect.height - self.settings.sb_height
+        try: # The second time this runs is to create main rocket.
+            self.rect.bottom = self.ai.scorebar.rocket.rect.top - \
+                                                               self.sb_y_spacing
+        except AttributeError: # The first time this runs is for sb's rocket.
+            pass
 
         # Store a decimal value for the rocket's horizontal position.
         self.x = float(self.rect.x)
@@ -61,5 +67,5 @@ class ScoreBarRocket(Rocket):
         self.image = pygame.image.load('images/horizontal_rocket_15%.bmp')
         self.rect  = self.image.get_rect()
 
-        self.rect.centery = self.screen_rect.height - self.settings.sb_height
-        self.rect.right   = 0
+        self.rect.bottom = self.settings.astronaut_top - self.sb_y_spacing
+        self.rect.right  = 0

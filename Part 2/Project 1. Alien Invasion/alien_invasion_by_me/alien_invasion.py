@@ -20,17 +20,17 @@ class AlienInvasion():
         ''' Initialize the game, and create game resources. '''
 
         pygame.init()
-        self.settings = Settings()
 
         self.screen      = pygame.display.set_mode(flags=pygame.FULLSCREEN)
         self.screen_rect = self.screen.get_rect()
+        self.settings    = Settings(self)
         self.bg_color    = self.settings.bg_color
         pygame.display.set_caption('🚀 Alien Invasion! 👾')
 
         self.stats       = Stats(self)
         self.sb          = Scoreboard(self)
         self.scorebar    = ScoreBar(self)
-        self.sb_centery  = self.screen_rect.height - self.settings.sb_height
+        self.bottom_lim  = self.scorebar.rect.top
         self.play_button = PlayButton(self)
         pygame.mouse.set_pos(self.play_button.rect.center)
 
@@ -178,11 +178,11 @@ class AlienInvasion():
     def _create_rows(self):
         ''' Creates all the rows of aliens. '''
     
-        alien         = Alien(self)
-        alien_height  = alien.rect.height
-        spacing       = alien_height
+        alien        = Alien(self)
+        alien_height = alien.rect.height
+        spacing      = alien_height
         #
-        available_space = self.sb_centery - 2 * self.rocket.rect.height
+        available_space = self.bottom_lim - 2 * self.rocket.rect.height
         available_rows  = available_space // (alien_height + spacing)
         
         # Create rows
@@ -262,8 +262,8 @@ class AlienInvasion():
         for alien in self.aliens.sprites():
             if alien.rect.bottom > fleet_bottom:
                 fleet_bottom = alien.rect.bottom
-        if self.sb_centery - fleet_bottom < self.settings.fleet_drop_speed:
-            self.settings.fleet_drop_speed = self.sb_centery - fleet_bottom
+        if self.bottom_lim - fleet_bottom < self.settings.fleet_drop_speed:
+            self.settings.fleet_drop_speed = self.bottom_lim - fleet_bottom
 
     def _check_bullet_alien_collisions(self):
         ''' Respond to bullet-alien collisions. '''
@@ -310,10 +310,9 @@ class AlienInvasion():
     def _check_aliens_bottom(self):
         ''' Check if any aliens have reached the bottom of the screen. '''
     
-        # Limit at astronaut's top, not before.
-        bottom_lim = self.sb_centery
+        # Limit at scorebar, not before.
         for alien in self.aliens.sprites():
-            if alien.rect.bottom >= bottom_lim:
+            if alien.rect.bottom >= self.bottom_lim:
                 # Treat this the same way as if the rocket got hit.
                 self._rocket_hit()
                 break

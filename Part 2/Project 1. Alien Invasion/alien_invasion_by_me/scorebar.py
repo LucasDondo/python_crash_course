@@ -7,16 +7,14 @@ class ScoreBar:
     def __init__(self, ai):
         ''' Initialize main attributes. '''
 
-        self.ai              = ai
-        self.screen_rect     = self.ai.screen_rect
-        self.settings        = self.ai.settings
-        self.bottom_distance = self.settings.sb_height
-        self.stats           = self.ai.stats
+        self.ai          = ai
+        self.stats       = self.ai.stats
+        self.settings    = self.ai.settings
 
-        self.rect         = pygame.Rect(0, 0, 0, 1)
-        self.rect.centery = self.screen_rect.height - self.bottom_distance
-
+        self.rect   = pygame.Rect(0, 0, 0, 1)
         self.rocket = ScoreBarRocket(ai)
+
+        self.rect.centery = self.rocket.rect.centery
 
     def reset(self):
         ''' Resets the bar w/ an animation. '''
@@ -33,7 +31,7 @@ class ScoreBar:
             pct_score = self.stats.score * 100 / self.stats.hs
         except ZeroDivisionError:
             pct_score = 0
-        pct_screen = pct_score * self.screen_rect.width / 100
+        pct_screen = pct_score * self.ai.screen_rect.width / 100
 
         if self.rect.width < pct_screen:
             self.rect.width        += self.settings.sb_animation_speed

@@ -3,7 +3,7 @@ from astronaut import Astronaut
 class Settings:
     ''' A class to store all settings for Alien Invasion. '''
 
-    def __init__(self):
+    def __init__(self, ai):
         ''' Initialize the game's static settings. '''
 
         # 🖥️ Screen.
@@ -13,17 +13,14 @@ class Settings:
         self.astronauts = 3
 
         # 💯 Scoreboard.
-        self.sb_y_spacing = 10
+        self.sb_y_spacing = 5
         #
-        astronaut          = Astronaut()
-        astronaut.rect.top = self.sb_y_spacing
-        #
-        self.sb_x_spacing = astronaut.rect.centery
-        # Not settings but data needed...
-        self.sb_height       = astronaut.rect.height + 2 * self.sb_y_spacing
-        self.astronaut_width = astronaut.rect.width
-        # 👋🏼 I need the astronaut no longer.
+        astronaut              = Astronaut(ai)
+        self.astronaut_top     = astronaut.rect.top
+        self.astronaut_centery = astronaut.rect.centery
         del astronaut
+        #
+        self.sb_x_spacing = ai.screen_rect.bottom - self.astronaut_centery
         # Scorebar.
         self.sb_animation_speed       = 1
         self.sb_reset_animation_speed = 10

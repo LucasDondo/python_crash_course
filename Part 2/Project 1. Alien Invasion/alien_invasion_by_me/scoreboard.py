@@ -21,7 +21,7 @@ class Scoreboard:
         self.font              = pygame.font.Font('fonts/VarelaRound-Regular.ttf', 42)
         self.y_spacing         = self.settings.sb_y_spacing
         self.x_spacing         = self.settings.sb_x_spacing
-        self.astronaut_centery = self.screen_rect.height - self.x_spacing
+        self.astronaut_centery = self.settings.astronaut_centery
 
         self._prep_imgs()
 
@@ -37,7 +37,7 @@ class Scoreboard:
 
         self.astronauts = Group()
         for astronaut in range(self.settings.astronauts):
-            astronaut = Astronaut()
+            astronaut = Astronaut(self.ai)
             self.astronauts.add(astronaut)
         
         self._update_astronauts()
@@ -48,7 +48,7 @@ class Scoreboard:
         astronauts = self.astronauts.sprites()
 
         # 👨🏻‍🚀 ➡️ 👽    
-        if self.stats.astronauts_left == 2:
+        if self.stats.astronauts_left   == 2:
             astronauts[2].transform()
         elif self.stats.astronauts_left == 1:
             astronauts[1].transform()
@@ -57,9 +57,8 @@ class Scoreboard:
 
         # Position on screen.
         for astronaut_n in range(self.settings.astronauts):
-            width = self.settings.astronaut_width
+            width     = astronauts[0].rect.width
             midscreen = self.screen_rect.width // 2
-            astronauts[astronaut_n].rect.centery = self.astronaut_centery
 
             if astronaut_n == 0:
                 astronauts[0].rect.centerx = midscreen
