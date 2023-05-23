@@ -1,6 +1,6 @@
 # 🐍 Python Crash Course
 
-This is just a repo I created to practice a little bit of Git and GitHub while learning Python with [the great Eric Matthes book](https://www.google.com/search?q=python+crash+course+2nd+edition&hl=en&sxsrf=AJOqlzUdIDxMvYSfafvDEl0aE7yv4DbvHg%3A1673492124280&source=hp&ei=nHa_Y8mjDqD25OUPlbGEgA0&iflsig=AK50M_UAAAAAY7-ErLMFacpkwTxpuv3iwI3uHAv6tifs&gs_ssp=eJzj4tVP1zc0TM8rNrNMN0k2YPSSL6gsycjPU0guSizOUEjOLy0qTlUwyktRSE3JLMnMzwMAd2AQQg&oq=Python+crash+&gs_lcp=Cgdnd3Mtd2l6EAMYAjIECCMQJzIECAAQQzIICC4QgAQQywEyBAgAEEMyCAgAEIAEEMsBMggIABCABBDLATIICAAQgAQQywEyCAgAEIAEEMsBMgQIABBDMgQIABBDOgcIIxDqAhAnOgQILhBDOgUIABCABFChBVicF2C0JmgBcAB4AIABW4gBhwiSAQIxM5gBAKABAbABCg&sclient=gws-wiz).
+This is just a repo I created to practice a little bit of Git and GitHub while learning Python with [the great Eric Matthes book](https://ehmatthes.github.io/pcc_3e/).
 
 # 🤬 _"Why on earth did you write this horrible code!?"_
 
