@@ -7,20 +7,20 @@ class Stats():
         ''' Initialize statistics. '''
 
         self.settings = ai.settings
-        self._reset_stats()
+        self.reset_stats()
 
-        # Start Alien Invasion in an active state.
+        # Start Alien Invasion in an passive state.
         self.game_active = False
 
-        # High score should never be reset.
+        # Get/Set high score.
         try:
-            with open(self.settings.hs_file) as f:
+            with open(self.settings.HS_FILE) as f:
                 self.hs = json.load(f)
         except (FileNotFoundError, json.decoder.JSONDecodeError):
             self.hs = 0
 
-    def _reset_stats(self):
+    def reset_stats(self):
         ''' Initialize statistics that can change during the game. '''
 
-        self.astronauts_left = self.settings.astronauts
+        self.astronauts_left = self.settings.INITIAL_ASTRONAUTS
         self.score           = 0

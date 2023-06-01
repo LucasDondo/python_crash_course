@@ -9,20 +9,20 @@ class Rocket(Sprite):
 
         super().__init__()
         self.ai           = ai
-        self.screen       = self.ai.screen
-        self.screen_rect  = self.ai.screen_rect
+        self.SCREEN       = self.ai.SCREEN
+        self.SCREEN_RECT  = self.ai.SCREEN_RECT
         self.settings     = self.ai.settings
-        self.sb_y_spacing = self.settings.sb_y_spacing
+        self.SB_Y_SPACING = self.settings.SB_Y_SPACING
 
         # Load the rocket img and get its rect.
-        self.image = pygame.image.load('images/rocket_25%.bmp')
-        self.rect  = self.image.get_rect()
+        self.IMAGE = pygame.image.load('images/rocket_25%.bmp')
+        self.rect  = self.IMAGE.get_rect()
 
         # Start each new rocket at the top of the sb.
-        self.rect.centerx = self.screen_rect.centerx
+        self.rect.centerx = self.SCREEN_RECT.centerx
         try: # The second time this runs is to create main rocket.
             self.rect.bottom = self.ai.scorebar.rocket.rect.top - \
-                                                               self.sb_y_spacing
+                                                               self.SB_Y_SPACING
         except AttributeError: # The first time this runs is for sb's rocket.
             pass
 
@@ -37,7 +37,7 @@ class Rocket(Sprite):
         ''' Update the rocket's position based on the movement flag. '''
 
         # Update the rocket's x value, not the rect.
-        if self.moving_right and self.rect.right < self.screen_rect.right:
+        if self.moving_right and self.rect.right < self.SCREEN_RECT.right:
             self.x += self.settings.rocket_speed
         if self.moving_left and self.rect.left > 0:
             self.x -= self.settings.rocket_speed
@@ -45,15 +45,15 @@ class Rocket(Sprite):
         # Update rect object from self.x.
         self.rect.x = self.x
 
-    def blitme(self):
+    def show(self):
         ''' Draw the rocket at its current location. '''
 
-        self.screen.blit(self.image, self.rect)
+        self.SCREEN.blit(self.IMAGE, self.rect)
 
     def center_rocket(self):
         ''' Center the rocket on the screen. '''
     
-        self.rect.centerx = self.screen_rect.centerx
+        self.rect.centerx = self.SCREEN_RECT.centerx
         self.x            = float(self.rect.x)
 
 class ScoreBarRocket(Rocket):
@@ -64,8 +64,9 @@ class ScoreBarRocket(Rocket):
 
         super().__init__(ai)
 
-        self.image = pygame.image.load('images/horizontal_rocket_15%.bmp')
-        self.rect  = self.image.get_rect()
+        self.IMAGE = pygame.image.load('images/horizontal_rocket_15%.bmp')
+        self.rect  = self.IMAGE.get_rect()
 
-        self.rect.bottom = self.settings.astronaut_top - self.sb_y_spacing
+        DISTANCE_FROM_SB = 5
+        self.rect.bottom = self.settings.ASTRONAUT_TOP - DISTANCE_FROM_SB
         self.rect.right  = 0

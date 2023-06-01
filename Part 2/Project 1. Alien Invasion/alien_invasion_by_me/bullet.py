@@ -8,11 +8,11 @@ class Bullet(Sprite):
         ''' Create a bullet object at the rocket's current position. '''
 
         super().__init__()
-        self.screen   = ai.screen
+        self.SCREEN   = ai.SCREEN
         self.settings = ai.settings
 
-        self.image         = pygame.image.load('images/bullet_15%.bmp')
-        self.rect        = self.image.get_rect()
+        self.IMAGE       = pygame.image.load('images/bullet_15%.bmp')
+        self.rect        = self.IMAGE.get_rect()
         self.rect.midtop = ai.rocket.rect.midtop
 
         # Store the bullet's position as a decimal value.
@@ -27,7 +27,7 @@ class Bullet(Sprite):
         # Update the rect position.
         self.rect.y = self.y
 
-    def draw_bullet(self):
+    def show(self):
         ''' Draw the bullet to the screen. '''
     
-        self.screen.blit(self.image, self.rect)
+        self.SCREEN.blit(self.IMAGE, self.rect)

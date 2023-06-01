@@ -1,5 +1,5 @@
+from   pygame.sprite import Group
 import pygame.font
-from pygame.sprite import Group
 import json
 
 from astronaut import Astronaut
@@ -10,22 +10,25 @@ class Scoreboard:
     def __init__(self, ai):
         ''' Initialize scorekeeping attributes. '''
 
-        self.ai          = ai
-        self.screen      = ai.screen
-        self.screen_rect = ai.screen_rect
-        self.settings    = ai.settings
-        self.stats       = ai.stats
+        self.ai       = ai
+        self.settings = ai.settings
+        self.stats    = ai.stats
+
+        self.SCREEN             = self.ai.SCREEN
+        self.SCREEN_RECT        = self.ai.SCREEN_RECT
+        self.BG_COLOR           = self.ai.BG_COLOR
+        self.INITIAL_ASTRONAUTS = self.settings.INITIAL_ASTRONAUTS
 
         # ⚙️ Settings.
-        self.txt_color         = (30, 30, 30)
-        self.font              = pygame.font.Font('fonts/VarelaRound-Regular.ttf', 42)
-        self.y_spacing         = self.settings.sb_y_spacing
-        self.x_spacing         = self.settings.sb_x_spacing
-        self.astronaut_centery = self.settings.astronaut_centery
+        self.TXT_COLOR         = (30, 30, 30)
+        self.FONT              = pygame.font.Font(
+                                            'fonts/VarelaRound-Regular.ttf', 42)
+        self.X_SPACING         = self.settings.SB_X_SPACING
+        self.ASTRONAUT_CENTERY = self.settings.ASTRONAUT_CENTERY
 
-        self._prep_imgs()
+        self.prep_imgs()
 
-    def _prep_imgs(self):
+    def prep_imgs(self):
         ''' Prepare the initial score imgs. '''
 
         self._create_astronauts()    
@@ -36,7 +39,7 @@ class Scoreboard:
         ''' 👨🏻‍🚀 👨🏻‍🚀 👨🏻‍🚀 '''
 
         self.astronauts = Group()
-        for astronaut in range(self.settings.astronauts):
+        for astronaut in range(self.INITIAL_ASTRONAUTS):
             astronaut = Astronaut(self.ai)
             self.astronauts.add(astronaut)
         
@@ -56,58 +59,58 @@ class Scoreboard:
             astronauts[0].transform()
 
         # Position on screen.
-        for astronaut_n in range(self.settings.astronauts):
-            width     = astronauts[0].rect.width
-            midscreen = self.screen_rect.width // 2
+        for astronaut_n in range(self.INITIAL_ASTRONAUTS):
+            WIDTH     = astronauts[0].rect.width
+            MIDSCREEN = self.SCREEN_RECT.width // 2
 
             if astronaut_n == 0:
-                astronauts[0].rect.centerx = midscreen
+                astronauts[0].rect.centerx = MIDSCREEN
             elif astronaut_n == 1:
-                astronauts[1].rect.right = midscreen - width // 2 - \
-                                                                  self.x_spacing
+                astronauts[1].rect.right = MIDSCREEN - WIDTH // 2 - \
+                                                                  self.X_SPACING
             elif astronaut_n == 2:
-                astronauts[2].rect.left = midscreen + width // 2 + \
-                                                                  self.x_spacing
+                astronauts[2].rect.left = MIDSCREEN + WIDTH // 2 + \
+                                                                  self.X_SPACING
 
     def _prep_score(self):
         ''' Turn the score into a rendered img. '''
 
         rounded_score  = round(self.stats.score, -1)
         score_str      = "{:,}".format(rounded_score)
-        self.score_img = self.font.render(score_str, True, self.txt_color
-                                                   , self.settings.bg_color)
-        
+        self.score_img = self.FONT.render(score_str, True, self.TXT_COLOR,
+                                                                  self.BG_COLOR)
+
         # Display the score at the top right of the screen.
         self.score_rect         = self.score_img.get_rect()
-        self.score_rect.left    = self.x_spacing
-        self.score_rect.centery = self.astronaut_centery
-    
+        self.score_rect.left    = self.X_SPACING
+        self.score_rect.centery = self.ASTRONAUT_CENTERY
+
     def _prep_hs(self):
         ''' Turn the high score into a rendered img. '''
 
         hs          = round(self.stats.hs, -1)
         hs_str      = "{:,}".format(hs)
-        self.hs_img = self.font.render(hs_str, True, self.txt_color
-                                                   , self.settings.bg_color)
-        
+        self.hs_img = self.FONT.render(hs_str, True, self.TXT_COLOR,
+                                                                  self.BG_COLOR)
+
         # Center the high score at the top of the screen.
         self.hs_rect         = self.hs_img.get_rect()
-        self.hs_rect.right   = self.screen_rect.right - self.x_spacing
-        self.hs_rect.centery = self.astronaut_centery
+        self.hs_rect.right   = self.SCREEN_RECT.right - self.X_SPACING
+        self.hs_rect.centery = self.ASTRONAUT_CENTERY
 
     def _check_hs(self):
         ''' Check to see if there's a new high score. '''
-    
+
         if self.stats.score > self.stats.hs:
             self.stats.hs = self.stats.score
             self._prep_hs()
             # Save it.
-            with open(self.settings.hs_file, 'w') as f:
+            with open(self.settings.HS_FILE, 'w') as f:
                 json.dump(self.stats.hs, f)
 
-    def show_score(self):
+    def show(self):
         ''' Draw scores and astronauts to the screen. '''
 
-        self.screen.blit(self.score_img, self.score_rect)
-        self.screen.blit(self.hs_img, self.hs_rect)
-        self.astronauts.draw(self.screen)
+        self.SCREEN.blit(self.score_img, self.score_rect)
+        self.SCREEN.blit(self.hs_img, self.hs_rect)
+        self.astronauts.draw(self.SCREEN)

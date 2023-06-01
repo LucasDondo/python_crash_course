@@ -1,4 +1,4 @@
-import pygame.font
+import pygame
 from random import randint
 
 class PlayButton:
@@ -6,31 +6,35 @@ class PlayButton:
     def __init__(self, ai):
         ''' Initialize play button attributes. '''
 
-        self.screen      = ai.screen
-        self.screen_rect = ai.screen_rect
+        self.SCREEN      = ai.SCREEN
+        self.SCREEN_RECT = ai.SCREEN_RECT
 
-        self.image         = pygame.image.load('images/play_button_50%.bmp')
+        self.image       = pygame.image.load('images/play_button_50%.bmp')
         self.rect        = self.image.get_rect()
-        self.rect.center = self.screen_rect.center
+        self.rect.center = self.SCREEN_RECT.center
+        pygame.mouse.set_pos(self.rect.center)
 
         self.transformed = False
 
     def transform(self):
         ''' Transforms the play button in multiple ways. '''
-    
+
         # Play again button.
-        self.image         = pygame.image.load('images/play_again_button_50%.bmp')
+        self.image       = pygame.image.load('images/play_again_button_50%.bmp')
         self.rect        = self.image.get_rect()
-        self.rect.center = self.screen_rect.center
+        self.rect.center = self.SCREEN_RECT.center
 
         # Change x coordinates.
-        lim_left          = self.rect.width // 2
-        lim_right         = self.screen_rect.right - lim_left
-        self.rect.centerx = randint(lim_left, lim_right)
+        LIM_LEFT          = self.rect.width // 2
+        LIM_RIGHT         = self.SCREEN_RECT.right - LIM_LEFT
+        self.rect.centerx = randint(LIM_LEFT, LIM_RIGHT)
 
-        self.transformed = True
+        if not self.transformed:
+            self.transformed = True
+        pygame.mouse.set_pos(self.rect.center)
 
-    def blit(self):
+    def show(self):
         ''' Blit play button. '''
-    
-        self.screen.blit(self.image, self.rect)
+
+        self.SCREEN.blit(self.image, self.rect)
+        pygame.mouse.set_visible(True)
