@@ -14,9 +14,6 @@ Bullet --* AlienInvasion
 class PlayButton
 PlayButton --* AlienInvasion
 
-class Settings
-Settings --* AlienInvasion
-
 class Stats
 Stats --* AlienInvasion
 
@@ -30,7 +27,7 @@ class Score
 Score --* ScoreBoard
 
 class ScoreBar
-ScoreBar --* AlienInvasion
+ScoreBar --* ScoreBoard
 
 class ScoreBarRocket
 ScoreBarRocket --|> Rocket

@@ -8,11 +8,11 @@ class Astronaut(Sprite):
         ''' Initialize main attributes. '''
 
         super().__init__()
-        self.ai = ai
 
         self.image       = pygame.image.load('images/astronaut_30%.bmp')
         self.rect        = self.image.get_rect()
-        self.rect.bottom = self.ai.SCREEN_RECT.bottom
+        self.rect.bottom = ai.SCREEN_RECT.bottom
+        self.CENTERY     = self.rect.centery
 
     def transform(self):
         ''' OMG! No! The aliens attacked him! '''
@@ -20,4 +20,4 @@ class Astronaut(Sprite):
         self.image        = pygame.image.load(
                                         'images/astronaut_transformed_54px.bmp')
         self.rect         = self.image.get_rect()
-        self.rect.centery = self.ai.settings.ASTRONAUT_CENTERY
+        self.rect.centery = self.CENTERY
