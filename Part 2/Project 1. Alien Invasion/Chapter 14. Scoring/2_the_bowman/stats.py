@@ -10,56 +10,23 @@ class Stats:
 
         # Recover highest score.
         try:
-            with open(tbm.settings.hs_file) as f:
+            with open(tbm.HS_FILE) as f:
                 self.hs = json.load(f)
         except FileNotFoundError:
             self.hs = 0
 
         # Statsboard.
-        self.screen      = tbm.screen
-        self.screen_rect = tbm.screen_rect
-        self.font        = tbm.settings.font
-        self.txt_color   = tbm.settings.stats_txt_color
-        self.bg_color    = tbm.settings.bg_color
-        self.spacing     = tbm.settings.sb_spacing
-        # Line.
-        self.sb_line         = pygame.Rect(0, 0, self.screen_rect.width, 1)
-        self.sb_line_y       = tbm.settings.sb_line_y
-        self.sb_line.y = self.sb_line_y
-        self.sb_line_color   = tbm.settings.sb_line_color
+        self.SCREEN      = tbm.SCREEN
+        self.SCREEN_RECT = tbm.SCREEN_RECT
+        self.FONT        = tbm.FONT
+        self.TXT_COLOR   = (0, 0, 0)
+        self.BG_COLOR    = tbm.BG_COLOR
+        self.SPACING     = 10
 
         # Initialize stats.
+        self.reset()
+        self.SB_LINE     = Line(tbm, self.arrows_rect.bottom + self.SPACING)
         self.game_active = False
-        self._reset()
-    
-    def _update_score(self):
-        ''' Updates main score components and data. '''
-    
-        txt = "{:,}".format(self.score)
-        self.score_img          = self.font.render(txt, True, self.txt_color
-                                                            , self.bg_color)
-
-        self.score_rect         = self.score_img.get_rect()
-        self.score_rect.centery = self.sb_line_y / 2
-        self.score_rect.left    = self.score_rect.top
-    
-    def _update_hs(self):
-        ''' Updates main highest score components and data. '''
-            
-        txt = "{:,}".format(self.hs)
-        self.hs_img          = self.font.render(txt, True, self.txt_color
-                                                         , self.bg_color)
-        
-        self.hs_rect         = self.hs_img.get_rect()
-        self.hs_rect.centery = self.sb_line_y / 2
-        self.hs_rect.right   = self.screen_rect.right - self.hs_rect.top
-
-    def one_arrow_less(self):
-        ''' The user lost one arrow. '''
-    
-        self.arrows_left -= 1
-        if self.arrows_left > 0:
-            self._update_arrows()
 
     def _update_arrows(self):
         ''' Updates the arrows left. '''
@@ -74,26 +41,70 @@ class Stats:
         self.arrows_img  = pygame.image.load(img)
         self.arrows_rect = self.arrows_img.get_rect()
 
-        self.arrows_rect.centerx = self.screen_rect.centerx
-        self.arrows_rect.top     = self.spacing
+        self.arrows_rect.centerx = self.SCREEN_RECT.centerx
+        self.arrows_rect.top     = self.SPACING
+        self.SB_CENTER           = self.arrows_rect.centery
 
-    def show_sb(self):
-        ''' Shows the statsboard onscreen. '''
+    def one_arrow_less(self):
+        ''' The user lost one arrow. '''
     
-        # Statsboard background.
-        pygame.draw.rect(self.screen, self.sb_line_color, self.sb_line)
-
-        # Stats.
-        self.screen.blit(self.score_img, self.score_rect)
-        self.screen.blit(self.hs_img, self.hs_rect)
+        self.arrows_left -= 1
         if self.arrows_left > 0:
-            self.screen.blit(self.arrows_img, self.arrows_rect)
+            self._update_arrows()
 
-    def _reset(self):
-        ''' Reset all stats. '''
+    def update_score(self):
+        ''' Updates main score components and data. '''
     
+        txt = "{:,}".format(self.score)
+        self.score_img          = self.FONT.render(txt, True, self.TXT_COLOR,
+                                                                  self.BG_COLOR)
+        self.score_rect         = self.score_img.get_rect()
+        self.score_rect.centery = self.SB_CENTER
+        self.score_rect.left    = self.score_rect.top
+    
+    def update_hs(self):
+        ''' Updates main highest score components and data. '''
+
+        txt = "{:,}".format(self.hs)
+        self.hs_img          = self.FONT.render(txt, True, self.TXT_COLOR,
+                                                                  self.BG_COLOR)
+        self.hs_rect         = self.hs_img.get_rect()
+        self.hs_rect.centery = self.SB_CENTER
+        self.hs_rect.right   = self.SCREEN_RECT.right - self.hs_rect.top
+
+    def reset(self):
+        ''' Reset all stats. '''
+
         self.arrows_left = 3
         self.score       = 0
-        self._update_score()
-        self._update_hs()
         self._update_arrows()
+        self.update_score()
+        self.update_hs()
+
+    def show(self):
+        ''' Shows the statsboard onscreen. '''
+
+        # Statsboard background.
+        self.SB_LINE.show()
+
+        # Stats.
+        self.SCREEN.blit(self.score_img, self.score_rect)
+        self.SCREEN.blit(self.hs_img, self.hs_rect)
+        if self.arrows_left > 0:
+            self.SCREEN.blit(self.arrows_img, self.arrows_rect)
+
+class Line:
+    ''' An attempt to represent a line. '''
+
+    def __init__(self, tbm, top):
+        ''' Initialize main attributes. '''
+
+        self.SCREEN   = tbm.SCREEN
+        self.rect     = pygame.Rect(0, 0, tbm.SCREEN_RECT.width, 1)
+        self.rect.top = top
+        self.COLOR    = (0, 0, 0)
+    
+    def show(self):
+        ''' Shows the line. '''
+    
+        pygame.draw.rect(self.SCREEN, self.COLOR, self.rect)
