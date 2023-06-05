@@ -10,8 +10,8 @@ class Alien(Sprite):
         super().__init__()
         self.ai = ai
 
-        self.IMAGE = pygame.image.load('images/alien_30%.bmp')
-        self.rect  = self.IMAGE.get_rect()
+        self.IMG   = pygame.image.load('images/alien_30%.bmp')
+        self.rect  = self.IMG.get_rect()
 
     def check_edges(self):
         ''' Return True if alien is at edge of screen. '''
@@ -27,4 +27,4 @@ class Alien(Sprite):
     def show(self):
         ''' Draw the alien to the screen. '''
 
-        self.ai.SCREEN.blit(self.IMAGE, self.rect)
+        self.ai.SCREEN.blit(self.IMG, self.rect)

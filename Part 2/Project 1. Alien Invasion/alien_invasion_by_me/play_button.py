@@ -9,8 +9,8 @@ class PlayButton:
         self.SCREEN      = ai.SCREEN
         self.SCREEN_RECT = ai.SCREEN_RECT
 
-        self.image       = pygame.image.load('images/play_button_50%.bmp')
-        self.rect        = self.image.get_rect()
+        self.img         = pygame.image.load('images/play_button_50%.bmp')
+        self.rect        = self.img.get_rect()
         self.rect.center = self.SCREEN_RECT.center
         pygame.mouse.set_pos(self.rect.center)
 
@@ -20,8 +20,8 @@ class PlayButton:
         ''' Transforms the play button in multiple ways. '''
 
         # Play again button.
-        self.image       = pygame.image.load('images/play_again_button_50%.bmp')
-        self.rect        = self.image.get_rect()
+        self.img         = pygame.image.load('images/play_again_button_50%.bmp')
+        self.rect        = self.img.get_rect()
         self.rect.center = self.SCREEN_RECT.center
 
         # Change x coordinates.
@@ -36,5 +36,5 @@ class PlayButton:
     def show(self):
         ''' Blit play button. '''
 
-        self.SCREEN.blit(self.image, self.rect)
+        self.SCREEN.blit(self.img, self.rect)
         pygame.mouse.set_visible(True)

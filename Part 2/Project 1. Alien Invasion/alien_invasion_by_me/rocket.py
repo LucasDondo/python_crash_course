@@ -11,8 +11,8 @@ class Rocket(Sprite):
         self.ai          = ai
         self.SCREEN_RECT = self.ai.SCREEN_RECT
 
-        self.IMAGE        = pygame.image.load('images/rocket_25%.bmp')
-        self.rect         = self.IMAGE.get_rect()
+        self.IMG          = pygame.image.load('images/rocket_25%.bmp')
+        self.rect         = self.IMG.get_rect()
         self.rect.centerx = self.SCREEN_RECT.centerx
         self.x            = float(self.rect.x)
         self.moving_right = False
@@ -33,7 +33,7 @@ class Rocket(Sprite):
     def show(self):
         ''' Draw the rocket at its current location. '''
 
-        self.ai.SCREEN.blit(self.IMAGE, self.rect)
+        self.ai.SCREEN.blit(self.IMG, self.rect)
 
     def center_rocket(self):
         ''' Center the rocket on the screen. '''
@@ -49,8 +49,8 @@ class ScoreBarRocket(Rocket):
 
         super().__init__(ai)
 
-        self.IMAGE = pygame.image.load('images/horizontal_rocket_15%.bmp')
-        self.rect  = self.IMAGE.get_rect()
+        self.IMG   = pygame.image.load('images/horizontal_rocket_15%.bmp')
+        self.rect  = self.IMG.get_rect()
 
         self.rect.bottom = BOTTOM
         self.rect.right  = 0
