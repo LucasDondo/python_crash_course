@@ -30,7 +30,7 @@ class Score
 Score --* ScoreBoard
 
 class ScoreBar
-ScoreBar --* AlienInvasion
+ScoreBar --* ScoreBoard
 
 class ScoreBarRocket
 ScoreBarRocket --|> Rocket

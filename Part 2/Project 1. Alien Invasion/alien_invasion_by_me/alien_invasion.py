@@ -3,10 +3,8 @@ from time import sleep
 
 import pygame
 
-from settings    import Settings
 from stats       import Stats
 from scoreboard  import Scoreboard
-from scorebar    import ScoreBar
 from play_button import PlayButton
 from rocket      import Rocket
 from bullet      import Bullet
@@ -21,17 +19,18 @@ class _AlienInvasion():
 
         pygame.init()
         pygame.display.set_caption('🚀 Alien Invasion! 👾')
-        self.SCREEN      = pygame.display.set_mode(flags=pygame.FULLSCREEN)
-        self.SCREEN_RECT = self.SCREEN.get_rect()
-        self.settings    = Settings(self)
-        self.BG_COLOR    = self.settings.BG_COLOR
+        self.SCREEN             = pygame.display.set_mode(flags=pygame.FULLSCREEN)
+        self.SCREEN_RECT        = self.SCREEN.get_rect()
+        self.BG_COLOR           = (230, 230, 230)
+        self.INITIAL_ASTRONAUTS = 3
+        self.HS_FILE            = 'high_score.json'
 
-        self.stats       = Stats(self)
-        self.sb          = Scoreboard(self)
-        self.scorebar    = ScoreBar(self)
-        self.BOTTOM_LIM  = self.scorebar.rect.top
-        self.play_button = PlayButton(self)
-        self.rocket      = Rocket(self)
+        self.stats              = Stats(self)
+        self.sb                 = Scoreboard(self)
+        self.scorebar           = self.sb.scorebar
+        self.play_button        = PlayButton(self)
+        self.rocket             = Rocket(self)
+        self.rocket.rect.bottom = self.scorebar.TOP
 
         self.bullets = pygame.sprite.Group()
         self.aliens  = pygame.sprite.Group()
@@ -40,6 +39,7 @@ class _AlienInvasion():
         ''' Start the main loop for the game. '''
 
         self._create_rows()
+        self._initialize_speeds()
 
         while True:
             self._check_events()
@@ -51,6 +51,19 @@ class _AlienInvasion():
                 self._update_aliens()
 
             self._show()
+
+    def _initialize_speeds(self):
+        ''' Initialize the speeds that change throughout the game. '''
+
+        self.rocket_speed = 1.5
+        self.bullet_speed = 1.5
+        self.alien_speed  = 1.0
+
+        # fleet_direction of 1 represents right; -1 represents left.
+        self.fleet_direction = 1
+
+        # 💯 Scoring.
+        self.alien_points = 100
 
     def _check_events(self):
         ''' Respond to keypresses and mouse events. '''
@@ -104,8 +117,10 @@ class _AlienInvasion():
     def _check_shoot_bullet(self):
         ''' Checks if the conditions are appropiate for shooting. '''
 
+        BULLETS_ALLOWED = 3
+
         if self.stats.game_active and \
-           len(self.bullets) < self.settings.BULLETS_ALLOWED:
+           len(self.bullets) < BULLETS_ALLOWED:
             self._shoot_bullet()
         elif not self.stats.game_active and self._rocket_under_play_button():
             self._shoot_bullet()
@@ -155,7 +170,7 @@ class _AlienInvasion():
         # 📈 Stats.
         self.stats.reset_stats()
         self.scorebar.reset()
-        self.settings.initialize_dynamic_settings()
+        self.fleet_direction   = 1
         self.stats.game_active = True
         self.sb.prep_imgs()
 
@@ -175,6 +190,9 @@ class _AlienInvasion():
         # 🖱️ Mouse cursor.
         pygame.mouse.set_visible(False)
 
+        # 🎮 Gameplay.
+        self._initialize_speeds()
+
     def _create_rows(self):
         ''' Creates all the rows of aliens. '''
 
@@ -182,7 +200,7 @@ class _AlienInvasion():
         alien_height = alien.rect.height
         spacing      = alien_height
         #
-        available_space = self.BOTTOM_LIM - 2 * self.rocket.rect.height
+        available_space = self.scorebar.TOP - 2 * self.rocket.rect.height
         available_rows  = available_space // (alien_height + spacing)
 
         # Create rows
@@ -251,20 +269,19 @@ class _AlienInvasion():
         drop_speed = self._check_fleet_drop_speed()
         for alien in self.aliens.sprites():
             alien.rect.y += drop_speed
-        self.settings.fleet_direction *= -1
+        self.fleet_direction *= -1
 
     def _check_fleet_drop_speed(self):
         ''' Blocks the fleet from crossing the sb line. '''
 
-        drop_speed = self.settings.FLEET_DROP_SPEED # To avoid editing the
-                                                    # original.
-        # Check for the lowest y value of fleet.
+        drop_speed = 10
+        # Check if the drop speed must change to avoid overpassing the limits.
         fleet_bottom = 0
         for alien in self.aliens.sprites():
             if alien.rect.bottom > fleet_bottom:
                 fleet_bottom = alien.rect.bottom
-        if self.BOTTOM_LIM - fleet_bottom < drop_speed:
-            drop_speed = self.BOTTOM_LIM - fleet_bottom
+        if self.scorebar.TOP - fleet_bottom < drop_speed:
+            drop_speed = self.scorebar.TOP - fleet_bottom
 
         return drop_speed
 
@@ -272,20 +289,31 @@ class _AlienInvasion():
         ''' Respond to bullet-alien collisions. '''
 
         # Remove any bullets and aliens that have collided.
-        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True
-                                                                         , True)
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True,
+                                                                           True)
         if collisions:
             se.EXPLOSION.play()
             se.BULLET.stop()
             if self.stats.game_active:
                 for aliens in collisions.values():
-                    self.stats.score += self.settings.alien_points * len(aliens)
-                self.sb._prep_score()
-                self.sb._check_hs()
+                    self.stats.score += self.alien_points * len(aliens)
+                self.sb.check_hs()
+                self.sb.prep_scores()
                 if not self.aliens:
                     self.bullets.empty()
+                    self._increase_speed()
                     self._create_rows()
-                    self.settings.increase_speed()
+
+    def _increase_speed(self):
+        ''' Increase speed settings and alien point values. '''
+
+        SPEEDUP_SCALE      = 1.05
+        self.rocket_speed *= SPEEDUP_SCALE
+        self.bullet_speed *= SPEEDUP_SCALE
+        self.alien_speed  *= SPEEDUP_SCALE
+
+        SCORE_SCALE       = 1.5
+        self.alien_points = int(self.alien_points * SCORE_SCALE)
 
     def _rocket_hit(self):
         ''' Respond to the rocket being hit by an alien. '''
@@ -315,7 +343,7 @@ class _AlienInvasion():
 
         # Limit at scorebar, not before.
         for alien in self.aliens.sprites():
-            if alien.rect.bottom >= self.BOTTOM_LIM:
+            if alien.rect.bottom >= self.scorebar.TOP:
                 # Treat this the same way as if the rocket got hit.
                 self._rocket_hit()
                 break
