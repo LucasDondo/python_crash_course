@@ -6,38 +6,36 @@ class PlayButton:
     def __init__(self, tbm):
         ''' Initialize main attributes. '''
 
-        self.settings        = tbm.settings
-        self.screen_rect     = tbm.screen_rect
-        self.screen          = tbm.screen
-        self.sb_line_y       = self.settings.sb_line_y
-        self.center_under_sb = self.sb_line_y + (self.screen_rect.height \
-                                                         - self.sb_line_y) / 2
-        self.font            = tbm.settings.font
+        self.SCREEN          = tbm.SCREEN
+        self.SCREEN_RECT     = tbm.SCREEN_RECT
+        self.GAME_TOP        = tbm.GAME_TOP
+        self.CENTER_UNDER_SB = self.GAME_TOP + (self.SCREEN_RECT.height \
+                                                         - self.GAME_TOP) / 2
+        self.FONT            = tbm.FONT
 
         # Button (rect).
-        self.width         = self.settings.play_button_width
-        self.height        = self.settings.play_button_height
-        self.color         = self.settings.play_button_color
-        self.border_radius = self.settings.play_button_border_radius
+        self.WIDTH, self.HEIGHT = 200, 50
+        self.COLOR              = (0, 0, 0)
+        self.BORDER_RADIUS      = 25
         #
-        self.rect         = pygame.Rect(0, 0, self.width, self.height)
-        self.rect.centerx = self.screen_rect.centerx
-        self.rect.centery = self.center_under_sb
-        
+        self.rect         = pygame.Rect(0, 0, self.WIDTH, self.HEIGHT)
+        self.rect.centerx = self.SCREEN_RECT.centerx
+        self.rect.centery = self.CENTER_UNDER_SB
+
         # Msg (img).
-        self.msg        = self.settings.play_button_msg
-        self.text_color = self.settings.play_button_text_color
+        self.MSG       = "Let's go!"
+        self.TXT_COLOR = tbm.BG_COLOR
         #
-        self.msg_img              = self.font.render(self.msg, True
-                                                             , self.text_color
-                                                             , self.color)
-        self.msg_img_rect         = self.msg_img.get_rect()
-        self.msg_img_rect.centerx = self.screen_rect.centerx
-        self.msg_img_rect.centery = self.center_under_sb
-    
+        self.MSG_IMG              = self.FONT.render(self.MSG, True,
+                                                                 self.TXT_COLOR,
+                                                                     self.COLOR)
+        self.MSG_IMG_RECT         = self.MSG_IMG.get_rect()
+        self.MSG_IMG_RECT.centerx = self.SCREEN_RECT.centerx
+        self.MSG_IMG_RECT.centery = self.CENTER_UNDER_SB
+
     def show(self):
         ''' Shows the rect and the img. '''
 
-        pygame.draw.rect(self.screen, self.color, self.rect
-                                    , border_radius=self.border_radius)
-        self.screen.blit(self.msg_img, self.msg_img_rect)        
+        pygame.draw.rect(self.SCREEN, self.COLOR, self.rect,
+                                               border_radius=self.BORDER_RADIUS)
+        self.SCREEN.blit(self.MSG_IMG, self.MSG_IMG_RECT)        

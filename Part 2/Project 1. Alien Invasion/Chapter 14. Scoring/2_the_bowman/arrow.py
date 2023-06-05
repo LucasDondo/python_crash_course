@@ -10,17 +10,15 @@ class Arrow(Sprite):
 
         super().__init__()
         self.tbm             = tbm
-        self.screen          = self.tbm.screen
-        self.screen_rect     = self.tbm.screen_rect
+        self.SCREEN          = self.tbm.SCREEN
+        self.SCREEN_RECT     = self.tbm.SCREEN_RECT
         self.bow             = self.tbm.bow
         self.target          = self.tbm.target
-        self.stopped         = self.target.stopped
-        self.settings        = self.tbm.settings
-        self.speed           = self.settings.arrow_speed
-        self.animation_speed = self.settings.arrow_animation_speed
+        self.SPEED           = 4.0
+        self.ANIMATION_SPEED = 5.0
 
-        self.img  = pygame.image.load('images/arrow_horizontal.png')
-        self.rect = self.img.get_rect()
+        self.IMG  = pygame.image.load('images/arrow_horizontal.png')
+        self.rect = self.IMG.get_rect()
 
         self.rect.midright = self.bow.rect.midright
         self.x             = float(self.rect.x)
@@ -29,7 +27,7 @@ class Arrow(Sprite):
     def update(self):
         ''' Moves the arrow to the right. '''
 
-        self.x += self.speed
+        self.x += self.SPEED
     
     def move_as_target(self, movement_direction):
         ''' Desired movement for nailed arrows. '''
@@ -41,13 +39,13 @@ class Arrow(Sprite):
     def fall(self):
         ''' Makes the arrow fall. '''
     
-        while self.rect.top < self.screen_rect.bottom:
-            self.y += self.animation_speed
-            self.tbm._update_screen()
+        while self.rect.top < self.SCREEN_RECT.bottom:
+            self.y += self.ANIMATION_SPEED
+            self.tbm.update_screen()
 
-    def blit(self):
+    def show(self):
         ''' Blit me. '''
     
         self.rect.x = self.x
         self.rect.y = self.y
-        self.screen.blit(self.img, self.rect)
+        self.SCREEN.blit(self.IMG, self.rect)

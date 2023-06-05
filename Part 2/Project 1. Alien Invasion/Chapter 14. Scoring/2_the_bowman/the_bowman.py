@@ -3,37 +3,39 @@ import time
 import pygame
 import json
 
-from settings import Settings
-from target import Target
-from bow import Bow
-from arrow import Arrow
-from stats import Stats
+from target      import Target
+from bow         import Bow
+from arrow       import Arrow
+from stats       import Stats
 from play_button import PlayButton
 
-class TheBowman:
+class _TheBowman:
     ''' Main class for the The Bowman game. '''
 
     def __init__(self):
         ''' Initialize main attributes. '''
 
         pygame.init()
-        self.settings = Settings()
 
-        # 📺 Screen.
-        self.bg_color    = self.settings.bg_color
-        self.screen      = pygame.display.set_mode(flags=pygame.FULLSCREEN)
-        self.screen_rect = self.screen.get_rect()
+        self.SCREEN      = pygame.display.set_mode(flags=pygame.FULLSCREEN)
+        self.SCREEN_RECT = self.SCREEN.get_rect()
         pygame.display.set_caption('🏹 The Bowman 🏹')
+        self.BG_COLOR    = (255, 255, 255)
+
+        self.ANIMATION_SPEED = 1.0
+        self.FONT            = pygame.font.SysFont(None, 50)
+        self.HS_FILE         = 'highest_score.json'
 
         # 🎵 Music.
         pygame.mixer.music.load('sounds/arrow_by_jim_yosef.mp3')
 
         self.stats         = Stats(self)
+        self.GAME_TOP      = self.stats.SB_LINE.rect.bottom
         self.target        = Target(self)
         self.bow           = Bow(self)
         self.game_active   = self.stats.game_active
         self.play_button   = PlayButton(self)
-        self.speedup_scale = self.settings.speedup_scale
+        self.SPEEDUP_SCALE = 1.05
         self.arrows        = pygame.sprite.Group()
         self.nailed_arrows = pygame.sprite.Group()
 
@@ -44,7 +46,7 @@ class TheBowman:
 
         while True:
             self._check_events()
-            self._update_screen()
+            self.update_screen()
 
             if self.game_active:
                 # 🎯 Target.
@@ -115,8 +117,8 @@ class TheBowman:
         pygame.mouse.set_visible(False)
         pygame.mixer.music.set_volume(1)
         self.arrows.empty()
-        self.stats._reset()
-        self.target.speed = self.settings.target_speed
+        self.stats.reset()
+        self.target.reset_speed()
 
         self.game_active = True
 
@@ -159,24 +161,24 @@ class TheBowman:
         ''' Checks and reacts to collisions between arrows and the target. '''
     
         arrow_shot = pygame.sprite.spritecollideany(self.target, self.arrows)
-        if arrow_shot and arrow_shot.rect.right < self.screen_rect.right and \
+        if arrow_shot and arrow_shot.rect.right < self.SCREEN_RECT.right and \
         self.target.rect.top < arrow_shot.rect.centery < self.target.rect.bottom:
             self.target.stopped = True
             self.stopped_time = time.time()
             self.arrows.remove(arrow_shot)
             self.nailed_arrows.add(arrow_shot)
-            self.target.speed *= self.speedup_scale
+            self.target.speed *= self.SPEEDUP_SCALE
             self.stats.score += len(self.nailed_arrows) # Nailed arrows = level.
-            self.stats._update_score()
+            self.stats.update_score()
             if self.stats.score > self.stats.hs:
                 self.stats.hs = self.stats.score
-                self.stats._update_hs()
+                self.stats.update_hs()
 
     def _del_old_arrows(self):
         ''' Deletes arrows that are out of the screen. '''
-    
+
         for arrow in self.arrows.sprites():
-            if arrow.rect.left > self.screen_rect.right:
+            if arrow.rect.left > self.SCREEN_RECT.right:
                 self.arrows.remove(arrow)
 
                 # The user lost the shot.
@@ -188,29 +190,29 @@ class TheBowman:
                     pygame.mixer.music.fadeout(500)
                     self.game_active = False
 
-    def _update_screen(self):
+    def update_screen(self):
         ''' Display main game elements. '''
-    
-        self.screen.fill(self.bg_color)
-        self.target.draw()
-        self.bow.blit()
+
+        self.SCREEN.fill(self.BG_COLOR)
+        self.target.show()
+        self.bow.show()
         for arrow in self.arrows.sprites():
-            arrow.blit()
+            arrow.show()
         for arrow in self.nailed_arrows.sprites():
-            arrow.blit()
+            arrow.show()
         if not self.game_active:
             self.play_button.show()
-        self.stats.show_sb()
+        self.stats.show()
         pygame.display.flip()
 
     def _exit_game(self):
         ''' Housekeeping and exiting. '''
 
-        with open(self.settings.hs_file, 'w') as f:
+        with open(self.HS_FILE, 'w') as f:
             json.dump(self.stats.hs, f)
         sys.exit()
 
 if __name__ == '__main__':
     # Creates an instance and runs it.
-    tbm = TheBowman()
-    tbm.start()
+    _tbm = _TheBowman()
+    _tbm.start()

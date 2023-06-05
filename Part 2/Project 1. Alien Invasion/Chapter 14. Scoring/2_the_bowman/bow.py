@@ -7,19 +7,19 @@ class Bow:
         ''' Initialize main attributes. '''
 
         self.tbm             = tbm
-        self.screen          = self.tbm.screen
-        self.screen_rect     = self.tbm.screen_rect
-        self.sb_line_bottom  = self.tbm.stats.sb_line.bottom
-        self.center_under_sb = self.sb_line_bottom + (self.screen_rect.height - \
-                                                        self.sb_line_bottom) / 2
-        self.speed           = self.tbm.settings.bow_speed
-        self.animation_speed = self.tbm.settings.animation_speed
+        self.SCREEN          = self.tbm.SCREEN
+        self.SCREEN_RECT     = self.tbm.SCREEN_RECT
+        self.GAME_TOP        = self.tbm.GAME_TOP
+        self.CENTER_UNDER_SB = self.GAME_TOP + (self.SCREEN_RECT.height - \
+                                                        self.GAME_TOP) / 2
+        self.SPEED           = 1.0
+        self.ANIMATION_SPEED = self.tbm.ANIMATION_SPEED
 
-        self.img  = pygame.image.load('images/bow1.png')
-        self.rect = self.img.get_rect()
+        self.IMG  = pygame.image.load('images/bow1.png')
+        self.rect = self.IMG.get_rect()
 
-        self.rect.left    = self.screen_rect.left
-        self.rect.centery = self.center_under_sb
+        self.rect.left    = self.SCREEN_RECT.left
+        self.rect.centery = self.CENTER_UNDER_SB
         self.y            = float(self.rect.y)
 
         # Movement flags.
@@ -29,33 +29,33 @@ class Bow:
     def center(self):
         ''' Centers the bow. '''
 
-        if self.rect.centery < self.center_under_sb:
+        if self.rect.centery < self.CENTER_UNDER_SB:
             self.moving_down = True
-            while self.rect.centery < self.center_under_sb:
-                self.y += self.animation_speed
-                self.tbm._update_screen()
+            while self.rect.centery < self.CENTER_UNDER_SB:
+                self.y += self.ANIMATION_SPEED
+                self.tbm.update_screen()
             self.moving_down = False
-        elif self.rect.centery > self.center_under_sb:
+        elif self.rect.centery > self.CENTER_UNDER_SB:
             self.moving_down = True
-            while self.rect.centery > self.center_under_sb:
-                self.y -= self.animation_speed
-                self.tbm._update_screen()
+            while self.rect.centery > self.CENTER_UNDER_SB:
+                self.y -= self.ANIMATION_SPEED
+                self.tbm.update_screen()
             self.moving_down = False
-        elif self.rect.centery == self.center_under_sb:
+        elif self.rect.centery == self.CENTER_UNDER_SB:
             pass
 
     def update(self):
         ''' Updates the bow position. '''
     
-        if self.moving_up and self.rect.top > (self.sb_line_bottom \
-                                                                  + self.speed):
-            self.y -= self.speed
-        if self.moving_down and self.rect.bottom < (self.screen_rect.bottom \
-                                                                  - self.speed):
-            self.y += self.speed
+        if self.moving_up and self.rect.top > (self.GAME_TOP \
+                                                                  + self.SPEED):
+            self.y -= self.SPEED
+        if self.moving_down and self.rect.bottom < (self.SCREEN_RECT.bottom \
+                                                                  - self.SPEED):
+            self.y += self.SPEED
 
-    def blit(self):
+    def show(self):
         ''' Starts main class actions. '''
 
         self.rect.y = self.y
-        self.screen.blit(self.img, self.rect)
+        self.SCREEN.blit(self.IMG, self.rect)
