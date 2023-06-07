@@ -14,9 +14,9 @@ class Target:
         self.CENTER_UNDER_SB = self.GAME_TOP + (self.SCREEN_RECT.height - \
                                                               self.GAME_TOP) / 2
         #
-        self.WIDTH, self.height = 10, 100
+        self.WIDTH, self.height = 10, 200
         self.BORDER_RADIUS      = 4
-        self.COLOR              = (0, 0, 0)
+        self.color              = self.tbm.INITIAL_COLOR
         self.ANIMATION_SPEED    = self.tbm.ANIMATION_SPEED
         self.reset_speed()
 
@@ -34,6 +34,19 @@ class Target:
     def reset_speed(self):
         self.speed = 1.0
 
+    def update(self):
+        ''' Updates the position. '''
+
+        self._check_edges()
+        self.y += self.movement_direction * self.speed
+
+    def _check_edges(self):
+        ''' Checks if an edge has been reached. '''
+
+        if self.rect.top <= self.GAME_TOP or \
+                                    self.rect.bottom >= self.SCREEN_RECT.bottom:
+            self.movement_direction *= -1
+
     def center(self):
         ''' Centers in screen. '''
 
@@ -48,22 +61,14 @@ class Target:
                 self.y += self.ANIMATION_SPEED * self.movement_direction
                 self.tbm.update_screen()
 
-    def update(self):
-        ''' Updates the position. '''
-
-        self._check_edges()
-        self.y += self.movement_direction * self.speed
-
-    def _check_edges(self):
-        ''' Checks if an edge has been reached. '''
-
-        if self.rect.top <= self.GAME_TOP or \
-                                    self.rect.bottom >= self.SCREEN_RECT.bottom:
-            self.movement_direction *= -1
+    def update_color(self):
+        ''' Updates the object's color. '''
+    
+        self.color = self.tbm.theme_color
 
     def show(self):
         ''' Please draw me. '''
 
         self.rect.y = self.y
-        pygame.draw.rect(self.SCREEN, self.COLOR, self.rect,
+        pygame.draw.rect(self.SCREEN, self.color, self.rect,
                                                border_radius=self.BORDER_RADIUS)

@@ -14,7 +14,7 @@ class Arrow(Sprite):
         self.SCREEN_RECT     = self.tbm.SCREEN_RECT
         self.bow             = self.tbm.bow
         self.target          = self.tbm.target
-        self.SPEED           = 4.0
+        self.SPEED           = 6.0
         self.ANIMATION_SPEED = 5.0
 
         self.IMG  = pygame.image.load('images/arrow_horizontal.png')

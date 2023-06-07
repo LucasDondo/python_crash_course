@@ -15,7 +15,7 @@ class PlayButton:
 
         # Button (rect).
         self.WIDTH, self.HEIGHT = 200, 50
-        self.COLOR              = (0, 0, 0)
+        self.COLOR              = tbm.INITIAL_COLOR
         self.BORDER_RADIUS      = 25
         #
         self.rect         = pygame.Rect(0, 0, self.WIDTH, self.HEIGHT)
@@ -37,5 +37,5 @@ class PlayButton:
         ''' Shows the rect and the img. '''
 
         pygame.draw.rect(self.SCREEN, self.COLOR, self.rect,
-                                               border_radius=self.BORDER_RADIUS)
+                                             border_radius = self.BORDER_RADIUS)
         self.SCREEN.blit(self.MSG_IMG, self.MSG_IMG_RECT)        

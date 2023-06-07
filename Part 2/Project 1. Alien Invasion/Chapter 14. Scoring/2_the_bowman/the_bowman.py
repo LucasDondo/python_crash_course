@@ -2,6 +2,7 @@ import sys
 import time
 import pygame
 import json
+import random
 
 from target      import Target
 from bow         import Bow
@@ -25,12 +26,22 @@ class _TheBowman:
         self.ANIMATION_SPEED = 1.0
         self.FONT            = pygame.font.SysFont(None, 50)
         self.HS_FILE         = 'highest_score.json'
+        self.INITIAL_COLOR   = (0, 0, 0)
+        self.theme_colors    = [# Main colors from the bow image palette.
+                                # Woods.
+                                (125, 67, 48), (243, 174, 96),
+                                # Yellow.
+                                (251, 213, 60),
+                                # Violet.
+                                (98, 87, 148)
+                                ]
+        self.theme_color     = self.INITIAL_COLOR
 
         # 🎵 Music.
         pygame.mixer.music.load('sounds/arrow_by_jim_yosef.mp3')
 
         self.stats         = Stats(self)
-        self.GAME_TOP      = self.stats.SB_LINE.rect.bottom
+        self.GAME_TOP      = self.stats.sb_line.rect.bottom
         self.target        = Target(self)
         self.bow           = Bow(self)
         self.game_active   = self.stats.game_active
@@ -125,6 +136,8 @@ class _TheBowman:
         # 💨 Animations.
         for arrow in self.nailed_arrows.sprites():
             arrow.fall()
+            self._change_theme_color(True)
+        self._change_theme_color(False)
         self.nailed_arrows.empty()
         self.target.center()
         self.bow.center()
@@ -164,15 +177,34 @@ class _TheBowman:
         if arrow_shot and arrow_shot.rect.right < self.SCREEN_RECT.right and \
         self.target.rect.top < arrow_shot.rect.centery < self.target.rect.bottom:
             self.target.stopped = True
-            self.stopped_time = time.time()
+            self.stopped_time   = time.time()
+
             self.arrows.remove(arrow_shot)
             self.nailed_arrows.add(arrow_shot)
-            self.target.speed *= self.SPEEDUP_SCALE
+
             self.stats.score += len(self.nailed_arrows) # Nailed arrows = level.
             self.stats.update_score()
             if self.stats.score > self.stats.hs:
                 self.stats.hs = self.stats.score
                 self.stats.update_hs()
+
+            self._change_theme_color(True)
+            self.target.speed *= self.SPEEDUP_SCALE
+
+    def _change_theme_color(self, randomize):
+        ''' Changes the theme color. '''
+
+        if randomize and self.theme_color != self.INITIAL_COLOR:
+            avoided = self.theme_color
+            self.theme_colors.remove(avoided)
+            self.theme_color = random.choice(self.theme_colors)
+            self.theme_colors.append(avoided)
+        elif randomize and self.theme_color == self.INITIAL_COLOR:
+            self.theme_color = random.choice(self.theme_colors)
+        elif not randomize:
+            self.theme_color = self.INITIAL_COLOR
+        self.stats.update_color()
+        self.target.update_color()
 
     def _del_old_arrows(self):
         ''' Deletes arrows that are out of the screen. '''
@@ -186,6 +218,7 @@ class _TheBowman:
 
                 # Check if the game goes on.
                 if self.stats.arrows_left <= 0:
+                    self._change_theme_color(False)
                     pygame.mouse.set_visible(True)
                     pygame.mixer.music.fadeout(500)
                     self.game_active = False
