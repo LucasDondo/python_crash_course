@@ -9,3 +9,7 @@ This kind of comments can by rewritten in a more friendly way, such as how ChatG
 Finally, if you have a billion dollar idea w/ one of the projects living in this repo, you have two options:
 1. 💸 `CTRL + C` + `CTRL + V` the code, run away, and become a billionare.
 2. 🫱🏻‍🫲🏻 [Create an issue](github.com/LucasDondo/python_crash_course/issues/new) and work together to make that brilliant idea happen!
+
+# 🧠 Learnings? Here they are!
+
+_Dondi! Please tell me you learnt at least some bit while doing all these projects!_ Yes, of course! And there is more! Since some of those learnings were related to issues, the notes about those learning are written in the issues descriptions. _Which issues?_ [This ones.](https://github.com/LucasDondo/python_crash_course/issues?q=label%3ALearning)
