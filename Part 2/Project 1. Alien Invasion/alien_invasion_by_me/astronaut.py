@@ -21,3 +21,8 @@ class Astronaut(Sprite):
                                         'images/astronaut_transformed_54px.bmp')
         self.rect         = self.img.get_rect()
         self.rect.centery = self.CENTERY
+
+    def show(self):
+        ''' Shows the astronaut. '''
+    
+        self.SCREEN.blit(self.img, self.rect)
