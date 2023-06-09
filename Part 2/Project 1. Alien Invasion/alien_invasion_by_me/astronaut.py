@@ -9,6 +9,7 @@ class Astronaut(Sprite):
 
         super().__init__()
 
+        self.SCREEN      = ai.SCREEN
         self.img         = pygame.image.load('images/astronaut_30%.bmp')
         self.rect        = self.img.get_rect()
         self.rect.bottom = ai.SCREEN_RECT.bottom
