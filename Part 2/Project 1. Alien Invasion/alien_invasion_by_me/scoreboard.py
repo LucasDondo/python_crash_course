@@ -117,7 +117,8 @@ class Scoreboard:
 
         self.SCREEN.blit(self.score_img, self.score_rect)
         self.SCREEN.blit(self.hs_img, self.hs_rect)
-        self.astronauts.draw(self.SCREEN)
+        for astronaut in self.astronauts.sprites():
+            astronaut.show()
 
 class ScoreBar:
     ''' An attempt to represent a scorebar. '''
