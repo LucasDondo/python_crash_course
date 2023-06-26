@@ -7,9 +7,9 @@ import matplotlib.ticker as ticker
 
 # Preparation.
 path                  = Path('weather_data/sitka_weather_2021_full.csv')
-lines                 = path.read_text().splitlines()
-reader                = csv.reader(lines)
-header_row            = next(reader)
+lines                 = path.read_text().splitlines() # `lines` is a list.
+reader                = csv.reader(lines) # `reader` is a `_csv.reader` object.
+header_row            = next(reader) # `header_row` is a list.
 dates, precipitations = [], []
 
 # Data processing.
