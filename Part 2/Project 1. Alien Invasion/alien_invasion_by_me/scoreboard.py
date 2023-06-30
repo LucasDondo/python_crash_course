@@ -28,7 +28,6 @@ class Scoreboard:
 
         self._create_astronauts()
         self.prep_scores()
-        
 
     def _create_astronauts(self):
         ''' 👨🏻‍🚀 👨🏻‍🚀 👨🏻‍🚀 '''
