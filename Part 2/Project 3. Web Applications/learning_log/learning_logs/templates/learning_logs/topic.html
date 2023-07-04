@@ -3,10 +3,12 @@
 {% block content %}
 <h2>{{ topic.text }}</h2>
 <ul>
+  <li><a href="{% url 'learning_logs:new_entry' topic.id %}">Create new entry</a></li>
   {% for entry in entries %}
-  <li><b>{{ entry.date_added|date:'M d, Y' }}</b> {{ entry.text|linebreaks }}</li>
-  {% empty %}
-  <li>There are no entries for this topic yet.</li>
+  <li>
+    <a href="{% url 'learning_logs:edit_entry' topic.id entry.id %}">{{ entry.date_added|date:'M d, Y' }}</a>
+    {{ entry.text|linebreaks }}
+  </li>
   {% endfor %}
 </ul>
 {% endblock content %}

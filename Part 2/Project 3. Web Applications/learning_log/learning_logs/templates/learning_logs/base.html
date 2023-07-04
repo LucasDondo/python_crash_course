@@ -1,4 +1,13 @@
 <title>Learning Log</title>
 <h1><a href="{% url 'learning_logs:index' %}">Learning Log</a></h1>
 
+{% if user.is_authenticated %}
+<form action="{% url 'accounts:logout' %}" method="POST">
+  {% csrf_token %}
+  You're logged in as {{ user.username }} | <button name="submit">Log out</button>
+</form>
+{% else %}
+<a href="{% url 'accounts:login' %}">Log in</a>
+{% endif %}
+
 {% block content%}{% endblock content %}
