@@ -15,9 +15,11 @@ for roll_num in range(rolls):
 pos_results = [value for value in range(2, d8_1.num_sides + d8_2.num_sides + 1)]
 appearances = [results.count(value) for value in pos_results]
 
-fig = px.bar(x      = pos_results,
-             y      = appearances,
-             labels = {'x': 'Result', 'y': 'Appearences'},
-             title  = f'Results of rolling two D8 dice {rolls:,} times')
-fig.update_xaxes(dtick = 1)
+fig = px.bar(
+    x=pos_results,
+    y=appearances,
+    labels={"x": "Result", "y": "Appearences"},
+    title=f"Results of rolling two D8 dice {rolls:,} times",
+)
+fig.update_xaxes(dtick=1)
 fig.show()
